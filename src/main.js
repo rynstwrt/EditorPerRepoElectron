@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, globalShortcut } = require("electron");
 const path = require("node:path");
 
 
@@ -6,31 +6,31 @@ const WINDOW_OPTIONS = {
     defaultView: "src/views/index.html",
     preloadFile: "js/preload.js",
 
-    size: { width: 300, height: 400 },
-    minSize: { minWidth: 100, minHeight: 100 },
-    maxSize: { maxWidth: 600, maxHeight: 600 },
+    size: { width: 600, height: 300 },
+    minSize: { minWidth: 300, minHeight: 200 },
+    maxSize: { maxWidth: 2000, maxHeight: 1700 },
 
     args: {
         resizable: true,
         transparent: false,
         alwaysOnTop: false
+    },
+
+    devTools: {
+        enabled: false,
+        args: {
+            mode: "detach",
+            activate: false,
+            title: "EPR Dev Tools"
+        }
     }
 };
 
 
-const DEV_TOOLS_OPTIONS = {
-    enabled: true,
-    args: {
-        mode: "detach",
-        activate: false,
-        title: "EPR Dev Tools"
-    }
-};
-
-
+let win;
 function createWindow()
 {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         ...WINDOW_OPTIONS.size,
         ...WINDOW_OPTIONS.minSize,
         ...WINDOW_OPTIONS.maxSize,
@@ -40,21 +40,24 @@ function createWindow()
         }
     });
 
-    if (DEV_TOOLS_OPTIONS.enabled)
-        win.webContents.openDevTools(DEV_TOOLS_OPTIONS.args);
+    if (WINDOW_OPTIONS.devTools.enabled)
+        win.webContents.openDevTools(WINDOW_OPTIONS.devTools.args);
 
     win.removeMenu();
 
-    win.loadFile(WINDOW_OPTIONS.defaultView)
-       .then(() => console.log(`Default window view load success!`))
-       .catch(() => console.log(`Default window view load FAIL!`));
+    (async () =>
+    {
+        const success = await win.loadFile(WINDOW_OPTIONS.defaultView).then(() => true).catch();
+        console.log(`Default window view load ${success ? "success" : "FAIL"}!`);
+
+        globalShortcut.register("Ctrl+Shift+I", () => win.webContents.toggleDevTools());
+    })();
 }
 
 
 app.whenReady().then(() =>
 {
     createWindow();
-
     app.on("activate", () =>
     {
         if (BrowserWindow.getAllWindows().length === 0)
