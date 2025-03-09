@@ -2,20 +2,30 @@ const { app, BrowserWindow } = require("electron");
 const path = require("node:path");
 
 
-PRELOAD_FILE = "js/preload.js"
-
-WINDOW_OPTIONS = {
-    size: { width: 600, height: 400 },
+const WINDOW_OPTIONS = {
     defaultView: "src/views/index.html",
-    resizable: true,
-    transparent: false,
-    alwaysOnTop: false,
-    webPreferences: {
-        preload: path.join(__dirname, PRELOAD_FILE)
-    },
+    preloadFile: "js/preload.js",
+
+    size: { width: 300, height: 400 },
+    minSize: { minWidth: 100, minHeight: 100 },
+    maxSize: { maxWidth: 600, maxHeight: 600 },
+
+
+    args: {
+        resizable: true,
+        transparent: false,
+        alwaysOnTop: false,
+        webPreferences: {
+            preload: null
+        }
+        // webPreferences: {
+        //     preload: path.join(__dirname, this.preloadFile)
+        // }
+    }
 };
 
-DEV_TOOLS_OPTIONS = {
+
+const DEV_TOOLS_OPTIONS = {
     enabled: true,
     args: {
         mode: "detach",
@@ -27,16 +37,51 @@ DEV_TOOLS_OPTIONS = {
 
 function createWindow()
 {
+    // const winConstructionOptions = {
+    //     ...WINDOW_OPTIONS.size,
+    //     ...WINDOW_OPTIONS.minSize,
+    //     ...WINDOW_OPTIONS.maxSize,
+    //     ...WINDOW_OPTIONS.args
+    // };
+    // winConstructionOptions.webPreferences.preload = path.join(__dirname, WINDOW_OPTIONS.preloadFile);
+
+
+    // const newPart = {};
+    // [WINDOW_OPTIONS.size, WINDOW_OPTIONS.minSize].forEach(o => Object.assign(newPart, o));
+    // console.log(newPart)
+
+    // // const browserWinOptions = { preload };
+    // [WINDOW_OPTIONS.size,
+    //     WINDOW_OPTIONS.minSize,
+    //     WINDOW_OPTIONS.maxSize,
+    //     WINDOW_OPTIONS.args]
+    //     .forEach(o => Object.assign(browserWinOptions, o));
+    //
+    // console.log(browserWinOptions)
+
     const win = new BrowserWindow({
-        width: WINDOW_OPTIONS.size.width,
-        height: WINDOW_OPTIONS.size.height,
-
-        resizable: WINDOW_OPTIONS.resizable || true,
-        transparent: WINDOW_OPTIONS.transparent,
-        alwaysOnTop: WINDOW_OPTIONS.alwaysOnTop,
-
-        webPreferences: WINDOW_OPTIONS.webPreferences
+        [WINDOW_OPTIONS.size,
+        WINDOW_OPTIONS.minSize,
+        WINDOW_OPTIONS.maxSize,
+        WINDOW_OPTIONS.args].forEach(o => Object.assign(this, o)),
+        webPreferences: {
+            preload: path.join(__dirname, WINDOW_OPTIONS.preloadFile)
+        }
     });
+
+
+    // const win = new BrowserWindow(browserWinOptions);
+
+    // const win = new BrowserWindow({
+    //     ...WINDOW_OPTIONS.size,
+    //     ...WINDOW_OPTIONS.minSize,
+    //     ...WINDOW_OPTIONS.maxSize,
+    //     ...WINDOW_OPTIONS.args,
+    //
+    //     webPreferences: {
+    //         preload: path.join(__dirname, WINDOW_OPTIONS.preloadFile)
+    //     }
+    // });
 
     win.removeMenu();
 
