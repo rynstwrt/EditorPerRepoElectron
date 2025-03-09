@@ -2,25 +2,47 @@ const { app, BrowserWindow } = require("electron");
 const path = require("node:path");
 
 
-DEFAULT_WIN_SIZE = { width: 600, height: 400 };
-DEFAULT_WIN_VIEW_PATH = "src/views/index.html";
+WINDOW_OPTIONS = {
+    size: { width: 600, height: 400 },
+    defaultView: "src/views/index.html",
+    resizable: true,
+    transparent: false,
+    alwaysOnTop: false
+};
+
+DEV_TOOLS_OPTIONS = {
+    enabled: true,
+    args: {
+        mode: "detach",
+        activate: false,
+        title: "EPR Dev Tools"
+    }
+};
+
 PRELOAD_FILE = "js/preload.js"
 
 
 function createWindow()
 {
     const win = new BrowserWindow({
-        width: DEFAULT_WIN_SIZE.width,
-        height: DEFAULT_WIN_SIZE.height,
+        width: WINDOW_OPTIONS.size.width,
+        height: WINDOW_OPTIONS.size.height,
+
+        resizable: WINDOW_OPTIONS.resizable || true,
+        transparent: WINDOW_OPTIONS.transparent,
+        alwaysOnTop: WINDOW_OPTIONS.alwaysOnTop,
+
         webPreferences: {
             preload: path.join(__dirname, PRELOAD_FILE)
         }
     });
 
     win.removeMenu();
-    // win.webContents.openDevTools();
 
-    win.loadFile(DEFAULT_WIN_VIEW_PATH)
+    if (DEV_TOOLS_OPTIONS.enabled)
+        win.webContents.openDevTools(DEV_TOOLS_OPTIONS.args);
+
+    win.loadFile(WINDOW_OPTIONS.defaultView)
        .then(() => console.log(`Default window view load success!`))
        .catch(() => console.log(`Default window view load FAIL!`));
 }
