@@ -1,8 +1,22 @@
-//@forward "colors";
+@forward "colors";
 @use "colors";
 
 
 $font-1: "gg sans Medium Regular", sans-serif;
+
+
+@mixin get-hover-transition($properties: [], $duration: .06s, $type: ease-in)
+{
+    @debug $properties;
+    @if not $properties and not length($properties) < 2
+    {
+        transition: properties[0] $duration $type;
+    }
+    @else
+    {
+        transition: properties[0] $duration $type;
+    }
+}
 
 
 *
@@ -50,7 +64,7 @@ button
 select, input[type="submit"]
 {
     background-color: colors.get("white");
-    padding: 6px 5px;
+    padding: 5px 3px;
     min-width: 200px;
     border-radius: 3px;
     cursor: pointer;
@@ -81,6 +95,19 @@ form
         input[type=submit]
         {
             margin-top: 20px;
+            background-color: transparent;
+            color: colors.get("cyan");
+            border: 1px solid colors.get("cyan");
+            @include get-hover-transition(background-color);
+            @include get-hover-transition(color);
+            @include get-hover-transition(border-color);
+
+            &:hover
+            {
+                background-color: colors.get("pink");
+                border-color: colors.get("pink");
+                color: colors.get("darkgray");
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ electronReload(__dirname, {});
 
 const WINDOW_OPTIONS = {
     defaultView: "src/views/index.html",
-    preloadFile: "old/preload.old",
+    preloadFile: "js/preload.js",
 
     size: { width: 500, height: 230 },
     minSize: { minWidth: 300, minHeight: 200 },

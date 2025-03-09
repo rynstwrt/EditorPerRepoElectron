@@ -1,17 +1,92 @@
-/* Error: There is no module with the namespace "colors".
- *    ,
- * 31 |                     stroke: colors.get("orange");
- *    |                             ^^^^^^^^^^^^^^^^^^^^
- *    '
- *   index.scss 31:29  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: 'Error: There is no module with the namespace "colors".\a    \2577 \a 31 \2502                      stroke: colors.get("orange");\d\a    \2502                              ^^^^^^^^^^^^^^^^^^^^\a    \2575 \a   index.scss 31:29  root stylesheet';
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  font-family: inherit;
 }
+
+html, body {
+  height: 100%;
+  background-color: #1a1a1a;
+}
+
+body {
+  font-family: "gg sans Medium Regular", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button img, button svg {
+  height: 100%;
+  width: 100%;
+}
+
+select, input[type=submit] {
+  background-color: #ECECEC;
+  padding: 5px 3px;
+  min-width: 200px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+form {
+  padding: 0 20px;
+  color: #D3D3D3;
+  background-color: #1a1a1a;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+form .form-row p#form-instructions {
+  margin-bottom: 3px;
+  width: 100%;
+}
+form .form-row input[type=submit] {
+  margin-top: 20px;
+  background-color: transparent;
+  color: #41B7FF;
+  border: 1px solid #41B7FF;
+  transition: properties [0] 0.06s ease-in;
+  transition: properties [0] 0.06s ease-in;
+  transition: properties [0] 0.06s ease-in;
+}
+form .form-row input[type=submit]:hover {
+  background-color: #E43F6F;
+  border-color: #E43F6F;
+  color: #1a1a1a;
+}
+
+#editor-select-form div.form-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+#editor-select-form div.form-row:has(#editor-select) {
+  height: 27px;
+}
+#editor-select-form div.form-row:has(#editor-select) #editor-select {
+  width: 100%;
+  height: 100%;
+  margin-right: 2px;
+}
+#editor-select-form div.form-row:has(#editor-select) button svg {
+  stroke: #E43F6F;
+  transition: properties [0] 0.06s ease-in;
+}
+#editor-select-form div.form-row:has(#editor-select) button:hover > svg {
+  stroke: #FF6600;
+}
+
+/*# sourceMappingURL=index.css.map */

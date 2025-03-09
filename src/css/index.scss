@@ -1,7 +1,5 @@
-//@forward "shared";
 @use "shared";
-//@forward ".";
-//@forward "colors";
+@use "colors";
 
 
 #editor-select-form
@@ -26,6 +24,12 @@
 
             button
             {
+                svg
+                {
+                    stroke: colors.get("pink");
+                    @include shared.get-hover-transition(stroke);
+                }
+
                 &:hover > svg
                 {
                     stroke: colors.get("orange");
