@@ -17,17 +17,17 @@ RENDERER -> MAIN -> RENDERER:
 
 
 const createAlertEntries = {
-    // [MAIN -> RENDERER]
-    onCreateAlert: callback => ipcRenderer.on("create-alert", (_event, value) => callback(value)),  // M->R
+    // Main 🠚 Renderer
+    onCreateAlert: callback => ipcRenderer.on("create-alert", (_event, value) => callback(value)),  // M🠚R
 
-    // [RENDERER -> MAIN]
-    afterCreateAlert: afterAlertMsg => ipcRenderer.send("after-create-alert", afterAlertMsg),  // R->M
+    // Renderer ➔ Main
+    afterCreateAlert: afterAlertMsg => ipcRenderer.send("after-create-alert", afterAlertMsg),  // R🠚M
 };
 
 
 const printOnMainFromRendererEntries = {
-    // [RENDERER -> MAIN -> RENDERER]
-    printOnMainFromRenderer: msg => ipcRenderer.invoke("print-on-main-from-renderer", msg),  // R->M->R
+    // R -> M -> R
+    printOnMainFromRenderer: msg => ipcRenderer.invoke("print-on-main-from-renderer", msg),  // R🠚M🠚R
 };
 
 
