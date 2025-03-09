@@ -1,3 +1,14 @@
+$color-bg: #1a1a1a;
+$color-white: #ECECEC;
+$color-offwhite: #D3D3D3;
+
+
+@use "../assets/fonts/gg-sans/style.css";
+
+
+$font-1: "gg sans Medium Regular", sans-serif;
+
+
 *
 {
     margin: 0;
@@ -10,11 +21,38 @@
 html, body
 {
     height: 100%;
-    background-color: red;
+    background-color: $color-bg;
 }
 
 
 body
 {
-    background-color: red;
+    color: $color-offwhite;
+    font-family: $font-1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input, button, select
+    {
+        font-family: inherit;
+    }
 }
+
+
+button
+{
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+select, input[type="submit"]
+{
+    background-color: $color-white;
+    padding: 6px 5px;
+    min-width: 200px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+

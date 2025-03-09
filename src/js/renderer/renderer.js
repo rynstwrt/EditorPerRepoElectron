@@ -4,8 +4,8 @@ window.eprGUI.onCreateAlert((alertMsg) =>
     window.eprGUI.afterCreateAlert("OOOOOOOOO");
 });
 
+// window.eprGUI.printOnMainFromRenderer("test123").then(alert);
 
-window.eprGUI.printOnMainFromRenderer("test123").then(alert);
 
 // const p = document.createElement("p");
 // p.textContent = `${versions.getNode()} ${versions.getChrome()} ${versions.getElectron()}`;

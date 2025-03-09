@@ -1,1 +1,30 @@
 @use "shared";
+
+
+#editor-select-form
+{
+    margin: 20px;
+    background-color: red;
+    width: 100%;
+    //height: 100%;
+
+    // Needed(?)
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //box-sizing: content-box;
+
+    div.row
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        #editor-select
+        {
+            width: 100%;
+        }
+    }
+}

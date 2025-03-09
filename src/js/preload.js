@@ -31,14 +31,6 @@ const printOnMainFromRendererEntries = {
 };
 
 
-// // [STOCK EXAMPLE]:
-// contextBridge.exposeInMainWorld('versions', {
-//     getNode: () => process.versions.node,
-//     getChrome: () => process.versions.chrome,
-//     getElectron: () => process.versions.electron
-// });
-
-
 contextBridge.exposeInMainWorld("eprGUI", {
     ...createAlertEntries,
     ...printOnMainFromRendererEntries
