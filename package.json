@@ -1,0 +1,24 @@
+{
+  "name": "editorperrepoelectron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rynstwrt/EditorPerRepoElectron.git"
+  },
+  "keywords": [],
+  "author": "Ryn Stewart",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rynstwrt/EditorPerRepoElectron/issues"
+  },
+  "homepage": "https://github.com/rynstwrt/EditorPerRepoElectron",
+  "devDependencies": {
+    "electron": "^35.0.0"
+  }
+}
