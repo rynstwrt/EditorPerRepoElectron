@@ -2,12 +2,17 @@ const { app, BrowserWindow } = require("electron");
 const path = require("node:path");
 
 
+PRELOAD_FILE = "js/preload.js"
+
 WINDOW_OPTIONS = {
     size: { width: 600, height: 400 },
     defaultView: "src/views/index.html",
     resizable: true,
     transparent: false,
-    alwaysOnTop: false
+    alwaysOnTop: false,
+    webPreferences: {
+        preload: path.join(__dirname, PRELOAD_FILE)
+    },
 };
 
 DEV_TOOLS_OPTIONS = {
@@ -18,8 +23,6 @@ DEV_TOOLS_OPTIONS = {
         title: "EPR Dev Tools"
     }
 };
-
-PRELOAD_FILE = "js/preload.js"
 
 
 function createWindow()
@@ -32,9 +35,7 @@ function createWindow()
         transparent: WINDOW_OPTIONS.transparent,
         alwaysOnTop: WINDOW_OPTIONS.alwaysOnTop,
 
-        webPreferences: {
-            preload: path.join(__dirname, PRELOAD_FILE)
-        }
+        webPreferences: WINDOW_OPTIONS.webPreferences
     });
 
     win.removeMenu();
