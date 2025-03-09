@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut } = require("electron");
+const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const path = require("node:path");
 
 
@@ -45,12 +45,30 @@ function createWindow()
 
     win.removeMenu();
 
+
+    ipcMain.handle("print-on-main-from-renderer", (_event, msg) =>
+    {
+        console.log(msg);
+        return "message back!";
+    });
+
+
     (async () =>
     {
         const success = await win.loadFile(WINDOW_OPTIONS.defaultView).then(() => true).catch();
         console.log(`Default window view load ${success ? "success" : "FAIL"}!`);
 
         globalShortcut.register("Ctrl+Shift+I", () => win.webContents.toggleDevTools());
+
+        ipcMain.on("after-create-alert", (_event, afterAlertMsg) =>
+        {
+            console.log(afterAlertMsg)
+        });
+
+        // win.webContents.send("create-alert", "OWOW");
+
+
+
     })();
 }
 
@@ -62,6 +80,9 @@ app.whenReady().then(() =>
     {
         if (BrowserWindow.getAllWindows().length === 0)
             createWindow();
+
+
+
     });
 });
 
