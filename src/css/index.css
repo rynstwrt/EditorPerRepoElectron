@@ -1,80 +1,18 @@
-@font-face {
-  font-family: "gg sans Bold";
-  font-style: normal;
-  font-weight: normal;
-  src: local("gg sans Bold"), url("gg sans Bold.woff") format("woff");
-}
-@font-face {
-  font-family: "gg sans Normal Regular";
-  font-style: normal;
-  font-weight: normal;
-  src: local("gg sans Normal Regular"), url("gg sans Regular.woff") format("woff");
-}
-@font-face {
-  font-family: "gg sans Medium Regular";
-  font-style: normal;
-  font-weight: normal;
-  src: local("gg sans Medium Regular"), url("gg sans Medium.woff") format("woff");
-}
-@font-face {
-  font-family: "gg sans SemiBold Regular";
-  font-style: normal;
-  font-weight: normal;
-  src: local("gg sans SemiBold Regular"), url("gg sans Semibold.woff") format("woff");
-}
-* {
-  margin: 0;
-  padding: 0;
-  border: none;
-  box-sizing: border-box;
-}
+/* Error: Expected digit.
+ *    ,
+ * 24 |     background-color: colors.$colors().map-get("darkgray");
+ *    |                                        ^
+ *    '
+ *   shared.scss 24:40  @use
+ *   index.scss 1:1     root stylesheet */
 
-html, body {
-  height: 100%;
-  background-color: #1a1a1a;
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: 'Error: Expected digit.\a    \2577 \a 24 \2502      background-color: colors.$colors().map-get("darkgray");\d\a    \2502                                         ^\a    \2575 \a   shared.scss 24:40  @use\a   index.scss 1:1     root stylesheet';
 }
-
-body {
-  color: #D3D3D3;
-  font-family: "gg sans Medium Regular", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-body input, body button, body select {
-  font-family: inherit;
-}
-
-button {
-  background-color: transparent;
-  cursor: pointer;
-}
-
-select, input[type=submit] {
-  background-color: #ECECEC;
-  padding: 6px 5px;
-  min-width: 200px;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-#editor-select-form {
-  margin: 20px;
-  background-color: red;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#editor-select-form div.row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-#editor-select-form div.row #editor-select {
-  width: 100%;
-}
-
-/*# sourceMappingURL=index.css.map */

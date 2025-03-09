@@ -1,21 +1,25 @@
 const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const path = require("node:path");
 
+const electronReload = require("electron-reload");
+electronReload(__dirname, {
+    // electron: path.join(__dirname, "../node_modules", ".bin", "electron")
+});
 
 
 const WINDOW_OPTIONS = {
     defaultView: "src/views/index.html",
     preloadFile: "js/preload.js",
 
-    // autoShow: false,
-    size: { width: 600, height: 300 },
+    size: { width: 500, height: 230 },
     minSize: { minWidth: 300, minHeight: 200 },
     maxSize: { maxWidth: 2000, maxHeight: 1700 },
 
     args: {
         show: false,
-        resizable: true,
-        transparent: false,
+        resizable: false,
+        // frame: false,
+        // transparent: true,
         alwaysOnTop: false
     },
 
