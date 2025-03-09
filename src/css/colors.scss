@@ -1,26 +1,17 @@
-//$_COLORS: (
-//$_colors (
-//        orange: #FF6600,
-//        pink: #E43F6F,
-//        cyan: #41B7FF,
-//        darkgray: #1a1a1a,
-//        //white: #ECECEC,
-//        //off-white: #D3D3D3
-//);
+@use "sass:map";
 
-$_colors ({
+
+$_color_map: (
     "orange": #FF6600,
     "pink": #E43F6F,
     "cyan": #41B7FF,
     "darkgray": #1a1a1a,
-    //white: #ECECEC,
-    //off-white: #D3D3D3
-});
+    "white": #ECECEC,
+    "off-white": #D3D3D3
+);
 
-@mixin colors() {
-    ...$_colors
-};
 
-//@forward "colors";
-//$_COLORS;
-
+@function get($color-name)
+{
+    @return map.get($_color_map, $color-name);
+}

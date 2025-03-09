@@ -1,15 +1,15 @@
 const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const path = require("node:path");
 
+
 const electronReload = require("electron-reload");
-electronReload(__dirname, {
-    // electron: path.join(__dirname, "../node_modules", ".bin", "electron")
-});
+electronReload(__dirname, {});
+
 
 
 const WINDOW_OPTIONS = {
     defaultView: "src/views/index.html",
-    preloadFile: "js/preload.js",
+    preloadFile: "old/preload.old",
 
     size: { width: 500, height: 230 },
     minSize: { minWidth: 300, minHeight: 200 },

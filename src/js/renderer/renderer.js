@@ -1,8 +1,8 @@
-window.eprGUI.onCreateAlert((alertMsg) =>
-{
-    alert(alertMsg);
-    window.eprGUI.afterCreateAlert("OOOOOOOOO");
-});
+// window.eprGUI.onCreateAlert((alertMsg) =>
+// {
+//     alert(alertMsg);
+//     window.eprGUI.afterCreateAlert("OOOOOOOOO");
+// });
 
 // window.eprGUI.printOnMainFromRenderer("test123").then(alert);
 

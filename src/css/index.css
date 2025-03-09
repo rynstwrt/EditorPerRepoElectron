@@ -1,10 +1,9 @@
-/* Error: Expected digit.
+/* Error: There is no module with the namespace "colors".
  *    ,
- * 24 |     background-color: colors.$colors().map-get("darkgray");
- *    |                                        ^
+ * 31 |                     stroke: colors.get("orange");
+ *    |                             ^^^^^^^^^^^^^^^^^^^^
  *    '
- *   shared.scss 24:40  @use
- *   index.scss 1:1     root stylesheet */
+ *   index.scss 31:29  root stylesheet */
 
 body::before {
   font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
@@ -14,5 +13,5 @@ body::before {
   padding: 1em;
   margin-bottom: 1em;
   border-bottom: 2px solid black;
-  content: 'Error: Expected digit.\a    \2577 \a 24 \2502      background-color: colors.$colors().map-get("darkgray");\d\a    \2502                                         ^\a    \2575 \a   shared.scss 24:40  @use\a   index.scss 1:1     root stylesheet';
+  content: 'Error: There is no module with the namespace "colors".\a    \2577 \a 31 \2502                      stroke: colors.get("orange");\d\a    \2502                              ^^^^^^^^^^^^^^^^^^^^\a    \2575 \a   index.scss 31:29  root stylesheet';
 }
