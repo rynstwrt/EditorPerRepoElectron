@@ -1,14 +1,12 @@
-const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
+const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electron/main");
 const path = require("node:path");
-
-
 const electronReload = require("electron-reload");
 electronReload(__dirname, {});
 
 
 
 const WINDOW_OPTIONS = {
-    defaultView: "src/views/index.html",
+    defaultView: path.join(__dirname, "views/index.html"),
     preloadFile: "js/preload.js",
 
     size: { width: 500, height: 230 },
@@ -17,7 +15,7 @@ const WINDOW_OPTIONS = {
 
     args: {
         show: false,
-        resizable: false,
+        // resizable: false,
         // frame: false,
         // transparent: true,
         alwaysOnTop: false
@@ -35,10 +33,10 @@ const WINDOW_OPTIONS = {
 
 
 
-let win;
+let window;
 function createWindow()
 {
-    win = new BrowserWindow({
+    const window = new BrowserWindow({
         ...WINDOW_OPTIONS.size,
         ...WINDOW_OPTIONS.minSize,
         ...WINDOW_OPTIONS.maxSize,
@@ -49,52 +47,40 @@ function createWindow()
     });
 
     if (WINDOW_OPTIONS.devTools.enabled)
-        win.webContents.openDevTools(WINDOW_OPTIONS.devTools.args);
+        window.webContents.openDevTools(WINDOW_OPTIONS.devTools.args);
 
-    win.removeMenu();
-
+    window.removeMenu();
 
     // ipcMain.handle("print-on-main-from-renderer", (_event, msg) =>
     // {
     //     console.log(msg);
     //     return "message back!";
     // });
-
-
-    (async () =>
-    {
-        const success = await win.loadFile(WINDOW_OPTIONS.defaultView)
-                                 .then(() => true)
-                                 .catch(() => false);
-
-        console.log(`Default window view load ${success ? "success" : "FAIL"}!`);
-        if (!success)
-            return win.close();
-
-        win.show();
-
-        globalShortcut.register("Ctrl+Shift+I", () => win.webContents.toggleDevTools());
-
-
-        // ipcMain.on("after-create-alert", (_event, afterAlertMsg) =>
-        // {
-        //     console.log(afterAlertMsg)
-        // });
-
-        // win.webContents.send("create-alert", "OWOW");
-    })();
+    
+    window.loadFile(WINDOW_OPTIONS.defaultView).then(() => window.show());
+    return window;
 }
 
 
 
 app.whenReady().then(() =>
 {
-    createWindow();
+    ipcMain.handle("dialog:openFile", async () =>
+    {
+        const { canceled, filePaths } = await dialog.showOpenDialog({properties: ["openFile"]});
+        if (!canceled)
+            return filePaths[0];
+    });
+
+
+    globalShortcut.register("Ctrl+Shift+I", () => window.webContents.toggleDevTools());
+
+
+    window = createWindow();
     app.on("activate", () =>
     {
         if (BrowserWindow.getAllWindows().length === 0)
-            createWindow();
-
+            window = createWindow();
     });
 });
 

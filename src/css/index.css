@@ -4,6 +4,8 @@
   border: none;
   box-sizing: border-box;
   font-family: inherit;
+  user-select: none;
+  outline: none;
 }
 
 html, body {
@@ -38,11 +40,11 @@ select, input[type=submit] {
 }
 
 form {
-  padding: 0 20px;
   color: #D3D3D3;
   background-color: #1a1a1a;
   width: 100%;
   height: 100%;
+  padding: 0 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -57,13 +59,11 @@ form .form-row input[type=submit] {
   background-color: transparent;
   color: #41B7FF;
   border: 1px solid #41B7FF;
-  transition: properties [0] 0.06s ease-in;
-  transition: properties [0] 0.06s ease-in;
-  transition: properties [0] 0.06s ease-in;
+  transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
 }
 form .form-row input[type=submit]:hover {
   background-color: #E43F6F;
-  border-color: #E43F6F;
+  border-color: #FF6600;
   color: #1a1a1a;
 }
 
@@ -75,15 +75,18 @@ form .form-row input[type=submit]:hover {
 }
 #editor-select-form div.form-row:has(#editor-select) {
   height: 27px;
+  justify-content: flex-start;
 }
 #editor-select-form div.form-row:has(#editor-select) #editor-select {
   width: 100%;
   height: 100%;
-  margin-right: 2px;
+}
+#editor-select-form div.form-row:has(#editor-select) button:first-of-type {
+  margin-left: 6px;
 }
 #editor-select-form div.form-row:has(#editor-select) button svg {
   stroke: #E43F6F;
-  transition: properties [0] 0.06s ease-in;
+  transition: stroke 0.2s ease-out;
 }
 #editor-select-form div.form-row:has(#editor-select) button:hover > svg {
   stroke: #FF6600;

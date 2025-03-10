@@ -31,7 +31,17 @@ const printOnMainFromRendererEntries = {
 };
 
 
+const openFileSelectDialogEntries = {
+    openFile: () => ipcRenderer.invoke("dialog:openFile")
+};
+
+
+
 contextBridge.exposeInMainWorld("eprGUI", {
-    ...createAlertEntries,
-    ...printOnMainFromRendererEntries
+    // ...createAlertEntries,
+    ...openFileSelectDialogEntries
+    // ...printOnMainFromRendererEntries
+
+    // openFile: async () => await ipcRenderer.invoke("dialog:openFile"),
+    // openFile: () => ipcRenderer.invoke("dialog:openFile")
 });

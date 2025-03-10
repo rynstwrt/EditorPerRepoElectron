@@ -7,6 +7,19 @@
 // window.eprGUI.printOnMainFromRenderer("test123").then(alert);
 
 
-// const p = document.createElement("p");
-// p.textContent = `${versions.getNode()} ${versions.getChrome()} ${versions.getElectron()}`;
-// document.body.appendChild(p);
+
+// function openFileFromMain(e)
+// {
+//     e.preventDefault();
+//     window["eprGUI"].openFile().then(alert);
+// }
+
+const addEditorButton = document.querySelector("#add-editor-button");
+// addEditorButton.addEventListener("click", openFileFromMain);
+
+addEditorButton.addEventListener("click", event =>
+{
+    event.preventDefault();
+
+    window["eprGUI"].openFile().then(alert);
+});
