@@ -1,8 +1,5 @@
-const path = require("node:path");
-
-
 const WINDOW_OPTIONS = {
-    defaultView: path.join(__dirname, "views/index.html"),
+    defaultView: "/views/index.html",
     preloadFile: "js/preload.js",
 
     size: { width: 500, height: 230 },

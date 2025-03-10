@@ -20,5 +20,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 
 contextBridge.exposeInMainWorld("eprAPI", {
-    openFile: () => ipcRenderer.invoke("dialog:openFile")  // R🠚M🠚R
+    openFile: () => ipcRenderer.invoke("dialog:openFile"),  // R🠚M🠚R
+
+    openRepoInEditor: (editorInfo) => ipcRenderer.send("open-repo-in-editor", editorInfo)
 });
