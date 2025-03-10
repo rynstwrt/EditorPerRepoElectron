@@ -2,37 +2,8 @@ const { app, BrowserWindow, globalShortcut, ipcMain, dialog, Menu } = require("e
 const electronReload = require("electron-reload");
 electronReload(__dirname, {});
 const path = require("node:path");
+const { WINDOW_OPTIONS } = require("./js/main/constants.js");
 const EPRConfig = require("./js/main/epr-config.js")
-
-
-const WINDOW_OPTIONS = {
-    defaultView: path.join(__dirname, "views/index.html"),
-    preloadFile: "js/preload.js",
-
-    size: { width: 500, height: 230 },
-    minSize: { minWidth: 300, minHeight: 200 },
-    maxSize: { maxWidth: 2000, maxHeight: 1700 },
-
-    args: {
-        show: false,
-        resizable: true,
-        frame: true,
-        transparent: false,
-        alwaysOnTop: false
-    },
-
-    menu: { enabled: true },
-
-    devTools: {
-        openOnStart: false,
-        toggleKeybind: "Ctrl+Shift+I",
-        args: {
-            mode: "detach",
-            activate: false,
-            title: "EPR Dev Tools"
-        }
-    }
-};
 
 
 let window;
@@ -69,10 +40,10 @@ function registerEvents()
             return null;
 
         // TODO:
-        const filePath = path.resolve(filePaths[0]);
-        const fileName = path.basename(filePath);
-        EPRConfig.addEditor(filePaths[0], path.basename(filePaths[0]));
-        console.log(EPRConfig.getEditors());
+        // const filePath = path.resolve(filePaths[0]);
+        // const fileName = path.basename(filePath);
+        // EPRConfig.addEditor(filePaths[0], path.basename(filePaths[0]));
+        // console.log(EPRConfig.getEditors());
 
         return {filePath: filePaths[0], fileName: path.basename(filePaths[0])};
     });
@@ -84,55 +55,23 @@ function registerEvents()
 
 
 const isMac = process.platform === "darwin";
-app.on("window-all-closed", () => process.platform !== "darwin" && app.quit())
-
+app.on("window-all-closed", () => !isMac && app.quit())
 
 Menu.setApplicationMenu(null);
+
 app.on("ready", () =>
 {
-    // app.on("window-all-closed", () =>
-    // {
-    //     if (process.platform !== "darwin")
-    //         app.quit();
-    // });
-
-    // app.on("activate", () =>
-    // {
-    //     if (!BrowserWindow.getAllWindows().length)
-    //         window = createWindow();
-    // });
-
-    // app.on("window-all-closed", () => process.platform !== "darwin" && app.quit())
-    // console.log(BrowserWindow.getAllWindows())
-    // console.log(!!BrowserWindow.getAllWindows())
-
-    const getNumWindows = () => BrowserWindow.getAllWindows().length;
-
-
     window = createWindow();
 
-    // const getNumWindows = () => BrowserWindow.getAllWindows().length;
-    console.log(getNumWindows())
+    const getNumWindows = () => BrowserWindow.getAllWindows().length;
     app.on('activate', () => !getNumWindows() && (window = createWindow()));
-
-    // const getWindows = BrowserWindow.getAllWindows;
-    // app.on('activate', () => !getWindows().length && (window = createWindow()));
-
-    // app.on('activate', () => !BrowserWindow.getAllWindows().length && (window = createWindow()));
 
     registerEvents();
 });
 
 
+// const test =  () => setTimeout(() => console.log("hiii"), 1000);
+const test = async () => setTimeout.bind(() => console.log("hiii"), 1000);
+test.then(() => console.log("Bye"))
 
-// app.on("window-all-closed", () =>
-// {
-//     if (process.platform !== "darwin")
-//         app.quit()
-// });
-// app.on("window-all-closed", () => (process.platform !== "darwin") ? app.quit() : null);
-// app.on("window-all-closed", () => process.platform !== "darwin" ? app.quit() : void 0);
-// app.on("window-all-closed", process.platform !== "darwin" ? app.quit : () => {});
-// app.on("window-all-closed", () => {if (process.platform !== "darwin") app.quit()});
-// app.on("window-all-closed", () => process.platform !== "darwin" && app.quit())
-
+// app.whenReady().then(test).then(() => console.log("bye"));
