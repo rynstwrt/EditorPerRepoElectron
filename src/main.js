@@ -83,35 +83,56 @@ function registerEvents()
 }
 
 
+const isMac = process.platform === "darwin";
+app.on("window-all-closed", () => process.platform !== "darwin" && app.quit())
+
+
 Menu.setApplicationMenu(null);
 app.on("ready", () =>
 {
-    app.on("window-all-closed", () =>
-    {
-        if (process.platform !== "darwin")
-            app.quit();
-    });
+    // app.on("window-all-closed", () =>
+    // {
+    //     if (process.platform !== "darwin")
+    //         app.quit();
+    // });
+
+    // app.on("activate", () =>
+    // {
+    //     if (!BrowserWindow.getAllWindows().length)
+    //         window = createWindow();
+    // });
+
+    // app.on("window-all-closed", () => process.platform !== "darwin" && app.quit())
+    // console.log(BrowserWindow.getAllWindows())
+    // console.log(!!BrowserWindow.getAllWindows())
+
+    const getNumWindows = () => BrowserWindow.getAllWindows().length;
+
 
     window = createWindow();
-    app.on("activate", () =>
-    {
-        if (!BrowserWindow.getAllWindows().length)
-            window = createWindow();
-    });
+
+    // const getNumWindows = () => BrowserWindow.getAllWindows().length;
+    console.log(getNumWindows())
+    app.on('activate', () => !getNumWindows() && (window = createWindow()));
+
+    // const getWindows = BrowserWindow.getAllWindows;
+    // app.on('activate', () => !getWindows().length && (window = createWindow()));
+
+    // app.on('activate', () => !BrowserWindow.getAllWindows().length && (window = createWindow()));
 
     registerEvents();
 });
 
 
-// app.on("window-all-closed", () => (process.platform !== "darwin") ? app.quit() : null);
-// app.on("window-all-closed", () => process.platform !== "darwin" ? app.quit() : void 0);
-// app.on("window-all-closed", process.platform !== "darwin" ? app.quit : () => {});
-// app.on("window-all-closed", () => {if (process.platform !== "darwin") app.quit()});
 
 // app.on("window-all-closed", () =>
 // {
 //     if (process.platform !== "darwin")
 //         app.quit()
 // });
-
+// app.on("window-all-closed", () => (process.platform !== "darwin") ? app.quit() : null);
+// app.on("window-all-closed", () => process.platform !== "darwin" ? app.quit() : void 0);
+// app.on("window-all-closed", process.platform !== "darwin" ? app.quit : () => {});
+// app.on("window-all-closed", () => {if (process.platform !== "darwin") app.quit()});
 // app.on("window-all-closed", () => process.platform !== "darwin" && app.quit())
+
