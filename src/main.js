@@ -15,15 +15,13 @@ const WINDOW_OPTIONS = {
 
     args: {
         show: false,
-        // resizable: false,
-        // frame: false,
-        // transparent: true,
+        resizable: true,
+        frame: true,
+        transparent: false,
         alwaysOnTop: false
     },
 
-    menu: {
-        enabled: true
-    },
+    menu: { enabled: true },
 
     devTools: {
         openOnStart: false,
@@ -63,23 +61,20 @@ function createWindow()
 
 function registerEvents()
 {
+    // Handle open file dialog invocation from renderer
     ipcMain.handle("dialog:openFile", async () =>
     {
         const {canceled, filePaths} = await dialog.showOpenDialog({properties: ["openFile"]});
         if (canceled)
             return null;
 
+        // TODO:
         const filePath = path.resolve(filePaths[0]);
         const fileName = path.basename(filePath);
-
-        // TODO:
         EPRConfig.addEditor(filePaths[0], path.basename(filePaths[0]));
         console.log(EPRConfig.getEditors());
 
-        return {
-            filePath: filePaths[0],
-            fileName: path.basename(filePaths[0])
-        };
+        return {filePath: filePaths[0], fileName: path.basename(filePaths[0])};
     });
 
     // DevTools keybind
@@ -88,10 +83,16 @@ function registerEvents()
 }
 
 
-function run()
+Menu.setApplicationMenu(null);
+app.on("ready", () =>
 {
-    window = createWindow();
+    app.on("window-all-closed", () =>
+    {
+        if (process.platform !== "darwin")
+            app.quit();
+    });
 
+    window = createWindow();
     app.on("activate", () =>
     {
         if (!BrowserWindow.getAllWindows().length)
@@ -99,17 +100,18 @@ function run()
     });
 
     registerEvents();
-}
-
-
-app.on("window-all-closed", () =>
-{
-    if (process.platform !== "darwin")
-        app.quit();
 });
 
-Menu.setApplicationMenu(null);
-app.on("ready", run);
 
-// app.whenReady().then(run);
-// app.whenReady().then(run).then(registerEvents);
+// app.on("window-all-closed", () => (process.platform !== "darwin") ? app.quit() : null);
+// app.on("window-all-closed", () => process.platform !== "darwin" ? app.quit() : void 0);
+// app.on("window-all-closed", process.platform !== "darwin" ? app.quit : () => {});
+// app.on("window-all-closed", () => {if (process.platform !== "darwin") app.quit()});
+
+// app.on("window-all-closed", () =>
+// {
+//     if (process.platform !== "darwin")
+//         app.quit()
+// });
+
+// app.on("window-all-closed", () => process.platform !== "darwin" && app.quit())
