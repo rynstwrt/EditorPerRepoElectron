@@ -1,34 +1,38 @@
-// window.eprGUI.onCreateAlert((alertMsg) =>
-// {
-//     alert(alertMsg);
-//     window.eprGUI.afterCreateAlert("OOOOOOOOO");
-// });
-
-// window.eprGUI.printOnMainFromRenderer("test123").then(alert);
-
-
 const editorSelect = document.querySelector("#editor-select");
 
 
-function addEditor(fileInfo)
+// function addEditor(fileInfo)
+// {
+//     const filePath = fileInfo.filePath;
+//
+//     const selectOption = document.createElement("option");
+//     selectOption.value = encodeURI(filePath);
+//     selectOption.textContent = fileInfo.fileName;
+//
+//     editorSelect.insertBefore(selectOption, editorSelect.firstChild);
+//     editorSelect.value = selectOption.value;
+// }
+
+
+document.querySelector("#add-editor-button").addEventListener("click", async event =>
 {
-    const filePath = fileInfo.filePath;
+    event.preventDefault();
+    const fileInfo = await window["eprAPI"].openFile();
 
     const selectOption = document.createElement("option");
-    selectOption.value = encodeURI(filePath);
+    selectOption.value = encodeURI(fileInfo.filePath);
     selectOption.textContent = fileInfo.fileName;
 
     editorSelect.insertBefore(selectOption, editorSelect.firstChild);
     editorSelect.value = selectOption.value;
-}
-
-
-const addEditorButton = document.querySelector("#add-editor-button");
-addEditorButton.addEventListener("click", event =>
-{
-    event.preventDefault();
-    window["eprAPI"].openFile().then(addEditor);
 });
+
+
+// document.querySelector("#add-editor-button").addEventListener("click", event =>
+// {
+//     event.preventDefault();
+//     window["eprAPI"].openFile().then(addEditor);
+// });
 
 
 const allForms = document.querySelectorAll("form");

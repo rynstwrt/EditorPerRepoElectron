@@ -1,7 +1,8 @@
 const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electron/main");
-const path = require("node:path");
 const electronReload = require("electron-reload");
 electronReload(__dirname, {});
+const path = require("node:path");
+const EPRConfig = require("./js/main/epr-config.js")
 
 
 const WINDOW_OPTIONS = {
@@ -18,6 +19,10 @@ const WINDOW_OPTIONS = {
         // frame: false,
         // transparent: true,
         alwaysOnTop: false
+    },
+
+    menu: {
+        enable: true
     },
 
     devTools: {
@@ -41,30 +46,34 @@ function createWindow()
         ...WINDOW_OPTIONS.args,
         webPreferences: {
             preload: path.join(__dirname, WINDOW_OPTIONS.preloadFile)
-        }
+        },
     });
 
     window.removeMenu();
 
     if (WINDOW_OPTIONS.devTools.enabled)
-        window.webContents.openDevTools(WINDOW_OPTIONS.devTools.args);
-    
+        window.webContents.openDevTools({...WINDOW_OPTIONS.devTools.args});
+
     window.loadFile(WINDOW_OPTIONS.defaultView).then(() => window.show());
     return window;
 }
 
 
-app.whenReady().then(() =>
+function run()
 {
+    // const config = new EPRConfig();
+    // config.getEditors();
+
+
     ipcMain.handle("dialog:openFile", async () =>
     {
         const { canceled, filePaths } = await dialog.showOpenDialog({properties: ["openFile"]});
         if (!canceled)
-            return { filePath: filePaths[0], fileName: path.basename(filePaths[0]) };
-            // return filePaths[0];
+            return {filePath: filePaths[0], fileName: path.basename(filePaths[0])};
     });
 
     globalShortcut.register("Ctrl+Shift+I", () => window.webContents.toggleDevTools());
+
 
     window = createWindow();
     app.on("activate", () =>
@@ -72,11 +81,8 @@ app.whenReady().then(() =>
         if (BrowserWindow.getAllWindows().length === 0)
             window = createWindow();
     });
-});
+}
 
 
-app.on("window-all-closed", () =>
-{
-    if (process.platform !== "darwin")
-        app.quit();
-});
+app.whenReady().then(run);
+app.on("window-all-closed", () => { if (process.platform !== "darwin") app.quit(); });
