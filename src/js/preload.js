@@ -4,44 +4,25 @@ const { contextBridge, ipcRenderer } = require('electron')
 /*
 MAIN -> RENDERER:
     1) MAIN: win.webContents.send("create-alert", <msgFromMain>);
-    2) RENDERER: window.eprGUI.onCreateAlert((msgFromMain) => { ... });
+    2) RENDERER: window.eprAPI.onCreateAlert((msgFromMain) => { ... });
 
 RENDERER -> MAIN:
-    1) RENDERER: window.eprGUI.afterCreateAlert(<msgFromRenderer>);
+    1) RENDERER: window.eprAPI.afterCreateAlert(<msgFromRenderer>);
     2) MAIN: ipcMain.on("after-create-alert", (_event, msgFromRenderer) => { ... });
 
 RENDERER -> MAIN -> RENDERER:
-    1) RENDERER: window.eprGUI.printOnMainFromRenderer(<msgFromRenderer>).then(msgFromMain => alert(msgFromMain));
+    1) RENDERER: window.eprAPI.printOnMainFromRenderer(<msgFromRenderer>).then(msgFromMain => alert(msgFromMain));
     2) MAIN: ipcMain.handle("print-on-main-from-renderer", (_event, msgFromRenderer) => { ...return <msgFromMain>; });
 */
 
 
-const createAlertEntries = {
-    // Main 🠚 Renderer
-    onCreateAlert: callback => ipcRenderer.on("create-alert", (_event, value) => callback(value)),  // M🠚R
+contextBridge.exposeInMainWorld("eprAPI", {
+    openFile: () => ipcRenderer.invoke("dialog:openFile")  // R🠚M🠚R
 
-    // Renderer ➔ Main
-    afterCreateAlert: afterAlertMsg => ipcRenderer.send("after-create-alert", afterAlertMsg),  // R🠚M
-};
+    
+    // onCreateAlert: callback => ipcRenderer.on("create-alert", (_event, value) => callback(value)),  // M🠚R
 
+    // afterCreateAlert: afterAlertMsg => ipcRenderer.send("after-create-alert", afterAlertMsg),  // R🠚M
 
-const printOnMainFromRendererEntries = {
-    // R -> M -> R
-    printOnMainFromRenderer: msg => ipcRenderer.invoke("print-on-main-from-renderer", msg),  // R🠚M🠚R
-};
-
-
-const openFileSelectDialogEntries = {
-    openFile: () => ipcRenderer.invoke("dialog:openFile")
-};
-
-
-
-contextBridge.exposeInMainWorld("eprGUI", {
-    // ...createAlertEntries,
-    ...openFileSelectDialogEntries
-    // ...printOnMainFromRendererEntries
-
-    // openFile: async () => await ipcRenderer.invoke("dialog:openFile"),
-    // openFile: () => ipcRenderer.invoke("dialog:openFile")
+    // printOnMainFromRenderer: msg => ipcRenderer.invoke("print-on-main-from-renderer", msg)  // R🠚M🠚R
 });

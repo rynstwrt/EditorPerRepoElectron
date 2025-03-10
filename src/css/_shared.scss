@@ -7,12 +7,6 @@
 $font-1: "gg sans Medium Regular", sans-serif;
 
 
-@mixin _get-multi-property-hover-transition($properties)
-{
-    transition: $properties[0] 2s green;
-}
-
-
 @mixin get-hover-transition($properties, $duration: .2s, $type: ease-out)
 {
     @if (meta.type-of($properties) != list)

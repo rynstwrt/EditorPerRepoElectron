@@ -4,7 +4,6 @@ const electronReload = require("electron-reload");
 electronReload(__dirname, {});
 
 
-
 const WINDOW_OPTIONS = {
     defaultView: path.join(__dirname, "views/index.html"),
     preloadFile: "js/preload.js",
@@ -32,7 +31,6 @@ const WINDOW_OPTIONS = {
 };
 
 
-
 let window;
 function createWindow()
 {
@@ -46,21 +44,14 @@ function createWindow()
         }
     });
 
-    if (WINDOW_OPTIONS.devTools.enabled)
-        window.webContents.openDevTools(WINDOW_OPTIONS.devTools.args);
-
     window.removeMenu();
 
-    // ipcMain.handle("print-on-main-from-renderer", (_event, msg) =>
-    // {
-    //     console.log(msg);
-    //     return "message back!";
-    // });
+    if (WINDOW_OPTIONS.devTools.enabled)
+        window.webContents.openDevTools(WINDOW_OPTIONS.devTools.args);
     
     window.loadFile(WINDOW_OPTIONS.defaultView).then(() => window.show());
     return window;
 }
-
 
 
 app.whenReady().then(() =>
@@ -69,12 +60,11 @@ app.whenReady().then(() =>
     {
         const { canceled, filePaths } = await dialog.showOpenDialog({properties: ["openFile"]});
         if (!canceled)
-            return filePaths[0];
+            return { filePath: filePaths[0], fileName: path.basename(filePaths[0]) };
+            // return filePaths[0];
     });
 
-
     globalShortcut.register("Ctrl+Shift+I", () => window.webContents.toggleDevTools());
-
 
     window = createWindow();
     app.on("activate", () =>
@@ -83,7 +73,6 @@ app.whenReady().then(() =>
             window = createWindow();
     });
 });
-
 
 
 app.on("window-all-closed", () =>
