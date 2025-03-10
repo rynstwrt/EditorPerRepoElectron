@@ -1,4 +1,4 @@
-module.exports = class Editor
+module.exports.Editor = class Editor
 {
     constructor(path, name)
     {

@@ -3,12 +3,12 @@ const { Editor } = require("./editor.js");
 
 class EPRConfig
 {
-    #editors = [];
+    static #editors = [];
 
 
     constructor()
     {
-        const ed = new Editor("");
+
     }
 
 
@@ -18,9 +18,10 @@ class EPRConfig
     }
 
 
-    static addEditor(editorPath, editorName)
+    static addEditor(path, name)
     {
-
+        const editorEntry = new Editor(path, name);
+        this.#editors.push(editorEntry);
     }
 }
 

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electron/main");
+const { app, BrowserWindow, globalShortcut, ipcMain, dialog, Menu } = require("electron/main");
 const electronReload = require("electron-reload");
 electronReload(__dirname, {});
 const path = require("node:path");
@@ -22,11 +22,12 @@ const WINDOW_OPTIONS = {
     },
 
     menu: {
-        enable: true
+        enabled: true
     },
 
     devTools: {
-        enabled: false,
+        openOnStart: false,
+        toggleKeybind: "Ctrl+Shift+I",
         args: {
             mode: "detach",
             activate: false,
@@ -49,9 +50,10 @@ function createWindow()
         },
     });
 
-    window.removeMenu();
+    if (!WINDOW_OPTIONS.menu.enabled)
+        window.removeMenu();
 
-    if (WINDOW_OPTIONS.devTools.enabled)
+    if (WINDOW_OPTIONS.devTools.openOnStart)
         window.webContents.openDevTools({...WINDOW_OPTIONS.devTools.args});
 
     window.loadFile(WINDOW_OPTIONS.defaultView).then(() => window.show());
@@ -59,30 +61,55 @@ function createWindow()
 }
 
 
-function run()
+function registerEvents()
 {
-    // const config = new EPRConfig();
-    // config.getEditors();
-
-
     ipcMain.handle("dialog:openFile", async () =>
     {
-        const { canceled, filePaths } = await dialog.showOpenDialog({properties: ["openFile"]});
-        if (!canceled)
-            return {filePath: filePaths[0], fileName: path.basename(filePaths[0])};
+        const {canceled, filePaths} = await dialog.showOpenDialog({properties: ["openFile"]});
+        if (canceled)
+            return null;
+
+        const filePath = path.resolve(filePaths[0]);
+        const fileName = path.basename(filePath);
+
+        // TODO:
+        EPRConfig.addEditor(filePaths[0], path.basename(filePaths[0]));
+        console.log(EPRConfig.getEditors());
+
+        return {
+            filePath: filePaths[0],
+            fileName: path.basename(filePaths[0])
+        };
     });
 
-    globalShortcut.register("Ctrl+Shift+I", () => window.webContents.toggleDevTools());
-
-
-    window = createWindow();
-    app.on("activate", () =>
-    {
-        if (BrowserWindow.getAllWindows().length === 0)
-            window = createWindow();
-    });
+    // DevTools keybind
+    const devToolsToggleKeybind = WINDOW_OPTIONS.devTools.toggleKeybind;
+    globalShortcut.register(devToolsToggleKeybind, () => window.toggleDevTools());
 }
 
 
-app.whenReady().then(run);
-app.on("window-all-closed", () => { if (process.platform !== "darwin") app.quit(); });
+function run()
+{
+    window = createWindow();
+
+    app.on("activate", () =>
+    {
+        if (!BrowserWindow.getAllWindows().length)
+            window = createWindow();
+    });
+
+    registerEvents();
+}
+
+
+app.on("window-all-closed", () =>
+{
+    if (process.platform !== "darwin")
+        app.quit();
+});
+
+Menu.setApplicationMenu(null);
+app.on("ready", run);
+
+// app.whenReady().then(run);
+// app.whenReady().then(run).then(registerEvents);

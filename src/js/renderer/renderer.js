@@ -7,26 +7,13 @@ editorSelectForm.addEventListener("submit", event =>
 {
     event.preventDefault();
 
+    // %HOME%\Desktop\Atom_One_Dark.icls
 
-    // alert("A")
-    // alert(editorSelect.options[editorSelect.selectedIndex].outerHTML);
+    const selectedEditorPath = decodeURI(editorSelect.value);
+    const selectedEditorName = editorSelect[editorSelect.selectedIndex].textContent;
 
-    const selectedEditorPath = decodeURI(editorSelect.value).trim();
-    const selectedEditorName = editorSelect.textContent.trim();
+    alert(selectedEditorName + " " + selectedEditorPath)
 
-
-
-    // alert(selectedEditorName + " " + selectedEditorPath)
-    // alert([encodeURI(selectedEditorPath), selectedEditorPath].join(" ").trim())
-
-    // for (const [key, value] of formData)
-    // {
-    //     console.log(key, value);
-    // }
-
-    // console.log(formData.getAll());
-
-    // event.preventDefault();
 }, false);
 
 
