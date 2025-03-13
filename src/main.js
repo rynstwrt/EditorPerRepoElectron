@@ -6,6 +6,10 @@ const { WINDOW_OPTIONS } = require("./js/main/constants.js");
 const EPRConfig = require("./js/main/epr-config.js")
 
 
+const APP_NAME = "EditorPerRepo";
+app.setName(APP_NAME);
+
+
 let window;
 function createWindow()
 {
@@ -53,7 +57,9 @@ function createIPCListeners()
     ipcMain.on("open-repo-in-editor", (_event, data) =>
     {
         // TODO: write
-        console.log(data);
+        console.log(data)
+        EPRConfig.addEditor(data.editorPath, data.name);
+        // console.log(data);
     });
 }
 
@@ -67,6 +73,8 @@ app.on("window-all-closed", () =>
 
 app.on("ready", () =>
 {
+
+
     // Create window
     createWindow();
 

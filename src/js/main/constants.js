@@ -14,7 +14,7 @@ const WINDOW_OPTIONS = {
         alwaysOnTop: false
     },
 
-    menu: { enabled: true },
+    menu: { enabled: false },
 
     devTools: {
         openOnStart: false,
@@ -28,4 +28,7 @@ const WINDOW_OPTIONS = {
 };
 
 
-module.exports = {WINDOW_OPTIONS};
+const CONFIG_FILE = "src/epr-config.json";
+
+
+module.exports = {WINDOW_OPTIONS, CONFIG_FILE};

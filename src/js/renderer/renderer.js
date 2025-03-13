@@ -14,8 +14,7 @@ editorSelectForm.addEventListener("submit", event =>
 
     alert(selectedEditorName + " " + selectedEditorPath)
 
-
-    window.eprAPI.openRepoInEditor("asdfasdf");
+    window.eprAPI.openRepoInEditor({editorPath: selectedEditorPath, name: selectedEditorName});
 }, false);
 
 

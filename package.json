@@ -22,5 +22,9 @@
   "devDependencies": {
     "electron": "^35.0.0",
     "electron-reload": "^2.0.0-alpha.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "electron-store": "^10.0.1"
   }
 }

@@ -1,15 +1,11 @@
-const { Editor } = require("./editor.js");
+const { CONFIG_FILE } = require("./constants.js");
+const fs = require("fs");
+const path = require("path")
 
 
 class EPRConfig
 {
     static #editors = [];
-
-
-    constructor()
-    {
-
-    }
 
 
     static getEditors()
@@ -18,10 +14,16 @@ class EPRConfig
     }
 
 
-    static addEditor(path, name)
+    static addEditor(editorPath, name)
     {
-        const editorEntry = new Editor(path, name);
-        this.#editors.push(editorEntry);
+        const entry = {path: editorPath, name: name};
+        fs.writeFile(path.resolve(CONFIG_FILE), JSON.stringify(entry), err =>
+        {
+            if (err)
+                return console.log("Error writing to config!", err);
+
+            console.log("Successfully wrote file!");
+        });
     }
 }
 
