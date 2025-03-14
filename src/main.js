@@ -65,6 +65,24 @@ function createWindow()
 }
 
 
+function openRepoWithEditor(editorPath, targetDir, firstTime=false)
+{
+    console.log("editorPath:", editorPath);
+    console.log("targetDir:", targetDir);
+
+    exec(`"${editorPath}" "${targetDir}"`, (err, stdout, stderr) =>
+    {
+        if (err)
+            return console.error(`Error: There was an error opening the editor! ${err}`);
+
+        if (firstTime)
+            EPRConfig.addEditorAssignment(targetDir, editorPath);
+
+        app.quit();
+    });
+}
+
+
 function createIPCListeners()
 {
     // Open file select listener
@@ -96,18 +114,7 @@ function createIPCListeners()
     // Open repo with editor listener
     ipcMain.on("open-repo-with-editor", (_event, editorPath) =>
     {
-        console.log("editorPath:", editorPath);
-        console.log("targetDir:", targetDir);
-
-        exec(`"${editorPath}" "${targetDir}"`, (err, stdout, stderr) =>
-        {
-            if (err)
-                return console.error(`Error: There was an error opening the editor! ${err}`);
-
-            EPRConfig.addEditorAssignment(targetDir, editorPath);
-
-            app.quit();
-        });
+        openRepoWithEditor(editorPath, targetDir, true);
     });
 }
 
@@ -162,6 +169,11 @@ app.on("ready", async () =>
 {
     // Load user config
     await EPRConfig.loadConfig();
+
+    // Run editor if previously assigned
+    const assignedEditor = EPRConfig.getAssignedEditor(targetDir);
+    if (assignedEditor)
+        return openRepoWithEditor(assignedEditor, targetDir);
 
     // Create window
     createWindow();

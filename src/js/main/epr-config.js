@@ -6,7 +6,7 @@ const CONFIG_FILE = "../../epr-config.json";
 
 const DEFAULT_CONFIG_JSON = {
     editors: [],  // [{path: "", name: ""}]
-    assignments: []  // [{targetPath: "", editorPath: ""}]
+    assignments: {}  // {targetDir: editorPath}
 };
 
 
@@ -89,16 +89,16 @@ class EPRConfig
     }
 
 
-    static addEditorAssignment(targetPath, editorPath)
+    static addEditorAssignment(targetDir, editorPath)
     {
-        this.#config.assignments.push({targetPath: targetPath, editorPath: editorPath});
+        this.#config.assignments[targetDir] = editorPath.toString();
         this.#saveConfig();
     }
 
 
-    static getAssignedEditor(dir)
+    static getAssignedEditor(targetDir)
     {
-
+        return this.#config.assignments[targetDir];
     }
 }
 

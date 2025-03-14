@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron . --target=\"%home%\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp\""
+    "start": "electron . --target=\"%home%Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp\""
   },
   "repository": {
     "type": "git",
