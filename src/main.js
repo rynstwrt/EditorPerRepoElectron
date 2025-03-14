@@ -18,7 +18,7 @@ const WINDOW_OPTIONS = {
 
     behaviors: {
         show: false,
-        resizeable: false,
+        resizable: false,
     },
 
     devTools: {
@@ -38,7 +38,6 @@ function createWindow()
 {
     // Create the main window
     window = new BrowserWindow({
-        // ...{width: 800, height: 400},
         ...WINDOW_OPTIONS.size,
         ...WINDOW_OPTIONS.minSize,
         ...WINDOW_OPTIONS.maxSize,
@@ -115,9 +114,9 @@ function createIPCListeners()
 
 
     // Open repo with editor listener
-    ipcMain.on("open-repo-with-editor", (_event, editorPath) =>
+    ipcMain.on("open-repo-with-editor", async (_event, editorPath) =>
     {
-        openRepoWithEditor(editorPath, targetDir, true);
+        await openRepoWithEditor(editorPath, targetDir, true);
     });
 }
 
