@@ -1,73 +1,77 @@
 const fs = require("fs");
-const fsp = require("fs").promises;
 const path = require("path")
 
 
 const CONFIG_FILE = "../../epr-config.json";
-// const REQUIRED_JSON_PROPERTIES = ["editors", "assignments"];
-const DEFAULT_CONFIG_JSON = {editors: [], assignments: []};
+
+const DEFAULT_CONFIG_JSON = {
+    editors: [],  // [{path: "", name: ""}]
+    assignments: []  // [{targetPath: "", editorPath: ""}]
+};
 
 
 class EPRConfig
 {
     static #configPath = path.resolve(__dirname, CONFIG_FILE);
-
-    static #config = null;
-
-    // static #editors = [];
-    // static #assignments = [];
+    static #config = DEFAULT_CONFIG_JSON;
 
 
-    // static getEditors()
-    // {
-    //     return this.#editors;
-    // }
-
-
-    static #writeToConfig(data)
+    static #saveConfig()
     {
-        fs.writeFile(this.#configPath, JSON.stringify(data, null, 4), err =>
+        fs.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4), err =>
         {
             if (err)
-                return console.log(`Error writing "${data}" to config!`, err);
+                return console.log(`Error writing data to config!`, err);
 
-            console.log("Successfully wrote to config!");
+            console.log("Successfully saved the config!");
         });
     }
 
 
-    static loadConfig()
+    static async loadConfig()
     {
-        fs.readFile(this.#configPath, "utf-8", (err, fileContent) =>
+        return new Promise((res, rej) =>
         {
-            if (err)
+            fs.readFile(this.#configPath, "utf-8", (err, fileContent) =>
             {
-                if (err.code === "ENOENT")
+                if (err)
                 {
+                    if (err.code !== "ENOENT")
+                        return rej(err);
+
                     console.log("Config file does not exist! Creating...");
-                    return this.#writeToConfig(DEFAULT_CONFIG_JSON);
+                    this.#saveConfig();
                 }
 
-                return console.error(err);
-            }
-
-            try
-            {
-                const jsonData = JSON.parse(fileContent);
-                this.#config = Object.assign(DEFAULT_CONFIG_JSON, jsonData);
-            }
-            catch (jsonErr)
-            {
-                console.log(`Error parsing config JSON! Error: ${jsonErr}`);
-            }
+                try
+                {
+                    const jsonData = JSON.parse(fileContent);
+                    this.#config = Object.assign(DEFAULT_CONFIG_JSON, jsonData);
+                    res();
+                }
+                catch (jsonErr)
+                {
+                    return rej(`Error parsing config JSON! Error: ${jsonErr}`);
+                }
+            });
         });
+    }
+
+
+    static getEditors()
+    {
+        return this.#config.editors;
     }
 
 
     static addEditorToConfig(editorPath, name)
     {
-        const entry = {path: editorPath, name: name};
-        // this.#writeToConfig("")
+        const matchesInConfig = this.#config.editors.filter(editor => editor.path === editorPath);
+        if (matchesInConfig.length)
+            return console.error(`Error: Can't add editor path "${editorPath}" because it already exists!`);
+
+        this.#config.editors.push({path: editorPath, name: name});
+        this.#saveConfig();
     }
 
 

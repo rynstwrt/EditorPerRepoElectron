@@ -84,7 +84,7 @@ function createIPCListeners()
     ipcMain.on("open-repo-in-editor", (_event, data) =>
     {
         console.log(data)
-        EPRConfig.addEditor(data.editorPath, data.name);
+        // EPRConfig.addEditor(data.editorPath, data.name);
     });
 }
 
@@ -96,17 +96,19 @@ app.on("window-all-closed", () =>
 });
 
 
-app.on("ready", () =>
+app.on("ready", async () =>
 {
-    EPRConfig.loadConfig();
+    // Load user config
+    await EPRConfig.loadConfig();
 
     // Create window
     createWindow();
 
     // Create window when resuming after soft exit on Macs
-    app.on("activate", !BrowserWindow.getAllWindows().length
-                       ? createWindow
-                       : () => {});
+    app.on("activate", () => !BrowserWindow.getAllWindows().length && createWindow());
+
+    // Send editors to renderer to make select options
+
 
     // Create listeners for IPC events
     createIPCListeners();
@@ -115,4 +117,10 @@ app.on("ready", () =>
     globalShortcut.register(
         WINDOW_OPTIONS.devTools.toggleKeybind,
         () => window.toggleDevTools());
+
+    setTimeout(() =>
+    {
+        const editors = EPRConfig.getEditors();
+        window.webContents.send("set-editor-options", editors);
+    }, 500);
 });
