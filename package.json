@@ -1,5 +1,5 @@
 {
-  "name": "editorperrepoelectron",
+  "name": "editorperrepo",
   "version": "1.0.0",
   "description": "",
   "main": "src/main.js",
@@ -19,12 +19,11 @@
   },
   "homepage": "https://github.com/rynstwrt/EditorPerRepoElectron",
   "devDependencies": {
-    "electron": "^35.0.0",
+    "electron": "^35.0.1",
     "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
-    "dotenv": "^16.4.7",
-    "electron-store": "^10.0.1",
-    "minimist": "^1.2.8"
+    "minimist": "^1.2.8",
+    "shelljs": "^0.9.1"
   }
 }

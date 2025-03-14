@@ -217,3 +217,4 @@ fabric.properties
 # Added as catch-all
 .idea/
 epr-config.json
+epr-gui.js
