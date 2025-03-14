@@ -1,6 +1,6 @@
 const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electron/main");
 const electronReload = require("electron-reload");
-electronReload(__dirname, {});
+electronReload(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/});
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const exec = require("child_process").exec;
@@ -16,18 +16,13 @@ const WINDOW_OPTIONS = {
     minSize: { minWidth: 300, minHeight: 200 },
     maxSize: { maxWidth: 2000, maxHeight: 1700 },
 
-    args: {
+    behaviors: {
         show: false,
-        resizable: true,
-        frame: true,
-        transparent: false,
-        alwaysOnTop: false
+        resizeable: false,
     },
 
-    menu: { enabled: false },
-
     devTools: {
-        openOnStart: true,
+        openOnStart: false,
         toggleKeybind: "Ctrl+Shift+I",
         args: {
             mode: "detach",
@@ -43,23 +38,22 @@ function createWindow()
 {
     // Create the main window
     window = new BrowserWindow({
-        ...{width: 800, height: 400},
-        // ...WINDOW_OPTIONS.size,
-        // ...WINDOW_OPTIONS.minSize,
-        // ...WINDOW_OPTIONS.maxSize,
-        ...WINDOW_OPTIONS.args,
+        // ...{width: 800, height: 400},
+        ...WINDOW_OPTIONS.size,
+        ...WINDOW_OPTIONS.minSize,
+        ...WINDOW_OPTIONS.maxSize,
+        ...WINDOW_OPTIONS.behaviors,
         webPreferences: {
             preload: path.join(__dirname, WINDOW_OPTIONS.preloadFile)
         },
     });
 
-    // Disable the menu bar
-    if (!WINDOW_OPTIONS.menu.enabled)
-        window.removeMenu();
-
     // Open devtools if devTools.openOnStart is enabled in WINDOW_OPTIONS
     if (WINDOW_OPTIONS.devTools.openOnStart)
         window.webContents.openDevTools({...WINDOW_OPTIONS.devTools.args});
+
+    // Disable the menu bar
+    window.removeMenu();
 
     // Load the HTML file and run post-load shenanigans
     window.loadFile(path.resolve(__dirname, WINDOW_OPTIONS.defaultView)).then(onWindowLoaded);
@@ -77,7 +71,10 @@ function openRepoWithEditor(editorPath, targetDir, firstTime=false)
             return console.error(`Error: There was an error opening the editor! ${err}`);
 
         if (firstTime)
+        {
             EPRConfig.addEditorAssignment(targetDir, editorPath);
+            await EPRConfig.saveConfig();
+        }
 
         app.quit();
     });
@@ -100,6 +97,8 @@ function createIPCListeners()
         if (addToConfigStatus && addToConfigStatus.error)
             return console.error(addToConfigStatus.error);
 
+        await EPRConfig.saveConfig();
+
         console.log("returning:", editorPath, editorName);
         return {path: editorPath, name: editorName};
     });
@@ -110,6 +109,7 @@ function createIPCListeners()
     {
         console.log("removing", editorPath);
         EPRConfig.removeEditorFromConfig(editorPath);
+        await EPRConfig.saveConfig();
     });
 
 

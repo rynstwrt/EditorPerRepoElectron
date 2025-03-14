@@ -16,33 +16,20 @@ class EPRConfig
     static #config = DEFAULT_CONFIG_JSON;
 
 
-    // static #saveConfig()
-    // {
-    //     // fs.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4), err =>
-    //     // {
-    //     //     if (err)
-    //     //     {
-    //     //         return console.log(`Error writing data to config!`, err);
-    //     //     }
-    //     //
-    //     //     console.log("Successfully saved the config!");
-    //     // });
-    //
-    //     return new Promise((res, rej) =>
-    //     {
-    //         fs.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4), err =>
-    //         {
-    //             if (err)
-    //             {
-    //                 console.log(`Error writing data to config!`, err);
-    //                 return rej();
-    //             }
-    //
-    //             console.log("Successfully saved the config!");
-    //             return res();
-    //         });
-    //     });
-    // }
+    static async saveConfig()
+    {
+        try
+        {
+            await fs.promises.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4));
+            console.log("Successfully wrote to config!");
+            return true;
+        }
+        catch (err)
+        {
+            console.error(err);
+            return false;
+        }
+    }
 
 
     static async loadConfig()
@@ -57,7 +44,7 @@ class EPRConfig
                         return rej(err);
 
                     console.log("Config file does not exist! Creating...");
-                    // await this.#saveConfig();
+                    await this.saveConfig();
                     return res();
                 }
 
