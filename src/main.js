@@ -1,13 +1,42 @@
-const { app, BrowserWindow, globalShortcut, ipcMain, dialog, Menu } = require("electron/main");
+const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electron/main");
 const electronReload = require("electron-reload");
 electronReload(__dirname, {});
 const path = require("node:path");
-const { WINDOW_OPTIONS } = require("./js/main/constants.js");
 const EPRConfig = require("./js/main/epr-config.js")
 
 
 const APP_NAME = "EditorPerRepo";
 app.setName(APP_NAME);
+
+
+const WINDOW_OPTIONS = {
+    defaultView: "views/index.html",
+    preloadFile: "js/preload.js",
+
+    size: { width: 500, height: 230 },
+    minSize: { minWidth: 300, minHeight: 200 },
+    maxSize: { maxWidth: 2000, maxHeight: 1700 },
+
+    args: {
+        show: false,
+        resizable: true,
+        frame: true,
+        transparent: false,
+        alwaysOnTop: false
+    },
+
+    menu: { enabled: false },
+
+    devTools: {
+        openOnStart: false,
+        toggleKeybind: "Ctrl+Shift+I",
+        args: {
+            mode: "detach",
+            activate: false,
+            title: "EPR Dev Tools"
+        }
+    }
+};
 
 
 let window;
@@ -29,7 +58,7 @@ function createWindow()
     if (WINDOW_OPTIONS.devTools.openOnStart)
         window.webContents.openDevTools({...WINDOW_OPTIONS.devTools.args});
 
-    window.loadFile(path.join(__dirname, "views/index.html"))
+    window.loadFile(path.resolve(__dirname, WINDOW_OPTIONS.defaultView))
           .then(() => window.show());
 }
 
@@ -40,26 +69,22 @@ function createIPCListeners()
     ipcMain.handle("dialog:openFile", async () =>
     {
         const {canceled, filePaths} = await dialog.showOpenDialog({properties: ["openFile"]});
+        // return canceled ? null : {filePath: filePaths[0], fileName: path.basename(filePaths[0])};
+
         if (canceled)
-            return null;
+            return;
 
-        // TODO:
-        // const filePath = path.resolve(filePaths[0]);
-        // const fileName = path.basename(filePath);
-        // EPRConfig.addEditor(filePaths[0], path.basename(filePaths[0]));
-        // console.log(EPRConfig.getEditors());
-
-        return {filePath: filePaths[0], fileName: path.basename(filePaths[0])};
+        const editorInfo = {path: filePaths[0], name: path.basename(filePaths[0])};
+        EPRConfig.addEditorToConfig(editorInfo.path, editorInfo.name);
+        return editorInfo;
     });
 
 
     // Open repo in editor listener
     ipcMain.on("open-repo-in-editor", (_event, data) =>
     {
-        // TODO: write
         console.log(data)
         EPRConfig.addEditor(data.editorPath, data.name);
-        // console.log(data);
     });
 }
 
@@ -73,7 +98,7 @@ app.on("window-all-closed", () =>
 
 app.on("ready", () =>
 {
-
+    EPRConfig.loadConfig();
 
     // Create window
     createWindow();
