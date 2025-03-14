@@ -4,8 +4,7 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "node tests/test.js"
+    "start": "electron . --target=\"%home%\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp\""
   },
   "repository": {
     "type": "git",
@@ -25,6 +24,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.7",
-    "electron-store": "^10.0.1"
+    "electron-store": "^10.0.1",
+    "minimist": "^1.2.8"
   }
 }

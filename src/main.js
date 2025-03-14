@@ -2,12 +2,10 @@ const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electro
 const electronReload = require("electron-reload");
 electronReload(__dirname, {});
 const path = require("node:path");
-const EPRConfig = require("./js/main/epr-config.js")
+const EPRConfig = require("./js/main/epr-config.js");
 
 
 const APP_NAME = "EditorPerRepo";
-app.setName(APP_NAME);
-
 
 const WINDOW_OPTIONS = {
     defaultView: "views/index.html",
@@ -42,6 +40,7 @@ const WINDOW_OPTIONS = {
 let window;
 function createWindow()
 {
+    // Create the main window
     window = new BrowserWindow({
         ...WINDOW_OPTIONS.size,
         ...WINDOW_OPTIONS.minSize,
@@ -52,14 +51,16 @@ function createWindow()
         },
     });
 
+    // Disable the menu bar
     if (!WINDOW_OPTIONS.menu.enabled)
         window.removeMenu();
 
+    // Open devtools if devTools.openOnStart is enabled in WINDOW_OPTIONS
     if (WINDOW_OPTIONS.devTools.openOnStart)
         window.webContents.openDevTools({...WINDOW_OPTIONS.devTools.args});
 
-    window.loadFile(path.resolve(__dirname, WINDOW_OPTIONS.defaultView))
-          .then(() => window.show());
+    // Load the HTML file and run post-load shenanigans
+    window.loadFile(path.resolve(__dirname, WINDOW_OPTIONS.defaultView)).then(onWindowLoaded);
 }
 
 
@@ -69,33 +70,83 @@ function createIPCListeners()
     ipcMain.handle("dialog:openFile", async () =>
     {
         const {canceled, filePaths} = await dialog.showOpenDialog({properties: ["openFile"]});
-        // return canceled ? null : {filePath: filePaths[0], fileName: path.basename(filePaths[0])};
-
         if (canceled)
             return;
 
-        const editorInfo = {path: filePaths[0], name: path.basename(filePaths[0])};
-        EPRConfig.addEditorToConfig(editorInfo.path, editorInfo.name);
-        return editorInfo;
+        const editorPath = filePaths[0];
+        const editorName = path.basename(editorPath);
+
+        const err = EPRConfig.addEditorToConfig(editorPath, editorName);
+        if (err)
+            return console.error(err);
+
+        return {path: editorPath, name: editorName};
     });
 
 
-    // Open repo in editor listener
-    ipcMain.on("open-repo-in-editor", (_event, data) =>
+    // Remove editor listener
+    ipcMain.on("remove-editor-from-config", (_event, editorPath) =>
     {
-        console.log(data)
-        // EPRConfig.addEditor(data.editorPath, data.name);
+        console.log("removing", editorPath);
+        EPRConfig.removeEditorFromConfig(editorPath);
     });
+
+
+    // Open repo with editor listener
+    ipcMain.on("open-repo-with-editor", (_event, editorPath) =>
+    {
+        console.log("editorPath:", editorPath);
+    });
+}
+
+
+function onWindowLoaded()
+{
+    // Set the editor list from the config
+    const editors = EPRConfig.getEditors();
+    window.webContents.send("set-editor-options", editors);
+
+    // Show the window
+    window.show();
+}
+
+
+let targetDir;
+function beforeWindowReady()
+{
+    const args = require('minimist')(process.argv.slice(2), { string: "target" });
+
+    const positionalArgs = args._;
+    const targetOption = args.target;
+    if (!positionalArgs.length && !targetOption)
+    {
+        console.error("Error: No target directory was given!");
+        return app.quit();
+    }
+
+    targetDir = targetOption || positionalArgs[positionalArgs.length - 1];
+    console.log("target dir:", targetDir);
+    if (!require("fs").existsSync(targetDir))
+    {
+        console.error(`Error: Given target directory does not exist!`);
+        return app.quit();
+    }
+
+
+    // Set the app name
+    app.setName(`${APP_NAME} - ${path.basename(targetDir)}`);
 }
 
 
 app.on("window-all-closed", () =>
 {
+    // Close the program when all windows are closed (except on Mac)
     if (process.platform !== "darwin")
         app.quit();
 });
 
 
+beforeWindowReady();
 app.on("ready", async () =>
 {
     // Load user config
@@ -107,9 +158,6 @@ app.on("ready", async () =>
     // Create window when resuming after soft exit on Macs
     app.on("activate", () => !BrowserWindow.getAllWindows().length && createWindow());
 
-    // Send editors to renderer to make select options
-
-
     // Create listeners for IPC events
     createIPCListeners();
 
@@ -117,10 +165,4 @@ app.on("ready", async () =>
     globalShortcut.register(
         WINDOW_OPTIONS.devTools.toggleKeybind,
         () => window.toggleDevTools());
-
-    setTimeout(() =>
-    {
-        const editors = EPRConfig.getEditors();
-        window.webContents.send("set-editor-options", editors);
-    }, 500);
 });

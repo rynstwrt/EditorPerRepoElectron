@@ -68,10 +68,24 @@ class EPRConfig
     {
         const matchesInConfig = this.#config.editors.filter(editor => editor.path === editorPath);
         if (matchesInConfig.length)
-            return console.error(`Error: Can't add editor path "${editorPath}" because it already exists!`);
+            return `Error: Can't add editor path "${editorPath}" because it already exists!`;
 
         this.#config.editors.push({path: editorPath, name: name});
         this.#saveConfig();
+    }
+
+
+    static removeEditorFromConfig(editorPath)
+    {
+        const matchesInConfig = this.#config.editors.filter(editor => editor.path === editorPath);
+        if (!matchesInConfig.length)
+            return `Error: Can't remove editor path "${editorPath}" because it's not in the config!`;
+
+        const editorIndex = this.#config.editors.indexOf(matchesInConfig[0]);
+        this.#config.editors.splice(editorIndex, 1);
+
+        console.log(`Removed editor ${editorPath}!`);
+        // this.#saveConfig();
     }
 
 

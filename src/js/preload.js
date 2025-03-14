@@ -20,9 +20,11 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 
 contextBridge.exposeInMainWorld("eprAPI", {
+    removeEditorFromConfig: (editorPath) => ipcRenderer.send("remove-editor-from-config", editorPath),  // R🠚M
+
+    openRepoWithEditor: (editorPath) => ipcRenderer.send("open-repo-with-editor", editorPath),  // R🠚M
+
     openFile: () => ipcRenderer.invoke("dialog:openFile"),  // R🠚M🠚R
 
     onSetEditorOptions: cb => ipcRenderer.on("set-editor-options", (_event, value) => cb(value)),  // M🠚R
-
-    openRepoInEditor: (editorInfo) => ipcRenderer.send("open-repo-in-editor", editorInfo)  // R🠚M
 });
