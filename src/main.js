@@ -3,7 +3,7 @@ const electronReload = require("electron-reload");
 electronReload(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/});
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
-const exec = require("child_process").exec;
+const { spawn } = require("child_process");
 
 
 const APP_NAME = "EditorPerRepo";
@@ -60,15 +60,12 @@ function createWindow()
 }
 
 
-function openRepoWithEditor(editorPath, targetDir, firstTime=false)
+async function openRepoWithEditor(editorPath, targetDir, firstTime=false)
 {
-    console.log("editorPath:", editorPath);
-    console.log("targetDir:", targetDir);
-
-    exec(`"${editorPath}" "${targetDir}"`, async (err, stdout, stderr) =>
+    try
     {
-        if (err)
-            return console.error(`Error: There was an error opening the editor! ${err}`);
+        const proc = spawn(editorPath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
+        proc.unref();
 
         if (firstTime)
         {
@@ -77,7 +74,11 @@ function openRepoWithEditor(editorPath, targetDir, firstTime=false)
         }
 
         app.quit();
-    });
+    }
+    catch (err)
+    {
+        console.error(err);
+    }
 }
 
 
@@ -158,9 +159,9 @@ function beforeWindowReady()
 }
 
 
+// Close the program when all windows are closed (except on Mac)
 app.on("window-all-closed", () =>
 {
-    // Close the program when all windows are closed (except on Mac)
     if (process.platform !== "darwin")
         app.quit();
 });
@@ -170,24 +171,27 @@ beforeWindowReady();
 app.on("ready", async () =>
 {
     // Load user config
-    await EPRConfig.loadConfig();
+    // await EPRConfig.loadConfig();
+    EPRConfig.loadConfig().then(() =>
+    {
+        // Run editor if previously assigned
+        const assignedEditor = EPRConfig.getAssignedEditor(targetDir);
+        if (assignedEditor)
+            return openRepoWithEditor(assignedEditor, targetDir);
 
-    // Run editor if previously assigned
-    // const assignedEditor = EPRConfig.getAssignedEditor(targetDir);
-    // if (assignedEditor)
-    //     return openRepoWithEditor(assignedEditor, targetDir);
+        // Create window
+        createWindow();
 
-    // Create window
-    createWindow();
+        // Create listeners for IPC events
+        createIPCListeners();
+
+        // Register developer tools keybind
+        globalShortcut.register(
+            WINDOW_OPTIONS.devTools.toggleKeybind,
+            () => window.toggleDevTools());
+    }).catch(console.error);
+
 
     // Create window when resuming after soft exit on Macs
     app.on("activate", () => !BrowserWindow.getAllWindows().length && createWindow());
-
-    // Create listeners for IPC events
-    createIPCListeners();
-
-    // Register developer tools keybind
-    globalShortcut.register(
-        WINDOW_OPTIONS.devTools.toggleKeybind,
-        () => window.toggleDevTools());
 });

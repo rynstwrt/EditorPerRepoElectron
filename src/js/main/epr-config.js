@@ -22,12 +22,10 @@ class EPRConfig
         {
             await fs.promises.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4));
             console.log("Successfully wrote to config!");
-            return true;
         }
         catch (err)
         {
             console.error(err);
-            return false;
         }
     }
 
@@ -56,8 +54,7 @@ class EPRConfig
                 }
                 catch (jsonErr)
                 {
-                    console.error(`Error parsing config JSON!\nError: ${jsonErr}`);
-                    rej();
+                    rej(`Error parsing config JSON!\nError: ${jsonErr}`);
                 }
             });
         });
@@ -74,11 +71,8 @@ class EPRConfig
     {
         const matchesInConfig = this.#config.editors.filter(editor => editor.path === editorPath);
         if (matchesInConfig.length)
-        {
             return {error: `Error: Can't add editor path "${editorPath}" because it already exists!`};
-        }
 
-        console.log("pushing", editorPath);
         this.#config.editors.push({path: editorPath, name: name});
     }
 
@@ -91,16 +85,12 @@ class EPRConfig
 
         const editorIndex = this.#config.editors.indexOf(matchesInConfig[0]);
         this.#config.editors.splice(editorIndex, 1);
-
-        console.log(`Removed editor ${editorPath}!`);
-        // await this.#saveConfig();
     }
 
 
     static addEditorAssignment(targetDir, editorPath)
     {
         this.#config.assignments[targetDir] = editorPath.toString();
-        // await this.#saveConfig();
     }
 
 
