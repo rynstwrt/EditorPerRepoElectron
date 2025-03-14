@@ -16,23 +16,40 @@ class EPRConfig
     static #config = DEFAULT_CONFIG_JSON;
 
 
-    static #saveConfig()
-    {
-        fs.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4), err =>
-        {
-            if (err)
-                return console.log(`Error writing data to config!`, err);
-
-            console.log("Successfully saved the config!");
-        });
-    }
+    // static #saveConfig()
+    // {
+    //     // fs.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4), err =>
+    //     // {
+    //     //     if (err)
+    //     //     {
+    //     //         return console.log(`Error writing data to config!`, err);
+    //     //     }
+    //     //
+    //     //     console.log("Successfully saved the config!");
+    //     // });
+    //
+    //     return new Promise((res, rej) =>
+    //     {
+    //         fs.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4), err =>
+    //         {
+    //             if (err)
+    //             {
+    //                 console.log(`Error writing data to config!`, err);
+    //                 return rej();
+    //             }
+    //
+    //             console.log("Successfully saved the config!");
+    //             return res();
+    //         });
+    //     });
+    // }
 
 
     static async loadConfig()
     {
         return new Promise((res, rej) =>
         {
-            fs.readFile(this.#configPath, "utf-8", (err, fileContent) =>
+            fs.readFile(this.#configPath, "utf-8", async (err, fileContent) =>
             {
                 if (err)
                 {
@@ -40,7 +57,8 @@ class EPRConfig
                         return rej(err);
 
                     console.log("Config file does not exist! Creating...");
-                    this.#saveConfig();
+                    // await this.#saveConfig();
+                    return res();
                 }
 
                 try
@@ -51,7 +69,8 @@ class EPRConfig
                 }
                 catch (jsonErr)
                 {
-                    return rej(`Error parsing config JSON! Error: ${jsonErr}`);
+                    console.error(`Error parsing config JSON!\nError: ${jsonErr}`);
+                    rej();
                 }
             });
         });
@@ -68,10 +87,12 @@ class EPRConfig
     {
         const matchesInConfig = this.#config.editors.filter(editor => editor.path === editorPath);
         if (matchesInConfig.length)
-            return `Error: Can't add editor path "${editorPath}" because it already exists!`;
+        {
+            return {error: `Error: Can't add editor path "${editorPath}" because it already exists!`};
+        }
 
+        console.log("pushing", editorPath);
         this.#config.editors.push({path: editorPath, name: name});
-        this.#saveConfig();
     }
 
 
@@ -85,14 +106,14 @@ class EPRConfig
         this.#config.editors.splice(editorIndex, 1);
 
         console.log(`Removed editor ${editorPath}!`);
-        this.#saveConfig();
+        // await this.#saveConfig();
     }
 
 
     static addEditorAssignment(targetDir, editorPath)
     {
         this.#config.assignments[targetDir] = editorPath.toString();
-        this.#saveConfig();
+        // await this.#saveConfig();
     }
 
 

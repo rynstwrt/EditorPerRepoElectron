@@ -39,7 +39,7 @@ select, input[type=submit] {
   cursor: pointer;
 }
 
-form {
+#editor-select-form {
   color: #D3D3D3;
   background-color: #1a1a1a;
   width: 100%;
@@ -50,18 +50,18 @@ form {
   justify-content: center;
   align-items: center;
 }
-form .form-row p#form-instructions {
+#editor-select-form .form-row p#form-instructions {
   margin-bottom: 3px;
   width: 100%;
 }
-form .form-row input[type=submit] {
+#editor-select-form .form-row input[type=submit] {
   margin-top: 20px;
   background-color: transparent;
   color: #41B7FF;
   border: 1px solid #41B7FF;
   transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
 }
-form .form-row input[type=submit]:hover {
+#editor-select-form .form-row input[type=submit]:hover {
   background-color: #E43F6F;
   border-color: #FF6600;
   color: #1a1a1a;

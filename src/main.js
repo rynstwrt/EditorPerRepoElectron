@@ -27,7 +27,7 @@ const WINDOW_OPTIONS = {
     menu: { enabled: false },
 
     devTools: {
-        openOnStart: false,
+        openOnStart: true,
         toggleKeybind: "Ctrl+Shift+I",
         args: {
             mode: "detach",
@@ -43,9 +43,10 @@ function createWindow()
 {
     // Create the main window
     window = new BrowserWindow({
-        ...WINDOW_OPTIONS.size,
-        ...WINDOW_OPTIONS.minSize,
-        ...WINDOW_OPTIONS.maxSize,
+        ...{width: 800, height: 400},
+        // ...WINDOW_OPTIONS.size,
+        // ...WINDOW_OPTIONS.minSize,
+        // ...WINDOW_OPTIONS.maxSize,
         ...WINDOW_OPTIONS.args,
         webPreferences: {
             preload: path.join(__dirname, WINDOW_OPTIONS.preloadFile)
@@ -70,7 +71,7 @@ function openRepoWithEditor(editorPath, targetDir, firstTime=false)
     console.log("editorPath:", editorPath);
     console.log("targetDir:", targetDir);
 
-    exec(`"${editorPath}" "${targetDir}"`, (err, stdout, stderr) =>
+    exec(`"${editorPath}" "${targetDir}"`, async (err, stdout, stderr) =>
     {
         if (err)
             return console.error(`Error: There was an error opening the editor! ${err}`);
@@ -95,16 +96,17 @@ function createIPCListeners()
         const editorPath = filePaths[0];
         const editorName = path.basename(editorPath);
 
-        const err = EPRConfig.addEditorToConfig(editorPath, editorName);
-        if (err)
-            return console.error(err);
+        const addToConfigStatus = EPRConfig.addEditorToConfig(editorPath, editorName);
+        if (addToConfigStatus && addToConfigStatus.error)
+            return console.error(addToConfigStatus.error);
 
+        console.log("returning:", editorPath, editorName);
         return {path: editorPath, name: editorName};
     });
 
 
     // Remove editor listener
-    ipcMain.on("remove-editor-from-config", (_event, editorPath) =>
+    ipcMain.on("remove-editor-from-config", async (_event, editorPath) =>
     {
         console.log("removing", editorPath);
         EPRConfig.removeEditorFromConfig(editorPath);
@@ -171,9 +173,9 @@ app.on("ready", async () =>
     await EPRConfig.loadConfig();
 
     // Run editor if previously assigned
-    const assignedEditor = EPRConfig.getAssignedEditor(targetDir);
-    if (assignedEditor)
-        return openRepoWithEditor(assignedEditor, targetDir);
+    // const assignedEditor = EPRConfig.getAssignedEditor(targetDir);
+    // if (assignedEditor)
+    //     return openRepoWithEditor(assignedEditor, targetDir);
 
     // Create window
     createWindow();
