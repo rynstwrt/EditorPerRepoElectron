@@ -26,5 +26,5 @@ contextBridge.exposeInMainWorld("eprAPI", {
 
     openFile: () => ipcRenderer.invoke("dialog:openFile"),  // R🠚M🠚R
 
-    onSetEditorOptions: cb => ipcRenderer.on("set-editor-options", (_event, value) => cb(value)),  // M🠚R
+    onSetEditorOptions: (cb) => ipcRenderer.on("set-editor-options", (_event, value) => cb(value)),  // M🠚R
 });
