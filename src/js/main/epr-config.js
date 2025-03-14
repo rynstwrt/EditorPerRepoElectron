@@ -1,4 +1,5 @@
 const fs = require("fs");
+const fsp = require("fs").promises;
 const path = require("path")
 
 
@@ -10,8 +11,11 @@ const DEFAULT_CONFIG_JSON = {editors: [], assignments: []};
 class EPRConfig
 {
     static #configPath = path.resolve(__dirname, CONFIG_FILE);
-    static #editors = [];
-    static #assignments = [];
+
+    static #config = null;
+
+    // static #editors = [];
+    // static #assignments = [];
 
 
     // static getEditors()
@@ -49,22 +53,8 @@ class EPRConfig
 
             try
             {
-                let jsonData = JSON.parse(fileContent);
-
-                jsonData = Object.assign(DEFAULT_CONFIG_JSON, jsonData);
-
-                // const missingProperties = Object.keys(DEFAULT_CONFIG_JSON).filter(x => !jsonData.hasOwnProperty(x));
-                // if (missingProperties)
-                // {
-                //     console.log(`Config is missing required properties!`);
-                //     console.log(`Setting [ ${missingProperties.join(" ")} ] to default`);
-                //     missingProperties.forEach(prop => jsonData[prop] = DEFAULT_CONFIG_JSON[prop]);
-                // }
-
-                this.#editors = jsonData.editors;
-                this.#assignments = jsonData.assignments;
-
-                console.log(this.#editors, this.#assignments);
+                const jsonData = JSON.parse(fileContent);
+                this.#config = Object.assign(DEFAULT_CONFIG_JSON, jsonData);
             }
             catch (jsonErr)
             {
