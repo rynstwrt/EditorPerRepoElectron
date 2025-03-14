@@ -85,11 +85,18 @@ class EPRConfig
         this.#config.editors.splice(editorIndex, 1);
 
         console.log(`Removed editor ${editorPath}!`);
-        // this.#saveConfig();
+        this.#saveConfig();
     }
 
 
-    static getEditorForDir(dir)
+    static addEditorAssignment(targetPath, editorPath)
+    {
+        this.#config.assignments.push({targetPath: targetPath, editorPath: editorPath});
+        this.#saveConfig();
+    }
+
+
+    static getAssignedEditor(dir)
     {
 
     }

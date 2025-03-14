@@ -3,6 +3,7 @@ const electronReload = require("electron-reload");
 electronReload(__dirname, {});
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
+const exec = require("child_process").exec;
 
 
 const APP_NAME = "EditorPerRepo";
@@ -96,6 +97,17 @@ function createIPCListeners()
     ipcMain.on("open-repo-with-editor", (_event, editorPath) =>
     {
         console.log("editorPath:", editorPath);
+        console.log("targetDir:", targetDir);
+
+        exec(`"${editorPath}" "${targetDir}"`, (err, stdout, stderr) =>
+        {
+            if (err)
+                return console.error(`Error: There was an error opening the editor! ${err}`);
+
+            EPRConfig.addEditorAssignment(targetDir, editorPath);
+
+            app.quit();
+        });
     });
 }
 
@@ -131,7 +143,6 @@ function beforeWindowReady()
         console.error(`Error: Given target directory does not exist!`);
         return app.quit();
     }
-
 
     // Set the app name
     app.setName(`${APP_NAME} - ${path.basename(targetDir)}`);
