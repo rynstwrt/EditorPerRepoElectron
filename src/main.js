@@ -69,7 +69,7 @@ async function openRepoWithEditor(editorPath, targetDir, firstTime=false)
         if (firstTime)
         {
             EPRConfig.addEditorAssignment(targetDir, editorPath);
-            await EPRConfig.saveConfig();
+            // await EPRConfig.saveConfig();
         }
 
         app.quit();
@@ -97,7 +97,7 @@ function createIPCListeners()
         if (addToConfigStatus && addToConfigStatus.error)
             return console.error(addToConfigStatus.error);
 
-        await EPRConfig.saveConfig();
+        // await EPRConfig.saveConfig();
 
         console.log("returning:", editorPath, editorName);
         return {path: editorPath, name: editorName};
@@ -109,7 +109,7 @@ function createIPCListeners()
     {
         console.log("removing", editorPath);
         EPRConfig.removeEditorFromConfig(editorPath);
-        await EPRConfig.saveConfig();
+        // await EPRConfig.saveConfig();
     });
 
 
@@ -163,6 +163,12 @@ app.on("window-all-closed", () =>
 {
     if (process.platform !== "darwin")
         app.quit();
+});
+
+
+app.on("quit", async () =>
+{
+    await EPRConfig.saveConfig();
 });
 
 
