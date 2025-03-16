@@ -2,6 +2,7 @@
 @use "colors";
 @use "sass:meta";
 @use "sass:list";
+@use "sass:color";
 
 
 $font-1: "gg sans Medium Regular", sans-serif;
@@ -110,7 +111,13 @@ select, input[type="submit"]
             border: 1px solid colors.get("cyan");
             @include get-hover-transition([background-color, color, border-color]);
 
-            &:hover
+            &:disabled
+            {
+                opacity: .5;
+                cursor: default;
+            }
+
+            &:not(:disabled):hover
             {
                 background-color: colors.get("pink");
                 border-color: colors.get("orange");

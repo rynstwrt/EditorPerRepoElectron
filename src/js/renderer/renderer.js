@@ -9,15 +9,20 @@ function createEditorSelectOption(path, name)
     const selectOption = document.createElement("option");
     selectOption.value = encodeURI(path);
     selectOption.textContent = name;
-
     editorSelect.insertBefore(selectOption, editorSelect.firstChild);
+
     editorSelect.value = selectOption.value;
+    submitButton.removeAttribute("disabled");
 }
 
 
 window["eprAPI"].onSetEditorOptions(editors =>
-    editors.forEach(({path, name}) =>
-        createEditorSelectOption(path, name)));
+{
+    if (!editors.length)
+        return submitButton.setAttribute("disabled", null);
+
+    editors.forEach(({path, name}) => createEditorSelectOption(path, name));
+});
 
 
 removeEditorButton.addEventListener("click", async () =>
@@ -27,6 +32,9 @@ removeEditorButton.addEventListener("click", async () =>
 
     await window["eprAPI"].removeEditorFromConfig(selectedEditorPath);
     selectedEditorOption.remove();
+
+    if (!editorSelect.children.length)
+        submitButton.setAttribute("disabled", null);
 });
 
 

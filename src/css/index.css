@@ -61,7 +61,11 @@ select, input[type=submit] {
   border: 1px solid #41B7FF;
   transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
 }
-#editor-select-form .form-row input[type=submit]:hover {
+#editor-select-form .form-row input[type=submit]:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+#editor-select-form .form-row input[type=submit]:not(:disabled):hover {
   background-color: #E43F6F;
   border-color: #FF6600;
   color: #1a1a1a;
