@@ -1,6 +1,7 @@
 const editorSelect = document.querySelector("#editor-select");
 const removeEditorButton = document.querySelector("#remove-editor-button");
 const addEditorButton = document.querySelector("#add-editor-button");
+const rememberChoiceCheckbox = document.querySelector("#remember-choice-checkbox");
 const submitButton = document.querySelector("#editor-submit-button");
 
 
@@ -52,5 +53,5 @@ submitButton.addEventListener("click", () =>
         return;
 
     const selectedEditorPath = decodeURI(editorSelect.value);
-    window["eprAPI"].openRepoWithEditor(selectedEditorPath);
+    window["eprAPI"].openRepoWithEditor(selectedEditorPath, rememberChoiceCheckbox["checked"]);
 });

@@ -1,8 +1,5 @@
 const fs = require("fs");
-const path = require("path")
 
-
-// const CONFIG_FILE = "../../epr-config.json";
 
 const DEFAULT_CONFIG_JSON = {
     editors: [],  // [{path: "", name: ""}]
@@ -12,8 +9,8 @@ const DEFAULT_CONFIG_JSON = {
 
 class EPRConfig
 {
-    // static configPath = path.resolve(__dirname, CONFIG_FILE);
     static configPath;
+    static rememberSelection = true;
     static #config = DEFAULT_CONFIG_JSON;
 
 
@@ -73,6 +70,20 @@ class EPRConfig
         const matchesInConfig = this.#config.editors.filter(editor => editor.path === editorPath);
         if (matchesInConfig.length)
             return {error: `Error: Can't add editor path "${editorPath}" because it already exists!`};
+
+        this.#config.editors.push({path: editorPath, name: name});
+    }
+
+
+    static processEditorChoice(editorPath, name)
+    {
+        if (!this.rememberSelection)
+            return;
+
+        const editorPathInConfig = this.#config.editors.some(editor => editor.path === editorPath);
+        console.log(editorPathInConfig);
+        if (editorPathInConfig)
+            return;
 
         this.#config.editors.push({path: editorPath, name: name});
     }

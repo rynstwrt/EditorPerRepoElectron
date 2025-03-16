@@ -61,14 +61,14 @@ function createWindow()
 }
 
 
-async function openRepoWithEditor(editorPath, targetDir, firstTime=false)
+async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false)
 {
     try
     {
         const proc = spawn(editorPath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
         proc.unref();
 
-        if (firstTime)
+        if (rememberSelection)
             EPRConfig.addEditorAssignment(targetDir, editorPath);
 
         app.quit();
@@ -113,8 +113,13 @@ function createIPCListeners()
 
 
     // Open repo with editor listener
-    ipcMain.on("open-repo-with-editor", async (_event, editorPath) =>
-        await openRepoWithEditor(editorPath, targetDir, true));
+    ipcMain.on("open-repo-with-editor", async (_event, editorPath, rememberChoice) =>
+    {
+        if (rememberChoice)
+            EPRConfig.addEditorAssignment(targetDir, editorPath);
+
+        await openRepoWithEditor(editorPath, targetDir);
+    });
 }
 
 
