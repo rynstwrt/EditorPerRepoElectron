@@ -24,7 +24,7 @@ const WINDOW_OPTIONS = {
     },
 
     devTools: {
-        openOnStart: true,
+        openOnStart: false,
         toggleKeybind: "Ctrl+Shift+I",
         args: {
             mode: "detach",

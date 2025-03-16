@@ -18,12 +18,6 @@ document.querySelectorAll(".svg-icon").forEach(iconPlaceholder =>
                           .reduce((acc, curr) => curr.startsWith("icon-")
                               && curr.replaceAll("icon-", ""));
 
-    console.log(iconName)
-
-    // const iconName = Array.from(iconPlaceholder.classList)
-    //                       .filter(className => className.startsWith("icon-"))
-    //                       .map(className => className.replace("icon-", "")).shift();
-
-    if (iconName && Object.hasOwn(SVG_ICONS, iconName))
+    if (Object.hasOwn(SVG_ICONS, iconName))
         iconPlaceholder.outerHTML = SVG_ICONS[iconName];
 });
