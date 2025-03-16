@@ -1,14 +1,37 @@
 @use "sass:map";
 
 
+//$_color_map: (
+//    "orange": #FF6600,
+//    "pink": #E43F6F,
+//    "cyan": #41B7FF,
+//    "darkgray": #1a1a1a,
+//    "white": #ECECEC,
+//    "off-white": #D3D3D3
+//);
+//
+//$_color_map: (
+//        "orange": #FF6600,
+//        "pink": #E43F6F,
+//        "cyan": #45f3ff,
+//        //"darkgray": #27292d
+//        "darkgray": #22252f,
+//        "gray": #2a2d37,
+//        "white": #ECECEC,
+//        "off-white": #D3D3D3,
+//);
+
+
 $_color_map: (
-    "orange": #FF6600,
-    "pink": #E43F6F,
-    "cyan": #41B7FF,
-    "darkgray": #1a1a1a,
-    "white": #ECECEC,
-    "off-white": #D3D3D3
+        "orange": #FF6600,
+        "pink": #E43F6F,
+        "cyan": #45f3ff,
+        "darkgray": #2b2e36,
+        "gray": #444856,
+        "white": #ECECEC,
+        "off-white": #c6c8c9,
 );
+
 
 
 @function get($color-name)

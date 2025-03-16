@@ -10,11 +10,12 @@
 
 html, body {
   height: 100%;
-  background-color: #1a1a1a;
+  background-color: #2b2e36;
 }
 
 body {
-  font-family: "gg sans Medium Regular", sans-serif;
+  color: #c6c8c9;
+  font-family: "Hack", monospace;
   display: flex;
   flex-direction: column;
 }
@@ -28,18 +29,16 @@ button {
 }
 button img, button svg {
   height: 100%;
-  width: 100%;
 }
 
 select, input[type=submit] {
   padding: 5px 3px;
-  border-radius: 3px;
+  border-radius: 7px;
   cursor: pointer;
 }
 
 #editor-select-form {
-  color: #D3D3D3;
-  background-color: #1a1a1a;
+  background-color: #2b2e36;
   width: 100%;
   height: 100%;
   padding: 0 30px;
@@ -57,28 +56,39 @@ select, input[type=submit] {
 #editor-select-form div.form-row p#form-instructions {
   width: 100%;
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
+  color: #ECECEC;
+  font-weight: normal;
 }
 #editor-select-form div.form-row:has(#editor-select) {
+  width: 100%;
   height: 27px;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 #editor-select-form div.form-row:has(#editor-select) select#editor-select {
   width: 100%;
-  height: 100%;
-  background-color: #ECECEC;
-  padding: 5px 3px;
+  min-height: 100%;
+  padding: 0 4px;
+  background-color: transparent;
+  border: 2px solid #444856;
+  color: inherit;
+  box-sizing: content-box;
+}
+#editor-select-form div.form-row:has(#editor-select) select#editor-select option {
+  background-color: #2b2e36;
+  color: #c6c8c9;
+  border: 1px solid #444856;
 }
 #editor-select-form div.form-row:has(#editor-select) button {
-  box-sizing: content-box;
   margin-left: 1px;
+  height: 35px;
+  width: 32px;
 }
 #editor-select-form div.form-row:has(#editor-select) button:first-of-type {
   margin-left: 6px;
 }
 #editor-select-form div.form-row:has(#editor-select) button svg {
-  box-sizing: content-box;
   stroke: #E43F6F;
   transition: stroke 0.2s ease-out;
 }
@@ -88,11 +98,10 @@ select, input[type=submit] {
 #editor-select-form div.form-row input[type=submit]#editor-select-submit-button {
   margin-top: 20px;
   background-color: transparent;
-  color: #41B7FF;
-  border: 1px solid #41B7FF;
+  color: #45f3ff;
+  border: 1px solid #45f3ff;
   padding: 7px 3px;
   min-width: 200px;
-  border-radius: 3px;
   transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
 }
 #editor-select-form div.form-row input[type=submit]#editor-select-submit-button:disabled {
@@ -102,7 +111,7 @@ select, input[type=submit] {
 #editor-select-form div.form-row input[type=submit]#editor-select-submit-button:not(:disabled):hover {
   background-color: #E43F6F;
   border-color: #FF6600;
-  color: #1a1a1a;
+  color: #2b2e36;
 }
 
 /*# sourceMappingURL=index.css.map */

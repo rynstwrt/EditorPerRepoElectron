@@ -5,7 +5,7 @@
 @use "sass:color";
 
 
-$font-1: "gg sans Medium Regular", sans-serif;
+$font-1: "Hack", monospace;
 
 
 @mixin get-hover-transition($properties, $duration: .2s, $type: ease-out)
@@ -49,7 +49,7 @@ html, body
 
 body
 {
-    color: colors.get("offwhite");
+    color: colors.get("off-white");
     font-family: $font-1;
     display: flex;
     flex-direction: column;
@@ -66,8 +66,8 @@ button
 
     img, svg
     {
+        //width: 100%;
         height: 100%;
-        width: 100%;
     }
 }
 
@@ -75,6 +75,6 @@ button
 select, input[type="submit"]
 {
     padding: 5px 3px;
-    border-radius: 3px;
+    border-radius: 7px;
     cursor: pointer;
 }
