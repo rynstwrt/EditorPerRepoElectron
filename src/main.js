@@ -8,12 +8,14 @@ const { spawn } = require("child_process");
 
 const APP_NAME = "EditorPerRepo";
 
+const CONFIG_FILE = "epr-config.json";
+
 const WINDOW_OPTIONS = {
     defaultView: "views/index.html",
     preloadFile: "js/preload.js",
 
-    size: { width: 500, height: 230 },
-    minSize: { minWidth: 300, minHeight: 200 },
+    size: { width: 500, height: 200 },
+    minSize: { minWidth: 300, minHeight: 150 },
     maxSize: { maxWidth: 2000, maxHeight: 1700 },
 
     behaviors: {
@@ -43,7 +45,7 @@ function createWindow()
         ...WINDOW_OPTIONS.maxSize,
         ...WINDOW_OPTIONS.behaviors,
         webPreferences: {
-            preload: path.join(__dirname, WINDOW_OPTIONS.preloadFile)
+            preload: path.join(app.getAppPath(), WINDOW_OPTIONS.preloadFile)
         },
     });
 
@@ -55,7 +57,7 @@ function createWindow()
     window.removeMenu();
 
     // Load the HTML file and run post-load shenanigans
-    window.loadFile(path.resolve(__dirname, WINDOW_OPTIONS.defaultView)).then(onWindowLoaded);
+    window.loadFile(path.resolve(app.getAppPath(), WINDOW_OPTIONS.defaultView)).then(() => window.show());
 }
 
 
@@ -67,10 +69,7 @@ async function openRepoWithEditor(editorPath, targetDir, firstTime=false)
         proc.unref();
 
         if (firstTime)
-        {
             EPRConfig.addEditorAssignment(targetDir, editorPath);
-            // await EPRConfig.saveConfig();
-        }
 
         app.quit();
     }
@@ -83,6 +82,13 @@ async function openRepoWithEditor(editorPath, targetDir, firstTime=false)
 
 function createIPCListeners()
 {
+    // Listener for request to get editor list
+    ipcMain.handle("request-editor-options", (_event) =>
+    {
+        return EPRConfig.getEditors();
+    });
+
+
     // Open file select listener
     ipcMain.handle("dialog:openFile", async () =>
     {
@@ -97,38 +103,18 @@ function createIPCListeners()
         if (addToConfigStatus && addToConfigStatus.error)
             return console.error(addToConfigStatus.error);
 
-        // await EPRConfig.saveConfig();
-
-        console.log("returning:", editorPath, editorName);
         return {path: editorPath, name: editorName};
     });
 
 
     // Remove editor listener
     ipcMain.on("remove-editor-from-config", async (_event, editorPath) =>
-    {
-        console.log("removing", editorPath);
-        EPRConfig.removeEditorFromConfig(editorPath);
-        // await EPRConfig.saveConfig();
-    });
+        EPRConfig.removeEditorFromConfig(editorPath));
 
 
     // Open repo with editor listener
     ipcMain.on("open-repo-with-editor", async (_event, editorPath) =>
-    {
-        await openRepoWithEditor(editorPath, targetDir, true);
-    });
-}
-
-
-function onWindowLoaded()
-{
-    // Set the editor list from the config
-    const editors = EPRConfig.getEditors();
-    window.webContents.send("set-editor-options", editors);
-
-    // Show the window
-    window.show();
+        await openRepoWithEditor(editorPath, targetDir, true));
 }
 
 
@@ -137,6 +123,7 @@ function beforeWindowReady()
 {
     const args = require('minimist')(process.argv.slice(2), { string: "target" });
 
+    // Check if target dir was given
     const positionalArgs = args._;
     const targetOption = args.target;
     if (!positionalArgs.length && !targetOption)
@@ -145,8 +132,8 @@ function beforeWindowReady()
         return app.quit();
     }
 
+    // Check if target dir exists
     targetDir = targetOption || positionalArgs[positionalArgs.length - 1];
-    console.log("target dir:", targetDir);
     if (!require("fs").existsSync(targetDir))
     {
         console.error(`Error: Given target directory does not exist!`);
@@ -166,6 +153,7 @@ app.on("window-all-closed", () =>
 });
 
 
+// Save config on quit
 app.on("quit", async () =>
 {
     await EPRConfig.saveConfig();
@@ -175,8 +163,10 @@ app.on("quit", async () =>
 beforeWindowReady();
 app.on("ready", async () =>
 {
+    // Set config path
+    EPRConfig.configPath = path.resolve(app.getAppPath(), CONFIG_FILE);
+
     // Load user config
-    // await EPRConfig.loadConfig();
     EPRConfig.loadConfig().then(() =>
     {
         // Run editor if previously assigned

@@ -4,6 +4,16 @@
 
 #editor-select-form
 {
+    color: colors.get("off-white");
+    background-color: colors.get("darkgray");
+    width: 100%;
+    height: 100%;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     div.form-row
     {
         display: flex;
@@ -11,19 +21,32 @@
         align-items: center;
         width: 100%;
 
+        p#form-instructions
+        {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
         &:has(#editor-select)
         {
             height: 27px;
-            justify-content: flex-start;
+            justify-content: center;
+            align-items: center;
 
-            #editor-select
+            select#editor-select
             {
                 width: 100%;
                 height: 100%;
+                background-color: colors.get("white");
+                padding: 5px 3px;
             }
 
             button
             {
+                box-sizing: content-box;
+                margin-left: 1px;
+
                 &:first-of-type
                 {
                     margin-left: 6px;
@@ -31,6 +54,7 @@
 
                 svg
                 {
+                    box-sizing: content-box;
                     stroke: colors.get("pink");
                     @include shared.get-hover-transition(stroke);
                 }
@@ -39,6 +63,31 @@
                 {
                     stroke: colors.get("orange");
                 }
+            }
+        }
+
+        input[type="submit"]#editor-select-submit-button
+        {
+            margin-top: 20px;
+            background-color: transparent;
+            color: colors.get("cyan");
+            border: 1px solid colors.get("cyan");
+            padding: 7px 3px;
+            min-width: 200px;
+            border-radius: 3px;
+            @include shared.get-hover-transition([background-color, color, border-color]);
+
+            &:disabled
+            {
+                opacity: .5;
+                cursor: default;
+            }
+
+            &:not(:disabled):hover
+            {
+                background-color: colors.get("pink");
+                border-color: colors.get("orange");
+                color: colors.get("darkgray");
             }
         }
     }

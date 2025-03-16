@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path")
 
 
-const CONFIG_FILE = "../../epr-config.json";
+// const CONFIG_FILE = "../../epr-config.json";
 
 const DEFAULT_CONFIG_JSON = {
     editors: [],  // [{path: "", name: ""}]
@@ -12,7 +12,8 @@ const DEFAULT_CONFIG_JSON = {
 
 class EPRConfig
 {
-    static #configPath = path.resolve(__dirname, CONFIG_FILE);
+    // static configPath = path.resolve(__dirname, CONFIG_FILE);
+    static configPath;
     static #config = DEFAULT_CONFIG_JSON;
 
 
@@ -20,7 +21,7 @@ class EPRConfig
     {
         try
         {
-            await fs.promises.writeFile(this.#configPath, JSON.stringify(this.#config, null, 4));
+            await fs.promises.writeFile(this.configPath, JSON.stringify(this.#config, null, 4));
             console.log("Successfully wrote to config!");
         }
         catch (err)
@@ -34,7 +35,7 @@ class EPRConfig
     {
         return new Promise((res, rej) =>
         {
-            fs.readFile(this.#configPath, "utf-8", async (err, fileContent) =>
+            fs.readFile(this.configPath, "utf-8", async (err, fileContent) =>
             {
                 if (err)
                 {

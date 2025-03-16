@@ -74,55 +74,7 @@ button
 
 select, input[type="submit"]
 {
-    background-color: colors.get("white");
     padding: 5px 3px;
-    min-width: 200px;
     border-radius: 3px;
     cursor: pointer;
-}
-
-
-#editor-select-form
-{
-    color: colors.get("off-white");
-    background-color: colors.get("darkgray");
-    width: 100%;
-    height: 100%;
-    padding: 0 30px;
-    //flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .form-row
-    {
-        p#form-instructions
-        {
-            margin-bottom: 3px;
-            width: 100%;
-        }
-
-        input[type=submit]
-        {
-            margin-top: 20px;
-            background-color: transparent;
-            color: colors.get("cyan");
-            border: 1px solid colors.get("cyan");
-            @include get-hover-transition([background-color, color, border-color]);
-
-            &:disabled
-            {
-                opacity: .5;
-                cursor: default;
-            }
-
-            &:not(:disabled):hover
-            {
-                background-color: colors.get("pink");
-                border-color: colors.get("orange");
-                color: colors.get("darkgray");
-            }
-        }
-    }
 }

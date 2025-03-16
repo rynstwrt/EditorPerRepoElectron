@@ -11,7 +11,8 @@
 
   [RENDERER -> MAIN -> RENDERER]:
     1) RENDERER: window.eprAPI.printOnMainFromRenderer(<msgFromRenderer>).then(msgFromMain => alert(msgFromMain));
-    2) printOnMainFromRenderer: msg => ipcRenderer.invoke("print-on-main-from-renderer", msg),
+    2) PRELOAD: printOnMainFromRenderer: msg =>
+     ipcRenderer.invoke("print-on-main-from-renderer", msg),
     3) MAIN: ipcMain.handle("print-on-main-from-renderer", (_event, msgFromRenderer) => { ...return <msgFromMain> });
 */
 
@@ -26,5 +27,5 @@ contextBridge.exposeInMainWorld("eprAPI", {
 
     openFile: () => ipcRenderer.invoke("dialog:openFile"),  // R🠚M🠚R
 
-    onSetEditorOptions: (cb) => ipcRenderer.on("set-editor-options", (_event, value) => cb(value)),  // M🠚R
+    requestEditorOptions: () => ipcRenderer.invoke("request-editor-options")  // R🠚M🠚R
 });

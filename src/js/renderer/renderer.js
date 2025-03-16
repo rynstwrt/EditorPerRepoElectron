@@ -1,7 +1,7 @@
 const editorSelect = document.querySelector("#editor-select");
 const removeEditorButton = document.querySelector("#remove-editor-button");
 const addEditorButton = document.querySelector("#add-editor-button");
-const submitButton = document.querySelector("#editor-select-form-submit-button");
+const submitButton = document.querySelector("#editor-select-submit-button");
 
 
 function createEditorSelectOption(path, name)
@@ -9,14 +9,14 @@ function createEditorSelectOption(path, name)
     const selectOption = document.createElement("option");
     selectOption.value = encodeURI(path);
     selectOption.textContent = name;
-    editorSelect.insertBefore(selectOption, editorSelect.firstChild);
 
+    editorSelect.insertBefore(selectOption, editorSelect.firstChild);
     editorSelect.value = selectOption.value;
     submitButton.removeAttribute("disabled");
 }
 
 
-window["eprAPI"].onSetEditorOptions(editors =>
+window["eprAPI"].requestEditorOptions().then(editors =>
 {
     if (!editors.length)
         return submitButton.setAttribute("disabled", null);
@@ -38,15 +38,11 @@ removeEditorButton.addEventListener("click", async () =>
 });
 
 
-addEditorButton.addEventListener("click", async event =>
+addEditorButton.addEventListener("click", async () =>
 {
-    event.preventDefault();
-
     const fileInfo = await window["eprAPI"].openFile();
-    if (!fileInfo)
-        return;
-
-    createEditorSelectOption(fileInfo.path, fileInfo.name);
+    if (fileInfo)
+        createEditorSelectOption(fileInfo.path, fileInfo.name);
 });
 
 
