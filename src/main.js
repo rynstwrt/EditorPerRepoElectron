@@ -14,7 +14,7 @@ const WINDOW_OPTIONS = {
     defaultView: "views/index.html",
     preloadFile: "js/preload.js",
 
-    size: { width: 500, height: 200 },
+    size: { width: 500, height: 215 },
     minSize: { minWidth: 300, minHeight: 150 },
     maxSize: { maxWidth: 2000, maxHeight: 1700 },
 

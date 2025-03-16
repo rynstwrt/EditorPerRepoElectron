@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- <link rel="stylesheet" type="text/css" href="../css/hack.css"> -->
     <link rel="stylesheet" type="text/css" href="../css/hack-subset.css">
     <link rel="stylesheet" type="text/css" href="../css/index.css">
 
@@ -21,8 +20,13 @@
 
         <div class="row">
             <select id="editor-select" ></select>
-            <button id="remove-editor-button"><span class="svg-icon icon-minus-square"></span></button>
-            <button id="add-editor-button"><span class="svg-icon icon-plus-square"></span></button>
+            <button id="remove-editor-button"><span class="svg-icon icon-remove"></span></button>
+            <button id="add-editor-button"><span class="svg-icon icon-add"></span></button>
+        </div>
+
+        <div class="row">
+            <input id="remember-choice-checkbox" type="checkbox" checked>
+            <label for="remember-choice-checkbox">Remember selection</label>
         </div>
 
         <div class="row">
