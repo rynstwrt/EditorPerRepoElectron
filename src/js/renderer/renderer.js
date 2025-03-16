@@ -33,7 +33,7 @@ removeEditorButton.addEventListener("click", async () =>
     await window["eprAPI"].removeEditorFromConfig(selectedEditorPath);
     selectedEditorOption.remove();
 
-    if (!editorSelect.children.length)
+    if (!editorSelect.value)
         submitButton.setAttribute("disabled", null);
 });
 
