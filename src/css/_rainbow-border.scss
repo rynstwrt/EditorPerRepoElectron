@@ -1,0 +1,27 @@
+//@property --angle
+//{
+//    syntax: '<angle>';
+//    initial-value: 0deg;
+//    inherits: false;
+//}
+//
+//
+//@keyframes rotate
+//{
+//    to { --angle: 360deg; }
+//}
+//
+//
+//@at-root body
+//{
+//    border: 1px solid transparent;
+//    animation: 2s rotate linear infinite;
+//}
+//
+//
+//@at-root body:has(&)
+//{
+//    --angle: 0deg;
+//    border-image: conic-gradient(from var(--angle), red, yellow, lime, aqua, blue, magenta, red) 20%;
+//    animation: 2s rotate linear infinite;
+//}

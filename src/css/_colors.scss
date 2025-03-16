@@ -9,7 +9,7 @@
 //    "white": #ECECEC,
 //    "off-white": #D3D3D3
 //);
-//
+
 //$_color_map: (
 //        "orange": #FF6600,
 //        "pink": #E43F6F,
@@ -21,7 +21,6 @@
 //        "off-white": #D3D3D3,
 //);
 
-
 $_color_map: (
         "orange": #FF6600,
         "pink": #E43F6F,
@@ -31,7 +30,6 @@ $_color_map: (
         "white": #ECECEC,
         "off-white": #c6c8c9,
 );
-
 
 
 @function get($color-name)

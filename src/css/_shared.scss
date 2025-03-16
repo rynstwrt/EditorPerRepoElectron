@@ -28,6 +28,15 @@ $font-1: "Hack", monospace;
 }
 
 
+@mixin add-rainbow()
+{
+    border: 2px solid;
+    --angle: 0deg;
+    border-image: conic-gradient(from var(--angle), red, yellow, lime, aqua, blue, magenta, red) 20%;
+    animation: 2s rotate linear infinite;
+}
+
+
 *
 {
     margin: 0;
@@ -64,6 +73,29 @@ select
 }
 
 
+main
+{
+    background-color: colors.get("darkgray");
+    width: 100%;
+    height: 100%;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+
+    div.row
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+}
+
+
 button
 {
     background-color: transparent;
@@ -86,13 +118,16 @@ button
 
     &.large-button
     {
-        width: 190px;
+        width: 185px;
         margin-top: 20px;
         color: colors.get("cyan");
         border: 1px solid colors.get("cyan");
         border-radius: 7px;
-        padding: 7px 3px;
-        @include get-hover-transition([background-color, color, border-color]);
+        padding: 7px 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: .7;
+        @include get-hover-transition(opacity);
 
         &:disabled
         {
@@ -102,13 +137,11 @@ button
             color: $disabled-color;
         }
 
-        &:not(:active):hover
+        &:not(:disabled):hover
         {
+            opacity: 1;
             border-color: colors.get("cyan");
             color: colors.get("cyan");
-            //background-color: colors.get("pink");
-            //border-color: colors.get("orange");
-            //color: colors.get("darkgray");
         }
     }
 }
