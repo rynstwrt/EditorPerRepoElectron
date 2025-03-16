@@ -1,7 +1,7 @@
 const editorSelect = document.querySelector("#editor-select");
 const removeEditorButton = document.querySelector("#remove-editor-button");
 const addEditorButton = document.querySelector("#add-editor-button");
-const submitButton = document.querySelector("#editor-select-submit-button");
+const submitButton = document.querySelector("#editor-submit-button");
 
 
 function createEditorSelectOption(path, name)

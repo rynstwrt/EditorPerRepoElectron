@@ -24,7 +24,7 @@ const WINDOW_OPTIONS = {
     },
 
     devTools: {
-        openOnStart: false,
+        openOnStart: true,
         toggleKeybind: "Ctrl+Shift+I",
         args: {
             mode: "detach",
@@ -154,7 +154,7 @@ app.on("window-all-closed", () =>
 
 
 // Save config on quit
-app.on("quit", async () =>
+app.on("before-quit", async () =>
 {
     await EPRConfig.saveConfig();
 });

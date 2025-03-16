@@ -8,7 +8,7 @@
 $font-1: "Hack", monospace;
 
 
-@mixin get-hover-transition($properties, $duration: .2s, $type: ease-out)
+@mixin get-hover-transition($properties, $duration: .15s, $type: ease-out)
 {
     @if (meta.type-of($properties) != list)
     {
@@ -56,25 +56,59 @@ body
 }
 
 
-button
-{
-    background-color: transparent;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img, svg
-    {
-        //width: 100%;
-        height: 100%;
-    }
-}
-
-
-select, input[type="submit"]
+select
 {
     padding: 5px 3px;
     border-radius: 7px;
     cursor: pointer;
+}
+
+
+button
+{
+    background-color: transparent;
+    cursor: pointer;
+
+
+    &:has(svg)
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img, svg
+        {
+            min-width: 100%;
+            min-height: 100%;
+        }
+    }
+
+
+    &.large-button
+    {
+        width: 190px;
+        margin-top: 20px;
+        color: colors.get("cyan");
+        border: 1px solid colors.get("cyan");
+        border-radius: 7px;
+        padding: 7px 3px;
+        @include get-hover-transition([background-color, color, border-color]);
+
+        &:disabled
+        {
+            $disabled-color: color.scale(colors.get("cyan"), $saturation: -70%);
+            cursor: default;
+            border-color: $disabled-color;
+            color: $disabled-color;
+        }
+
+        &:not(:active):hover
+        {
+            border-color: colors.get("cyan");
+            color: colors.get("cyan");
+            //background-color: colors.get("pink");
+            //border-color: colors.get("orange");
+            //color: colors.get("darkgray");
+        }
+    }
 }
