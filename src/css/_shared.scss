@@ -131,10 +131,10 @@ button
 
         &:disabled
         {
-            $disabled-color: color.scale(colors.get("cyan"), $saturation: -70%);
+            //$disabled-color: color.scale(colors.get("cyan"), $saturation: -70%);
             cursor: default;
-            border-color: $disabled-color;
-            color: $disabled-color;
+            border-color: colors.get("cyan-disabled");
+            color: colors.get("cyan-disabled");
         }
 
         &:not(:disabled):hover

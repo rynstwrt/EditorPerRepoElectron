@@ -13,6 +13,8 @@ const CONFIG_FILE = "epr-config.json";
 const WINDOW_OPTIONS = {
     defaultView: "views/index.html",
     preloadFile: "js/preload.js",
+    // icon: "assets/logo/epr.ico",
+    icon: path.join(app.getAppPath(), "assets/logo/epr.ico"),
 
     size: { width: 500, height: 215 },
     minSize: { minWidth: 300, minHeight: 150 },
