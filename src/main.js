@@ -83,9 +83,10 @@ async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false
 function createIPCListeners()
 {
     // Listener for request to get editor list
-    ipcMain.handle("request-editor-options", (_event) =>
+    ipcMain.handle("request-config-data", (_event) =>
     {
-        return EPRConfig.getEditors();
+        return EPRConfig.getConfigData();
+        // return EPRConfig.getEditors();
     });
 
 
@@ -117,6 +118,9 @@ function createIPCListeners()
     {
         if (rememberChoice)
             EPRConfig.addEditorAssignment(targetDir, editorPath);
+
+        EPRConfig.setStartWithRememberSelection(rememberChoice);
+        console.log("set startWithRememberSelection to", rememberChoice)
 
         await openRepoWithEditor(editorPath, targetDir);
     });

@@ -3,14 +3,14 @@ const fs = require("fs");
 
 const DEFAULT_CONFIG_JSON = {
     editors: [],  // [{path: "", name: ""}]
-    assignments: {}  // {targetDir: editorPath}
+    assignments: {},  // {targetDir: editorPath}
+    startWithRememberSelection: true
 };
 
 
 class EPRConfig
 {
     static configPath;
-    static rememberSelection = true;
     static #config = DEFAULT_CONFIG_JSON;
 
 
@@ -59,31 +59,16 @@ class EPRConfig
     }
 
 
-    static getEditors()
+    static getConfigData()
     {
-        return this.#config.editors;
+        return this.#config;
     }
 
 
     static addEditorToConfig(editorPath, name)
     {
-        const matchesInConfig = this.#config.editors.filter(editor => editor.path === editorPath);
-        if (matchesInConfig.length)
+        if (this.#config.editors.some(editor => editor.path === editorPath))
             return {error: `Error: Can't add editor path "${editorPath}" because it already exists!`};
-
-        this.#config.editors.push({path: editorPath, name: name});
-    }
-
-
-    static processEditorChoice(editorPath, name)
-    {
-        if (!this.rememberSelection)
-            return;
-
-        const editorPathInConfig = this.#config.editors.some(editor => editor.path === editorPath);
-        console.log(editorPathInConfig);
-        if (editorPathInConfig)
-            return;
 
         this.#config.editors.push({path: editorPath, name: name});
     }
@@ -109,6 +94,12 @@ class EPRConfig
     static getAssignedEditor(targetDir)
     {
         return this.#config.assignments[targetDir];
+    }
+
+
+    static setStartWithRememberSelection(rememberChoiceSelected)
+    {
+        this.#config.startWithRememberSelection = rememberChoiceSelected;
     }
 }
 

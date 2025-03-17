@@ -82,7 +82,7 @@ button.large-button:not(:disabled):hover {
 p#form-instructions {
   width: 100%;
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 11px;
   color: #ECECEC;
   font-weight: normal;
 }
@@ -127,7 +127,8 @@ p#form-instructions {
 
 .row:has(#remember-choice-checkbox) {
   justify-content: flex-start;
-  margin-top: 12px;
+  align-items: center;
+  margin-top: 10px;
   padding-left: 2px;
 }
 .row:has(#remember-choice-checkbox) #remember-choice-checkbox {
@@ -139,6 +140,16 @@ p#form-instructions {
 .row:has(#remember-choice-checkbox) label[for=remember-choice-checkbox] {
   font-size: 13px;
   opacity: 0.7;
+}
+.row:has(#remember-choice-checkbox)[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.row:has(#remember-choice-checkbox)[disabled] #remember-choice-checkbox {
+  accent-color: rgb(134.1, 186.3, 189.9);
+}
+.row:has(#remember-choice-checkbox)[disabled] label[for=remember-choice-checkbox] {
+  font-size: 13px;
 }
 
 /*# sourceMappingURL=index.css.map */

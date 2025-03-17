@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:color";
 
 
 //$_color_map: (
@@ -25,6 +26,7 @@ $_color_map: (
         "orange": #FF6600,
         "pink": #E43F6F,
         "cyan": #45f3ff,
+        "cyan-disabled": color.scale(#45f3ff, $saturation: -70%),
         "darkgray": #2b2e36,
         "gray": #444856,
         "white": #ECECEC,

@@ -27,5 +27,5 @@ contextBridge.exposeInMainWorld("eprAPI", {
 
     openFile: () => ipcRenderer.invoke("dialog:openFile"),  // R🠚M🠚R
 
-    requestEditorOptions: () => ipcRenderer.invoke("request-editor-options")  // R🠚M🠚R
+    requestConfigData: () => ipcRenderer.invoke("request-config-data")  // R🠚M🠚R
 });

@@ -13,16 +13,26 @@ function createEditorSelectOption(path, name)
 
     editorSelect.insertBefore(selectOption, editorSelect.firstChild);
     editorSelect.value = selectOption.value;
+
     submitButton.removeAttribute("disabled");
+    rememberChoiceCheckbox.parentElement.removeAttribute("disabled");
 }
 
 
-window["eprAPI"].requestEditorOptions().then(editors =>
+window["eprAPI"].requestConfigData().then(configData =>
 {
+    const editors = configData.editors;
     if (!editors.length)
-        return submitButton.setAttribute("disabled", null);
+    {
+        submitButton.setAttribute("disabled", null);
+        rememberChoiceCheckbox.parentElement.setAttribute("disabled", null);
+    }
+    else
+    {
+        editors.forEach(({path, name}) => createEditorSelectOption(path, name));
+    }
 
-    editors.forEach(({path, name}) => createEditorSelectOption(path, name));
+    rememberChoiceCheckbox["checked"] = configData.startWithRememberSelection;
 });
 
 
@@ -35,7 +45,10 @@ removeEditorButton.addEventListener("click", async () =>
     selectedEditorOption.remove();
 
     if (!editorSelect.value)
+    {
         submitButton.setAttribute("disabled", null);
+        rememberChoiceCheckbox.setAttribute("disabled", null);
+    }
 });
 
 
