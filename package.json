@@ -1,7 +1,7 @@
 {
   "name": "editorperrepo",
   "productName": "EditorPerRepo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Open a different editor per repo when opening a repo on GitHub Desktop!",
   "main": "main.js",
   "scripts": {
