@@ -94,7 +94,7 @@ function createIPCListeners()
     // Listener for getting target dir
     ipcMain.handle("get-target-dir", _event =>
     {
-        return path.basename(targetDir);
+        return targetDir && path.basename(targetDir);
     });
 
 

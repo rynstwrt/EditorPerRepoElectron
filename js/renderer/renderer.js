@@ -21,8 +21,7 @@ function createEditorSelectOption(path, name)
 
 window["eprAPI"].getTargetDir().then(targetDirName =>
 {
-    const titleSuffix = targetDirName ? ` - ${targetDirName}` : " Configuration";
-    document.title = document.title + titleSuffix;
+    document.title += " " + (targetDirName ? `(${targetDirName})` : "Configuration");
 });
 
 
