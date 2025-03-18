@@ -25,6 +25,8 @@ contextBridge.exposeInMainWorld("eprAPI", {
 
     openRepoWithEditor: (editorPath, rememberChoice) => ipcRenderer.send("open-repo-with-editor", editorPath, rememberChoice),  // R🠚M
 
+    removeAssignment: (targetDir) => ipcRenderer.send("remove-assignment", targetDir),  // R🠚M
+
     openFile: () => ipcRenderer.invoke("dialog:openFile"),  // R🠚M🠚R
 
     requestConfigData: () => ipcRenderer.invoke("request-config-data"),  // R🠚M🠚R

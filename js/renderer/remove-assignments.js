@@ -9,8 +9,7 @@ function createAssignmentsSelectOption(assignment)
     console.log(targetDir, editorPath);
 
     const selectOption = document.createElement("option");
-    selectOption.value = encodeURI(assignment["targetDir"]);
-    // selectOption.textContent = `${targetDir} -> ${getBaseName(editorPath)}`;
+    selectOption.value = encodeURI(targetDir);
     selectOption.textContent = `${targetDir} (${getBaseName(editorPath)})`;
 
     removeAssignmentsSelect.insertBefore(selectOption, removeAssignmentsSelect.firstChild);
@@ -19,8 +18,12 @@ function createAssignmentsSelectOption(assignment)
 
 removeSelectedAssignmentsButton.addEventListener("click", () =>
 {
-    console.log("remove selected");
-    console.log()
+    Array.from(removeAssignmentsSelect.selectedOptions).forEach(async option =>
+    {
+        console.log("Removing " + decodeURI(option.value))
+        await window["eprAPI"].removeAssignment(decodeURI(option.value));
+        option.remove();
+    });
 });
 
 

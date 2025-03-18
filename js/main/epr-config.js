@@ -104,6 +104,12 @@ class EPRConfig
     {
         this.#config.startWithRememberSelection = rememberChoiceSelected;
     }
+
+
+    static removeAssignment(targetDir)
+    {
+        delete this.#config.assignments[targetDir];
+    }
 }
 
 

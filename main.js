@@ -135,6 +135,11 @@ function createIPCListeners()
 
         await openRepoWithEditor(editorPath, targetDir);
     });
+
+
+    // Listener for remove assignment
+    ipcMain.on("remove-assignment", async (_event, targetDir) =>
+        EPRConfig.removeAssignment(targetDir));
 }
 
 
