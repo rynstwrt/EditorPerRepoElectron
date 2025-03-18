@@ -82,7 +82,7 @@ function createWindow()
 }
 
 
-function createPopup(title="Info")
+function createPopup(type="info", mainText="Info text", details=["details text"])
 {
     const popupWindow = new BrowserWindow({
         parent: window,
@@ -96,16 +96,17 @@ function createPopup(title="Info")
 
     popupWindow.removeMenu();
     popupWindow.setAlwaysOnTop(true, "pop-up-menu");
-
     // popupWindow.setPosition(0, 0);
-    popupWindow.setTitle(title)
 
     popupWindow.loadFile(path.resolve(app.getAppPath(), POPUP_WINDOW_OPTIONS.defaultView))
 
-    const popupInfo = {test: 123};
     popupWindow.once("ready-to-show", () =>
     {
-        popupWindow.webContents.send("set-popup-info", popupInfo);
+        popupWindow.webContents.send("set-popup-info", {
+            type: type,
+            mainText: mainText,
+            details: (details instanceof Object) ? details : [details]
+        });
         popupWindow.show();
     });
 }
