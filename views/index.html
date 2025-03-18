@@ -14,9 +14,10 @@
 </head>
 <body>
 
-    <main>
-        <div class="row">
-            <p id="form-instructions">Select an editor:</p>
+    <!-- Opened with target editor directory main -->
+    <main id="choose-editor-main">
+        <div class="row main-header">
+            <p>Select an editor:</p>
         </div>
 
         <div class="row">
@@ -32,6 +33,28 @@
 
         <div class="row">
             <button id="editor-submit-button" class="large-button">Submit</button>
+        </div>
+    </main>
+
+
+    <!-- Configuration main (no target directory specified) -->
+    <main id="configuration-main" class="disabled">
+        <div class="row main-header">
+            <p>Remove editor assignments:</p>
+            <p>(Specify a directory path to run normally)</p>
+        </div>
+
+        <div class="row">
+            <select id="assignments-select" multiple></select>
+        </div>
+
+        <!-- <div class="row"> -->
+        <!--     <button id="remove-selected-button" class="large-button">Remove Selected</button> -->
+        <!-- </div> -->
+
+        <div class="row">
+            <button id="remove-selected-button" class="large-button">Remove Selected</button>
+            <button id="configuration-submit-button" class="large-button">Save Changes</button>
         </div>
     </main>
 

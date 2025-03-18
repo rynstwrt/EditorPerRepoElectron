@@ -36,6 +36,9 @@ main {
   justify-content: center;
   align-items: center;
 }
+main.disabled {
+  display: none;
+}
 main div.row {
   display: flex;
   justify-content: center;
@@ -79,20 +82,21 @@ button.large-button:not(:disabled):hover {
   color: #45f3ff;
 }
 
-p#form-instructions {
+div.main-header {
   width: 100%;
   text-align: center;
-  margin-bottom: 11px;
+  margin-bottom: 12px;
   color: #ECECEC;
   font-weight: normal;
+  flex-direction: column;
 }
 
-.row:has(#editor-select) {
+#choose-editor-main .row:has(#editor-select) {
   width: 100%;
   height: 27px;
   align-items: center;
 }
-.row:has(#editor-select) select#editor-select {
+#choose-editor-main .row:has(#editor-select) select#editor-select {
   width: 100%;
   min-height: 100%;
   padding: 0 4px;
@@ -101,55 +105,90 @@ p#form-instructions {
   color: inherit;
   box-sizing: content-box;
 }
-.row:has(#editor-select) select#editor-select option {
+#choose-editor-main .row:has(#editor-select) select#editor-select option {
   background-color: #2b2e36;
   color: #c6c8c9;
   border: 1px solid #444856;
 }
-.row:has(#editor-select) button:has(svg) {
+#choose-editor-main .row:has(#editor-select) button:has(svg) {
   margin-left: 1px;
   height: 35px;
   width: 32px;
 }
-.row:has(#editor-select) button:has(svg):first-of-type {
+#choose-editor-main .row:has(#editor-select) button:has(svg):first-of-type {
   margin-left: 6px;
 }
-.row:has(#editor-select) button:has(svg) svg {
+#choose-editor-main .row:has(#editor-select) button:has(svg) svg {
   stroke: #45f3ff;
   stroke-width: 1.3;
   stroke-opacity: 0.7;
   transition: stroke-opacity 0.12s ease-out;
 }
-.row:has(#editor-select) button:has(svg):hover > svg {
+#choose-editor-main .row:has(#editor-select) button:has(svg):hover > svg {
   stroke: #45f3ff;
   stroke-opacity: 1;
 }
-
-.row:has(#remember-choice-checkbox) {
+#choose-editor-main .row:has(#remember-choice-checkbox) {
   justify-content: flex-start;
   align-items: center;
   margin-top: 10px;
   padding-left: 2px;
 }
-.row:has(#remember-choice-checkbox) #remember-choice-checkbox {
+#choose-editor-main .row:has(#remember-choice-checkbox) #remember-choice-checkbox {
   margin-right: 7px;
   accent-color: #45f3ff;
   width: 12px;
   height: 12px;
 }
-.row:has(#remember-choice-checkbox) label[for=remember-choice-checkbox] {
+#choose-editor-main .row:has(#remember-choice-checkbox) label[for=remember-choice-checkbox] {
   font-size: 13px;
   opacity: 0.7;
 }
-.row:has(#remember-choice-checkbox)[disabled] {
+#choose-editor-main .row:has(#remember-choice-checkbox)[disabled] {
   opacity: 0.5;
   pointer-events: none;
 }
-.row:has(#remember-choice-checkbox)[disabled] #remember-choice-checkbox {
+#choose-editor-main .row:has(#remember-choice-checkbox)[disabled] #remember-choice-checkbox {
   accent-color: rgb(134.1, 186.3, 189.9);
 }
-.row:has(#remember-choice-checkbox)[disabled] label[for=remember-choice-checkbox] {
+#choose-editor-main .row:has(#remember-choice-checkbox)[disabled] label[for=remember-choice-checkbox] {
   font-size: 13px;
+}
+
+#configuration-main {
+  padding: 30px 20px;
+}
+#configuration-main .main-header p:not(:last-of-type) {
+  margin-bottom: 4px;
+}
+#configuration-main .main-header p:not(:first-child) {
+  font-size: 13px;
+  opacity: 0.5;
+}
+#configuration-main .row:has(#assignments-select) {
+  height: 100%;
+}
+#configuration-main .row:has(#assignments-select) #assignments-select {
+  overflow-y: auto;
+  min-height: 100%;
+  padding: 0 0;
+  background-color: transparent;
+  border: 2px solid #444856;
+  color: inherit;
+}
+#configuration-main .row:has(#assignments-select) #assignments-select option {
+  background-color: #2b2e36;
+  color: #c6c8c9;
+  border: 1px solid #444856;
+  padding: 5px;
+  white-space: pre-wrap;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+#configuration-main .large-button {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -2,7 +2,9 @@ const editorSelect = document.querySelector("#editor-select");
 const removeEditorButton = document.querySelector("#remove-editor-button");
 const addEditorButton = document.querySelector("#add-editor-button");
 const rememberChoiceCheckbox = document.querySelector("#remember-choice-checkbox");
-const submitButton = document.querySelector("#editor-submit-button");
+const editorSelectSubmitButton = document.querySelector("#editor-submit-button");
+const assignmentsSelect = document.querySelector("#assignments-select");
+const configurationSubmitButton = document.querySelector("#configuration-submit-button");
 
 
 function createEditorSelectOption(path, name)
@@ -14,31 +16,72 @@ function createEditorSelectOption(path, name)
     editorSelect.insertBefore(selectOption, editorSelect.firstChild);
     editorSelect.value = selectOption.value;
 
-    submitButton.removeAttribute("disabled");
+    editorSelectSubmitButton.removeAttribute("disabled");
     rememberChoiceCheckbox.parentElement.removeAttribute("disabled");
 }
 
 
-window["eprAPI"].getTargetDir().then(targetDirName =>
+function createAssignmentsSelectOption(assignment)
 {
-    document.title += " " + (targetDirName ? `(${targetDirName})` : "Configuration");
+    const [targetDir, editorPath] = assignment;
+    console.log(targetDir, editorPath);
+
+    const selectOption = document.createElement("option");
+    selectOption.value = encodeURI(assignment["targetDir"]);
+    selectOption.textContent = `${targetDir} -> ${editorPath}`;
+    // selectOption.textContent = `${targetDir}->${editorPath}`;
+    // selectOption.textContent = `${targetDir} -> Code.exe`;
+    // selectOption.textContent = "as\n\n\ndf"
+
+    assignmentsSelect.insertBefore(selectOption, assignmentsSelect.firstChild);
+}
+
+
+let isEditorSelectWindow;
+window["eprAPI"].getTargetDir().then(targetDir =>
+{
+    isEditorSelectWindow = !!targetDir;
+
+    document.title += " " + (targetDir ? `(${targetDir.split(/[\/\\]/).pop()})` : "Configuration");
+
+    if (!targetDir)
+        document.querySelectorAll("main").forEach(main => main.classList.toggle("disabled"));
 });
 
 
 window["eprAPI"].requestConfigData().then(configData =>
 {
     const editors = configData.editors;
-    if (!editors.length)
+
+    if (isEditorSelectWindow)
     {
-        submitButton.setAttribute("disabled", null);
-        rememberChoiceCheckbox.parentElement.setAttribute("disabled", null);
+        if (!editors.length)
+        {
+            editorSelectSubmitButton.setAttribute("disabled", null);
+            rememberChoiceCheckbox.parentElement.setAttribute("disabled", null);
+        }
+        else
+        {
+            editors.forEach(({path, name}) => createEditorSelectOption(path, name));
+        }
+
+        rememberChoiceCheckbox["checked"] = configData.startWithRememberSelection;
     }
     else
     {
-        editors.forEach(({path, name}) => createEditorSelectOption(path, name));
-    }
+        const assignments = Object.entries(configData.assignments);
+        assignments.forEach(createAssignmentsSelectOption);
 
-    rememberChoiceCheckbox["checked"] = configData.startWithRememberSelection;
+        createAssignmentsSelectOption([
+            "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp",
+            "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+        ]);
+
+        createAssignmentsSelectOption([
+            "asdf",
+            "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+        ]);
+    }
 });
 
 
@@ -52,7 +95,7 @@ removeEditorButton.addEventListener("click", async () =>
 
     if (!editorSelect.value)
     {
-        submitButton.setAttribute("disabled", null);
+        editorSelectSubmitButton.setAttribute("disabled", null);
         rememberChoiceCheckbox.setAttribute("disabled", null);
     }
 });
@@ -66,7 +109,7 @@ addEditorButton.addEventListener("click", async () =>
 });
 
 
-submitButton.addEventListener("click", () =>
+editorSelectSubmitButton.addEventListener("click", () =>
 {
     if (!editorSelect.value)
         return;

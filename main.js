@@ -11,6 +11,8 @@ const APP_NAME = "EditorPerRepo";
 
 const CONFIG_FILE = "epr-config.json";
 
+const CONFIGURATION_WINDOW_SIZE = { width: 700, height: 500 };
+
 const WINDOW_OPTIONS = {
     defaultView: "views/index.html",
     preloadFile: "js/preload.js",
@@ -94,7 +96,7 @@ function createIPCListeners()
     // Listener for getting target dir
     ipcMain.handle("get-target-dir", _event =>
     {
-        return targetDir && path.basename(targetDir);
+        return targetDir;
     });
 
 
@@ -138,6 +140,9 @@ function createIPCListeners()
 let targetDir;
 function beforeWindowReady()
 {
+    // Set the app name
+    app.setName(APP_NAME);
+
     // Get target dir from arguments
     const args = require('minimist')(process.argv.slice(2), { string: "target" });
     const positionalArgs = args._;
@@ -151,8 +156,8 @@ function beforeWindowReady()
         return app.quit();
     }
 
-    // Set the app name
-    app.setName(APP_NAME);
+    if (!targetDir)
+        WINDOW_OPTIONS.size = CONFIGURATION_WINDOW_SIZE;
 }
 
 
