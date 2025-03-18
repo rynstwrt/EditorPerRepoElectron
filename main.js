@@ -91,6 +91,13 @@ function createIPCListeners()
     });
 
 
+    // Listener for getting target dir
+    ipcMain.handle("get-target-dir", _event =>
+    {
+        return path.basename(targetDir);
+    });
+
+
     // Listener for selecting an editor
     ipcMain.handle("dialog:openFile", async () =>
     {
@@ -131,23 +138,14 @@ function createIPCListeners()
 let targetDir;
 function beforeWindowReady()
 {
-    // const args = require('minimist')(process.argv.slice(2), { string: "target" });
-    //
-    // // Check if target dir was given
-    // const positionalArgs = args._;
-    // const targetOption = args.target;
-    // if (!positionalArgs.length && !targetOption)
-    // {
-    //     console.error("Error: No target directory was given!");
-    //     return app.quit();
-    // }
-    
-    const positionalArgs = [];
-    const targetOption = "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp"
+    // Get target dir from arguments
+    const args = require('minimist')(process.argv.slice(2), { string: "target" });
+    const positionalArgs = args._;
+    const targetOption = args.target;
 
-    // Check if target dir exists
+    // Check if target dir exists if given
     targetDir = targetOption || positionalArgs[positionalArgs.length - 1];
-    if (!require("fs").existsSync(targetDir))
+    if (targetDir && !require("fs").existsSync(targetDir))
     {
         console.error(`Error: Given target directory does not exist!`);
         return app.quit();
@@ -155,7 +153,6 @@ function beforeWindowReady()
 
     // Set the app name
     app.setName(APP_NAME);
-    // app.setName(`${APP_NAME} - ${path.basename(targetDir)}`);
 }
 
 
