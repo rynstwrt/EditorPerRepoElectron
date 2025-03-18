@@ -1,8 +1,10 @@
+const path = require("path");
+
+
 module.exports = {
     packagerConfig: {
         name: "EditorPerRepo",
         asar: true,
-        // osxSign: {},
         appCategoryType: "public.app-category.utilities",
         icon: "assets/icons/epr/epr",
         ignore: [".idea"]
@@ -11,12 +13,10 @@ module.exports = {
         {
             name: "@electron-forge/maker-squirrel",
             config: {
-                name: "EditorPerRepo"
+                name: "EditorPerRepo",
+                iconUrl: `file://${path.resolve(__dirname, "assets/icons/epr/epr.ico")}`,
+                setupIcon: path.resolve(__dirname, "assets/icons/epr/epr.ico")
             }
-        },
-        // {
-        //     name: '@electron-forge/maker-zip',
-        //     platforms: ["darwin"]
-        // }
+        }
     ]
 };

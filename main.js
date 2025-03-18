@@ -1,3 +1,4 @@
+if (require("electron-squirrel-startup")) return;
 const { app, BrowserWindow, globalShortcut, ipcMain, dialog, Notification, nativeImage} = require("electron");
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
@@ -10,7 +11,10 @@ const { spawn } = require("child_process");
 const APP_NAME = "EditorPerRepo";
 const APP_ICON_PATH = "assets/icons/epr/epr.png";
 const APP_ICON = nativeImage.createFromPath(APP_ICON_PATH);
+
 const CONFIG_FILE = "epr-config.json";
+
+const IS_DEV_MODE = process.env.NODE_ENV === "development"
 const BYPASS_ASSIGNMENTS = false;
 
 const REMOVE_ASSIGNMENTS_WINDOW_SIZE = { width: 700, height: 500 };
@@ -82,9 +86,11 @@ async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false
         proc.unref();
 
         if (rememberSelection)
+        {
             EPRConfig.addEditorAssignment(targetDir, editorPath);
+            await EPRConfig.saveConfig();
+        }
 
-        await EPRConfig.saveConfig();
         app.quit();
     }
     catch (err)
@@ -194,13 +200,6 @@ app.on("window-all-closed", () =>
 });
 
 
-// // Save config on quit
-// app.on("before-quit", async () =>
-// {
-//     // await EPRConfig.saveConfig();
-// });
-
-
 beforeWindowReady();
 app.on("ready", async () =>
 {
@@ -212,7 +211,7 @@ app.on("ready", async () =>
     {
         // Run editor if previously assigned
         const assignedEditor = EPRConfig.getAssignedEditor(targetDir);
-        if (!BYPASS_ASSIGNMENTS && assignedEditor)
+        if (!(IS_DEV_MODE && BYPASS_ASSIGNMENTS) && assignedEditor)
             return openRepoWithEditor(assignedEditor, targetDir);
 
         // Create window
