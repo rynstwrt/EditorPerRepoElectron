@@ -45,24 +45,6 @@ addEditorButton.addEventListener("click", async () =>
 
 editorSelectSubmitButton.addEventListener("click", () =>
 {
-    // if (editorSelect.value)
-    // {
-    //     // document.querySelector("webview").loadURL("https://google.com")
-    //     // const pw = window.open("", "modal");
-    //     // console.log(pw);
-    //     // pw.show();
-    // }
-
-    // alert(window.location);
-    // window.open('file://C:\\Users\\ryans\\Documents\\GitHub\\EditorPerRepoElectron\\views\\popup.html', '_blank', 'top=500,left=200');
-    // const w = window.open("", "modal");
-    // w.loadFile("popup.html");
-    new window.Notification("title", { body: "body" })
-    return;
-
-    if (!editorSelect.value)
-        return;
-
     const selectedEditorPath = decodeURI(editorSelect.value);
     window["eprAPI"].openRepoWithEditor(selectedEditorPath, rememberChoiceCheckbox["checked"]);
 });

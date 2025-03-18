@@ -38,19 +38,6 @@ const WINDOW_OPTIONS = {
     }
 };
 
-const POPUP_WINDOW_OPTIONS = {
-    defaultView: "views/popup.html",
-    preloadFile: "js/preload/popup-preload.js",
-
-    properties: {
-        icon: APP_ICON_PATH,
-        modal: true,
-        show: false,
-        resizable: false,
-        ...{ width: 400, height: 270 },
-    }
-};
-
 
 let window;
 function createWindow()
@@ -78,45 +65,12 @@ function createWindow()
 }
 
 
-let popupWindow;
-function createPopup(type="info", mainText="Info text", details=["details text"])
-{
-    if (popupWindow && !popupWindow.closed)
-        popupWindow.close();
-
-    popupWindow = new BrowserWindow({
-        ...POPUP_WINDOW_OPTIONS.properties,
-        parent: window,
-        webPreferences: {
-            preload: path.join(app.getAppPath(), POPUP_WINDOW_OPTIONS.preloadFile)
-        },
-    });
-
-    popupWindow.removeMenu();
-
-    popupWindow.loadFile(path.resolve(app.getAppPath(), POPUP_WINDOW_OPTIONS.defaultView))
-
-    popupWindow.once("ready-to-show", () =>
-    {
-        popupWindow.webContents.send("set-popup-info", {
-            type: type,
-            mainText: mainText,
-            details: (details instanceof Object) ? details : [details]
-        });
-
-        popupWindow.show();
-    });
-}
-
-
 async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false)
 {
     try
     {
         const proc = spawn(editorPath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
         proc.unref();
-
-        app.exec
 
         if (rememberSelection)
             EPRConfig.addEditorAssignment(targetDir, editorPath);
@@ -188,20 +142,6 @@ function createIPCListeners()
         EPRConfig.removeAssignment(targetDir);
         await EPRConfig.saveConfig();
     });
-
-
-    ipcMain.on("create-popup", (_event, ...details) =>
-    {
-        createPopup(...details);
-    });
-
-
-    ipcMain.on("close-popup", (_event) =>
-    {
-        console.log("asdfasdf");
-        popupWindow.close();
-        popupWindow = null;
-    });
 }
 
 
@@ -241,7 +181,7 @@ app.on("window-all-closed", () =>
 // Save config on quit
 app.on("before-quit", async () =>
 {
-    await EPRConfig.saveConfig();
+    // await EPRConfig.saveConfig();
 });
 
 

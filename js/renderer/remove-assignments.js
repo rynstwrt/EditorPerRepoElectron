@@ -21,7 +21,6 @@ removeSelectedAssignmentsButton.addEventListener("click", () =>
 {
     Array.from(removeAssignmentsSelect.selectedOptions).forEach(option =>
     {
-        console.log("Removing " + decodeURI(option.value))
         assignmentsToRemove.push(decodeURI(option.value));
         option.remove();
     });
@@ -30,7 +29,7 @@ removeSelectedAssignmentsButton.addEventListener("click", () =>
 
 removeAssignmentsSaveButton.addEventListener("click", () =>
 {
-    window["eprAPI"].createPopup("info", "Saved!", ["Your editor assignments have been saved!"]);
+    createNotification("EditorPerRepo", "Your editor assignments have been saved!");
 
     assignmentsToRemove.forEach(async targetDir =>
     {
@@ -51,7 +50,6 @@ removeAssignmentsSaveButton.addEventListener("click", () =>
     //     "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp",
     //     "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
     // ]);
-    //
     // createAssignmentsSelectOption([
     //     "asdf",
     //     "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"

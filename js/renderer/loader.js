@@ -25,4 +25,12 @@ let configData;
 })();
 
 
-// window["eprAPI"].createPopup("error", "main text", "details");
+function createNotification(title, body, callback=() => {})
+{
+    const notification = new window.Notification(title, {
+        body: body,
+        icon: "../assets/icons/epr/epr.png",
+    });
+
+    notification.onclick = callback;
+}
