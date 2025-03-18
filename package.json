@@ -2,7 +2,7 @@
   "name": "editorperrepo",
   "version": "1.0.0",
   "description": "Open a different editor per repo when opening a repo on GitHub Desktop!",
-  "main": "src/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron-forge start .",
     "package": "electron-forge package",

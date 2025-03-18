@@ -2,25 +2,19 @@ const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electro
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
-
-
-const devMode = process.env.NODE_ENV === "development";
-if (devMode)
-{
-    const electronReload = require("electron-reload");
-    electronReload(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/})
-}
+(process.env.NODE_ENV === "development")
+    && require("electron-reload")(__dirname,
+    {ignored: /node_modules|[/\\]\.|epr-config\.json/});
 
 
 const APP_NAME = "EditorPerRepo";
 
 const CONFIG_FILE = "epr-config.json";
 
-const pathPrefix = devMode ? "" : "src/";
 const WINDOW_OPTIONS = {
-    defaultView: pathPrefix + "views/index.html",
-    preloadFile: pathPrefix + "js/preload.js",
-    icon: pathPrefix + "assets/icons/epr/epr",
+    defaultView: "views/index.html",
+    preloadFile: "js/preload.js",
+    icon: "assets/icons/epr/epr",
 
     size: { width: 500, height: 215 },
     minSize: { minWidth: 300, minHeight: 150 },
