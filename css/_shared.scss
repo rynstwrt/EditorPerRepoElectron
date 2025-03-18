@@ -135,7 +135,6 @@ button
 
         &:disabled
         {
-            //$disabled-color: color.scale(colors.get("cyan"), $saturation: -70%);
             cursor: default;
             border-color: colors.get("cyan-disabled");
             color: colors.get("cyan-disabled");

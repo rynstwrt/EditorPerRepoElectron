@@ -109,13 +109,9 @@ div.main-header
 }
 
 
-#configuration-main
+#remove-assignments-main
 {
-
-    //padding-top: 30px;
-    //padding-bottom: 30px;
     padding: 30px 20px;
-    //margin: 0;
 
 
     .main-header
@@ -139,7 +135,8 @@ div.main-header
         #assignments-select
         {
             overflow-y: auto;
-            min-height: 100%;
+            width: 100%;
+            height: 100%;
             padding: 0 0;
             background-color: transparent;
             border: 2px solid colors.get("gray");
@@ -164,6 +161,6 @@ div.main-header
         $x-margin: 5px;
         margin-left: $x-margin;
         margin-right: $x-margin;
-        //margin: auto auto;
+        width: auto;
     }
 }

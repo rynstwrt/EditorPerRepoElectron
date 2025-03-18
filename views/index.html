@@ -9,8 +9,11 @@
     <link rel="stylesheet" type="text/css" href="../css/hack-subset.css">
     <link rel="stylesheet" type="text/css" href="../css/index.css">
 
-    <script src="../js/renderer/renderer.js" defer></script>
+    <script src="../js/renderer/loader.js"></script>
     <script src="../js/renderer/svg-loader.js" defer></script>
+    <script src="../js/renderer/editor-select.js" defer></script>
+    <script src="../js/renderer/remove-assignments.js" defer></script>
+    <!-- <script src="../js/renderer/renderer.js" defer></script> -->
 </head>
 <body>
 
@@ -37,8 +40,8 @@
     </main>
 
 
-    <!-- Configuration main (no target directory specified) -->
-    <main id="configuration-main" class="disabled">
+    <!-- Remove assignments main (no target directory specified) -->
+    <main id="remove-assignments-main" class="disabled">
         <div class="row main-header">
             <p>Remove editor assignments:</p>
             <p>(Specify a directory path to run normally)</p>
@@ -48,13 +51,9 @@
             <select id="assignments-select" multiple></select>
         </div>
 
-        <!-- <div class="row"> -->
-        <!--     <button id="remove-selected-button" class="large-button">Remove Selected</button> -->
-        <!-- </div> -->
-
         <div class="row">
-            <button id="remove-selected-button" class="large-button">Remove Selected</button>
-            <button id="configuration-submit-button" class="large-button">Save Changes</button>
+            <button id="remove-selected-assignments-button" class="large-button">Remove Selected</button>
+            <button id="remove-assignments-save-button" class="large-button">Save</button>
         </div>
     </main>
 

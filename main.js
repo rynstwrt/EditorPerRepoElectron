@@ -10,8 +10,9 @@ const { spawn } = require("child_process");
 const APP_NAME = "EditorPerRepo";
 
 const CONFIG_FILE = "epr-config.json";
+const BYPASS_ASSIGNMENTS = true;
 
-const CONFIGURATION_WINDOW_SIZE = { width: 700, height: 500 };
+const REMOVE_ASSIGNMENTS_WINDOW_SIZE = { width: 700, height: 500 };
 
 const WINDOW_OPTIONS = {
     defaultView: "views/index.html",
@@ -157,7 +158,7 @@ function beforeWindowReady()
     }
 
     if (!targetDir)
-        WINDOW_OPTIONS.size = CONFIGURATION_WINDOW_SIZE;
+        WINDOW_OPTIONS.size = REMOVE_ASSIGNMENTS_WINDOW_SIZE;
 }
 
 
@@ -187,7 +188,7 @@ app.on("ready", async () =>
     {
         // Run editor if previously assigned
         const assignedEditor = EPRConfig.getAssignedEditor(targetDir);
-        if (assignedEditor)
+        if (!BYPASS_ASSIGNMENTS && assignedEditor)
             return openRepoWithEditor(assignedEditor, targetDir);
 
         // Create window
