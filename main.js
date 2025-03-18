@@ -4,7 +4,7 @@ const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
 (process.env.NODE_ENV === "development")
     && require("electron-reload")(__dirname,
-    {ignored: /node_modules|[/\\]\.|epr-config\.json/});
+    {ignored: /node_modules|[/\\]\.|epr-config\.json/, forceHardReset: true});
 
 
 const APP_NAME = "EditorPerRepo";
@@ -82,9 +82,17 @@ function createWindow()
 }
 
 
+let popupWindow;
 function createPopup(type="info", mainText="Info text", details=["details text"])
 {
-    const popupWindow = new BrowserWindow({
+    // if (BrowserWindow.getAllWindows().length >= 2)
+    //     return;
+    if (popupWindow)
+    {
+        popupWindow.close();
+    }
+
+    popupWindow = new BrowserWindow({
         parent: window,
         icon: WINDOW_OPTIONS.icon,
         ...POPUP_WINDOW_OPTIONS.size,
@@ -102,11 +110,13 @@ function createPopup(type="info", mainText="Info text", details=["details text"]
 
     popupWindow.once("ready-to-show", () =>
     {
+        console.log(type + mainText + details.toString());
         popupWindow.webContents.send("set-popup-info", {
             type: type,
             mainText: mainText,
             details: (details instanceof Object) ? details : [details]
         });
+
         popupWindow.show();
     });
 }
@@ -199,6 +209,22 @@ function createIPCListeners()
         EPRConfig.removeAssignment(targetDir);
         await EPRConfig.saveConfig();
     });
+
+
+    ipcMain.on("create-popup", (_event, ...details) =>
+    {
+        createPopup(...details);
+    });
+
+
+    // ipcMain.handle("get-popup-info", (_event) =>
+    // {
+    //     return {
+    //         type: type,
+    //         mainText: mainText,
+    //         details: (details instanceof Object) ? details : [details]
+    //     }
+    // });
 }
 
 
@@ -266,7 +292,7 @@ app.on("ready", async () =>
             WINDOW_OPTIONS.devTools.toggleKeybind,
             () => window.toggleDevTools());
 
-        createPopup();
+        // createPopup();
         // window.once("ready-to-show", createPopup);
     }).catch(console.error);
 

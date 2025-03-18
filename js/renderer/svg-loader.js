@@ -20,3 +20,4 @@ document.querySelectorAll(".svg-icon").forEach(iconPlaceholder =>
 
     iconPlaceholder.outerHTML = SVG_ICONS[iconName] || null;
 });
+

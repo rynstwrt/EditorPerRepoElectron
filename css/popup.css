@@ -46,6 +46,11 @@ main div.row {
   width: 100%;
 }
 
+svg {
+  width: 100%;
+  height: 100%;
+}
+
 button {
   background-color: transparent;
   cursor: pointer;
@@ -80,6 +85,14 @@ button.large-button:not(:disabled):hover {
   opacity: 1;
   border-color: #45f3ff;
   color: #45f3ff;
+}
+
+#icon-container {
+  width: 70px;
+  margin-bottom: 10px;
+}
+#content {
+  text-align: center;
 }
 
 /*# sourceMappingURL=popup.css.map */

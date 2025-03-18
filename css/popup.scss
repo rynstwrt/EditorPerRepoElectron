@@ -1,1 +1,29 @@
 @use "shared";
+
+
+#icon-container
+{
+    width: 70px;
+    margin-bottom: 10px;
+
+    svg
+    {
+        //width: 100%;
+    }
+}
+
+
+#content
+{
+    text-align: center;
+
+    h3
+    {
+
+    }
+
+    p
+    {
+
+    }
+}

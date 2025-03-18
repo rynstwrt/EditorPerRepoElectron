@@ -23,3 +23,6 @@ let configData;
     script.defer = true;
     document.head.appendChild(script);
 })();
+
+
+// window["eprAPI"].createPopup("error", "main text", "details");

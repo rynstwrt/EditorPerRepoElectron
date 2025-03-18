@@ -31,5 +31,8 @@ contextBridge.exposeInMainWorld("eprAPI", {
 
     requestConfigData: () => ipcRenderer.invoke("request-config-data"),  // R🠚M🠚R
 
-    getTargetDir: () => ipcRenderer.invoke("get-target-dir")  // R🠚M🠚R
+    getTargetDir: () => ipcRenderer.invoke("get-target-dir"),  // R🠚M🠚R
+
+    createPopup: (type, mainText, details) => ipcRenderer.send("create-popup", type, mainText, details)  // R🠚M
+
 });
