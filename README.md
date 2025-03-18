@@ -1,11 +1,14 @@
 # EditorPerRepo 📦
+
+![EditorPerRepo logo](assets/icons/epr/epr.png)
+
 .𖥔 ݁ ˖ ✦ ‧₊˚ ⋅
 
 Open a different editor assigned to each repo when using GitHub Desktop's editor integration!
 
-![EditorPerRepo logo](assets/icons/epr/epr.png)
-
 <br>
+
+![screenshot1.png](assets/screenshots/screenshot1.png)
 
 ## Features:
 (Coming soon)
@@ -15,6 +18,7 @@ Open a different editor assigned to each repo when using GitHub Desktop's editor
 ## Installation:
 (Coming soon)
 
+<br>
 
 ## Usage:
 (Coming soon)
