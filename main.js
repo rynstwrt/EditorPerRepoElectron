@@ -16,7 +16,7 @@ const REMOVE_ASSIGNMENTS_WINDOW_SIZE = { width: 700, height: 500 };
 
 const WINDOW_OPTIONS = {
     defaultView: "views/index.html",
-    preloadFile: "js/preload.js",
+    preloadFile: "js/preload/preload.js",
     icon: "assets/icons/epr/epr",
 
     size: { width: 500, height: 215 },
@@ -41,7 +41,7 @@ const WINDOW_OPTIONS = {
 
 const POPUP_WINDOW_OPTIONS = {
     defaultView: "views/popup.html",
-    preloadFile: "js/popup-preload.js",
+    preloadFile: "js/preload/popup-preload.js",
     icon: "assets/icons/epr/epr",
     size: { width: 400, height: 270 },
 
