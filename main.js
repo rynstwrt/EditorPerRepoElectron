@@ -8,7 +8,7 @@ const { spawn } = require("child_process");
 
 
 const APP_NAME = "EditorPerRepo";
-
+const APP_ICON_PATH = "assets/icons/epr/epr";
 const CONFIG_FILE = "epr-config.json";
 const BYPASS_ASSIGNMENTS = true;
 
@@ -21,7 +21,7 @@ const WINDOW_OPTIONS = {
     properties: {
         show: false,
         resizable: false,
-        icon: "assets/icons/epr/epr",
+        icon: APP_ICON_PATH,
         ...{ width: 500, height: 215 },
         ...{ minWidth: 300, minHeight: 150 },
         ...{ maxWidth: 2000, maxHeight: 1700 }
@@ -43,7 +43,7 @@ const POPUP_WINDOW_OPTIONS = {
     preloadFile: "js/preload/popup-preload.js",
 
     properties: {
-        icon: "assets/icons/epr/epr",
+        icon: APP_ICON_PATH,
         modal: true,
         show: false,
         resizable: false,
@@ -115,6 +115,8 @@ async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false
     {
         const proc = spawn(editorPath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
         proc.unref();
+
+        app.exec
 
         if (rememberSelection)
             EPRConfig.addEditorAssignment(targetDir, editorPath);

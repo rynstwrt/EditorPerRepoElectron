@@ -57,6 +57,7 @@ editorSelectSubmitButton.addEventListener("click", () =>
     // window.open('file://C:\\Users\\ryans\\Documents\\GitHub\\EditorPerRepoElectron\\views\\popup.html', '_blank', 'top=500,left=200');
     // const w = window.open("", "modal");
     // w.loadFile("popup.html");
+    new window.Notification("title", { body: "body" })
     return;
 
     if (!editorSelect.value)
