@@ -75,6 +75,7 @@ async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false
         if (rememberSelection)
             EPRConfig.addEditorAssignment(targetDir, editorPath);
 
+        await EPRConfig.saveConfig();
         app.quit();
     }
     catch (err)
@@ -136,7 +137,7 @@ function createIPCListeners()
     });
 
 
-    // Listener for remove assignment
+    // Listener for remove assignments save button
     ipcMain.on("remove-assignment", async (_event, targetDir) =>
     {
         EPRConfig.removeAssignment(targetDir);
@@ -179,12 +180,12 @@ app.on("window-all-closed", () =>
 });
 
 
-// Save config on quit
-app.on("before-quit", async () =>
-{
-    // TODO: change location of save call
-    // await EPRConfig.saveConfig();
-});
+// // Save config on quit
+// app.on("before-quit", async () =>
+// {
+//     // TODO: change location of save call
+//     // await EPRConfig.saveConfig();
+// });
 
 
 beforeWindowReady();
