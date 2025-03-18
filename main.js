@@ -153,7 +153,7 @@ function beforeWindowReady()
     app.setAppUserModelId(APP_NAME);
 
     // Get target dir from arguments
-    const args = require('minimist')(process.argv.slice(2), { string: "target" });
+    const args = require('minimist')(process.argv.slice(1), { string: "target" });
     const positionalArgs = args._;
     const targetOption = args.target;
 
@@ -182,6 +182,7 @@ app.on("window-all-closed", () =>
 // Save config on quit
 app.on("before-quit", async () =>
 {
+    // TODO: change location of save call
     // await EPRConfig.saveConfig();
 });
 
