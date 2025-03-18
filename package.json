@@ -6,8 +6,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start .",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
+    "package": "electron-forge package --arch=ia32",
+    "make": "electron-forge make --arch=ia32",
     "publish": "electron-forge publish",
     "testbuild": "out\\EditorPerRepo-win32-x64\\EditorPerRepo.exe",
     "testbuildargs": "out\\EditorPerRepo-win32-x64\\EditorPerRepo.exe --target=\"C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp\""

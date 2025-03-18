@@ -11,7 +11,7 @@ const APP_NAME = "EditorPerRepo";
 const APP_ICON_PATH = "assets/icons/epr/epr.png";
 const APP_ICON = nativeImage.createFromPath(APP_ICON_PATH);
 const CONFIG_FILE = "epr-config.json";
-const BYPASS_ASSIGNMENTS = true;
+const BYPASS_ASSIGNMENTS = false;
 
 const REMOVE_ASSIGNMENTS_WINDOW_SIZE = { width: 700, height: 500 };
 
@@ -175,6 +175,7 @@ function beforeWindowReady()
     targetDir = targetOption || positionalArgs[positionalArgs.length - 1];
     if (targetDir && !require("fs").existsSync(targetDir))
     {
+        // TODO: Make notification for error
         console.error(`Error: Given target directory does not exist!`);
         return app.quit();
     }
