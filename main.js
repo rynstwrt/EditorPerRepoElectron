@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, ipcMain, dialog} = require("electron/main");
+const { app, BrowserWindow, globalShortcut, ipcMain, dialog, Notification, nativeImage} = require("electron");
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
@@ -8,7 +8,8 @@ const { spawn } = require("child_process");
 
 
 const APP_NAME = "EditorPerRepo";
-const APP_ICON_PATH = "assets/icons/epr/epr";
+const APP_ICON_PATH = "assets/icons/epr/epr.png";
+const APP_ICON = nativeImage.createFromPath(APP_ICON_PATH);
 const CONFIG_FILE = "epr-config.json";
 const BYPASS_ASSIGNMENTS = true;
 
@@ -21,7 +22,7 @@ const WINDOW_OPTIONS = {
     properties: {
         show: false,
         resizable: false,
-        icon: APP_ICON_PATH,
+        icon: APP_ICON,
         ...{ width: 500, height: 215 },
         ...{ minWidth: 300, minHeight: 150 },
         ...{ maxWidth: 2000, maxHeight: 1700 }
@@ -65,6 +66,14 @@ function createWindow()
 }
 
 
+function createNotification(title, body, callback=() => {})
+{
+    const notification = new Notification({title: title, body: body, icon: APP_ICON});
+    notification.on("click", callback);
+    notification.show();
+}
+
+
 async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false)
 {
     try
@@ -81,6 +90,7 @@ async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false
     catch (err)
     {
         console.error(err);
+        createNotification(APP_NAME, "Failed to launch editor!", () => console.log("asdfasfasdf"));
     }
 }
 
@@ -90,7 +100,7 @@ function createIPCListeners()
     // Listener for request to get editor list
     ipcMain.handle("request-config-data", (_event) =>
     {
-        return EPRConfig.getConfigData();
+        return Object.assign(EPRConfig.getConfigData(), { appName: APP_NAME, appIconPath: APP_ICON_PATH });
     });
 
 
@@ -154,7 +164,10 @@ function beforeWindowReady()
     app.setAppUserModelId(APP_NAME);
 
     // Get target dir from arguments
-    const args = require('minimist')(process.argv.slice(1), { string: "target" });
+    const runningFromExecutable = path.basename(app.getAppPath()) === "app.asar";
+    const numIrrelevantArgs = runningFromExecutable ? 1 : 2;
+    const args = require('minimist')(process.argv.slice(numIrrelevantArgs), { string: "target" });
+
     const positionalArgs = args._;
     const targetOption = args.target;
 
@@ -183,7 +196,6 @@ app.on("window-all-closed", () =>
 // // Save config on quit
 // app.on("before-quit", async () =>
 // {
-//     // TODO: change location of save call
 //     // await EPRConfig.saveConfig();
 // });
 

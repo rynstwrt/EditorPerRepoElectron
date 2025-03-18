@@ -25,11 +25,11 @@ let configData;
 })();
 
 
-function createNotification(title, body, callback=() => {})
+function createNotification(body="", callback=() => {})
 {
-    const notification = new window.Notification(title, {
+    const notification = new window.Notification(configData.appName, {
         body: body,
-        icon: "../assets/icons/epr/epr.png"
+        icon: `../${configData.appIconPath}`
     });
 
     notification.onclick = callback;

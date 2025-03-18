@@ -6,7 +6,6 @@ const removeAssignmentsSaveButton = document.querySelector("#remove-assignments-
 function createAssignmentsSelectOption(assignment)
 {
     const [targetDir, editorPath] = assignment;
-    console.log(targetDir, editorPath);
 
     const selectOption = document.createElement("option");
     selectOption.value = encodeURI(targetDir);
@@ -29,7 +28,7 @@ removeSelectedAssignmentsButton.addEventListener("click", () =>
 
 removeAssignmentsSaveButton.addEventListener("click", () =>
 {
-    createNotification("EditorPerRepo", "Your editor assignments have been saved!");
+    createNotification("Your editor assignments have been saved!");
 
     assignmentsToRemove.forEach(async targetDir =>
     {
