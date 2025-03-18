@@ -1,19 +1,26 @@
 const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electron/main");
-// const electronReload =j require("electron-reload");
-// electronReload(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/});
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
+
+
+const devMode = process.env.NODE_ENV === "development";
+if (devMode)
+{
+    const electronReload = require("electron-reload");
+    electronReload(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/})
+}
 
 
 const APP_NAME = "EditorPerRepo";
 
 const CONFIG_FILE = "epr-config.json";
 
+const pathPrefix = devMode ? "" : "src/";
 const WINDOW_OPTIONS = {
-    defaultView: "src/views/index.html",
-    preloadFile: "src/js/preload.js",
-    icon: "src/assets/icons/epr/epr.ico",
+    defaultView: pathPrefix + "views/index.html",
+    preloadFile: pathPrefix + "js/preload.js",
+    icon: pathPrefix + "assets/icons/epr/epr",
 
     size: { width: 500, height: 215 },
     minSize: { minWidth: 300, minHeight: 150 },
@@ -90,7 +97,7 @@ function createIPCListeners()
     });
 
 
-    // Open file select listener
+    // Listener for selecting an editor
     ipcMain.handle("dialog:openFile", async () =>
     {
         const {canceled, filePaths} = await dialog.showOpenDialog({properties: ["openFile"]});
@@ -108,12 +115,12 @@ function createIPCListeners()
     });
 
 
-    // Remove editor listener
+    // Listener for remove editor
     ipcMain.on("remove-editor-from-config", async (_event, editorPath) =>
         EPRConfig.removeEditorFromConfig(editorPath));
 
 
-    // Open repo with editor listener
+    // Listener for opening editor
     ipcMain.on("open-repo-with-editor", async (_event, editorPath, rememberChoice) =>
     {
         if (rememberChoice)

@@ -4,7 +4,8 @@ module.exports = {
         asar: true,
         // osxSign: {},
         appCategoryType: "public.app-category.utilities",
-        icon: "src/assets/icons/epr/epr.ico"
+        icon: "src/assets/icons/epr/epr",
+        ignore: [".idea"]
     },
     makers: [
         {
