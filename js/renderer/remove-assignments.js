@@ -23,7 +23,6 @@ removeSelectedAssignmentsButton.addEventListener("click", () =>
     {
         console.log("Removing " + decodeURI(option.value))
         assignmentsToRemove.push(decodeURI(option.value));
-        // await window["eprAPI"].removeAssignment(decodeURI(option.value));
         option.remove();
     });
 });
@@ -31,6 +30,8 @@ removeSelectedAssignmentsButton.addEventListener("click", () =>
 
 removeAssignmentsSaveButton.addEventListener("click", () =>
 {
+    window["eprAPI"].createPopup("info", "Saved!", ["Your editor assignments have been saved!"]);
+
     assignmentsToRemove.forEach(async targetDir =>
     {
         console.log("Actually removing " + targetDir);
@@ -41,23 +42,18 @@ removeAssignmentsSaveButton.addEventListener("click", () =>
 
 (() =>
 {
-    if (isEditorSelectWindow)
-        return;
-
-
     document.querySelectorAll("main").forEach(main => main.classList.toggle("disabled"));
-
 
     const assignments = Object.entries(configData.assignments);
     assignments.forEach(createAssignmentsSelectOption);
 
-    createAssignmentsSelectOption([
-        "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp",
-        "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
-    ]);
-
-    createAssignmentsSelectOption([
-        "asdf",
-        "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
-    ]);
+    // createAssignmentsSelectOption([
+    //     "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp",
+    //     "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+    // ]);
+    //
+    // createAssignmentsSelectOption([
+    //     "asdf",
+    //     "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+    // ]);
 })();

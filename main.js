@@ -43,7 +43,7 @@ const POPUP_WINDOW_OPTIONS = {
     defaultView: "views/popup.html",
     preloadFile: "js/popup-preload.js",
     icon: "assets/icons/epr/epr",
-    size: { width: 500, height: 215 },
+    size: { width: 400, height: 270 },
 
     behaviors: {
         show: false,
@@ -85,12 +85,8 @@ function createWindow()
 let popupWindow;
 function createPopup(type="info", mainText="Info text", details=["details text"])
 {
-    // if (BrowserWindow.getAllWindows().length >= 2)
-    //     return;
-    if (popupWindow)
-    {
+    if (popupWindow && !popupWindow.closed)
         popupWindow.close();
-    }
 
     popupWindow = new BrowserWindow({
         parent: window,
@@ -196,16 +192,6 @@ function createIPCListeners()
     // Listener for remove assignment
     ipcMain.on("remove-assignment", async (_event, targetDir) =>
     {
-        // const w = new BrowserWindow({ parent: window, show: false });
-        // w.loadFile(path.resolve(app.getAppPath(), "views/popup.html"))
-        // // w.setPosition(0, 0);
-        // w.once("ready-to-show", w.show);
-
-        // dialog.showMessageBoxSync(window, {message: "message", type: "warning", title: "title",
-        //     detail: "more details"});
-        // app.exit(0);
-        // return;
-
         EPRConfig.removeAssignment(targetDir);
         await EPRConfig.saveConfig();
     });
@@ -217,14 +203,12 @@ function createIPCListeners()
     });
 
 
-    // ipcMain.handle("get-popup-info", (_event) =>
-    // {
-    //     return {
-    //         type: type,
-    //         mainText: mainText,
-    //         details: (details instanceof Object) ? details : [details]
-    //     }
-    // });
+    ipcMain.on("close-popup", (_event) =>
+    {
+        console.log("asdfasdf");
+        popupWindow.close();
+        popupWindow = null;
+    });
 }
 
 
@@ -247,6 +231,7 @@ function beforeWindowReady()
         return app.quit();
     }
 
+    // Change size for remove assignments window
     if (!targetDir)
         WINDOW_OPTIONS.size = REMOVE_ASSIGNMENTS_WINDOW_SIZE;
 }
@@ -291,9 +276,6 @@ app.on("ready", async () =>
         globalShortcut.register(
             WINDOW_OPTIONS.devTools.toggleKeybind,
             () => window.toggleDevTools());
-
-        // createPopup();
-        // window.once("ready-to-show", createPopup);
     }).catch(console.error);
 
     // Create window when resuming after soft exit on Macs

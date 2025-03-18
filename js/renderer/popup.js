@@ -1,7 +1,7 @@
 const detailsDiv = document.querySelector("#details");
+const closeButton = document.querySelector("#popup-close-button")
 
 
-// window["eprAPI"].getPopupInfo.then(info =>
 window["eprAPI"].onSetPopupInfo(info =>
 {
     const type = info.type;
@@ -23,3 +23,4 @@ window["eprAPI"].onSetPopupInfo(info =>
 });
 
 
+closeButton.addEventListener("click", window["eprAPI"].closePopup);

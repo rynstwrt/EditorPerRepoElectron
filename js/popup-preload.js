@@ -4,7 +4,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld("eprAPI", {
     onSetPopupInfo: cb => ipcRenderer.on("set-popup-info", (_event, info) => cb(info)),  // M🠚R
 
-    // createPopup: (type, mainText, details) => ipcRenderer.send("create-popup", type, mainText, details)  // R🠚M
+    closePopup: () => ipcRenderer.send("close-popup")  // R🠚M
 });
 
 
