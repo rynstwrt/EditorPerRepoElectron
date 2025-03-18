@@ -128,11 +128,11 @@ div.main-header
         }
     }
 
-    .row:has(#assignments-select)
+    .row:has(#remove-assignments-select)
     {
         height: 100%;
 
-        #assignments-select
+        #remove-assignments-select
         {
             overflow-y: auto;
             width: 100%;

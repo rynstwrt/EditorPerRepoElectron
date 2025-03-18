@@ -1,5 +1,6 @@
+const removeAssignmentsSelect = document.querySelector("#remove-assignments-select");
 const removeSelectedAssignmentsButton = document.querySelector("#remove-selected-assignments-button");
-const removeAssignmentsSaveButton = document.querySelector("#remove-assignments-submit-button");
+const removeAssignmentsSaveButton = document.querySelector("#remove-assignments-save-button");
 
 
 function createAssignmentsSelectOption(assignment)
@@ -9,10 +10,24 @@ function createAssignmentsSelectOption(assignment)
 
     const selectOption = document.createElement("option");
     selectOption.value = encodeURI(assignment["targetDir"]);
-    selectOption.textContent = `${targetDir} -> ${editorPath}`;
+    // selectOption.textContent = `${targetDir} -> ${getBaseName(editorPath)}`;
+    selectOption.textContent = `${targetDir} (${getBaseName(editorPath)})`;
 
-    assignmentsSelect.insertBefore(selectOption, assignmentsSelect.firstChild);
+    removeAssignmentsSelect.insertBefore(selectOption, removeAssignmentsSelect.firstChild);
 }
+
+
+removeSelectedAssignmentsButton.addEventListener("click", () =>
+{
+    console.log("remove selected");
+    console.log()
+});
+
+
+removeAssignmentsSaveButton.addEventListener("click", () =>
+{
+    console.log("save");
+});
 
 
 (() =>
