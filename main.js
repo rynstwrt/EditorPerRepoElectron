@@ -15,7 +15,7 @@ const APP_ICON = nativeImage.createFromPath(APP_ICON_PATH);
 const CONFIG_FILE = "epr-config.json";
 
 const IS_DEV_MODE = process.env.NODE_ENV === "development"
-const BYPASS_ASSIGNMENTS = false;
+const BYPASS_ASSIGNMENTS = true;
 
 const REMOVE_ASSIGNMENTS_WINDOW_SIZE = { width: 700, height: 500 };
 

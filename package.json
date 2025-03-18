@@ -2,7 +2,7 @@
   "name": "editorperrepo",
   "productName": "EditorPerRepo",
   "version": "1.1.0",
-  "description": "Open a different editor per repo when opening a repo on GitHub Desktop!",
+  "description": "Open a different editor assigned to each repo when using GitHub Desktop's editor integration!",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start .",
@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/rynstwrt/EditorPerRepoElectron.git"
   },
-  "keywords": [],
+  "keywords": ["github", "repo", "editor", "editorperrepo", "IDE", "ideperrepo", "electron"],
   "author": "Ryn Stewart",
   "license": "ISC",
   "type": "commonjs",
@@ -26,12 +26,12 @@
   "homepage": "https://github.com/rynstwrt/EditorPerRepoElectron",
   "devDependencies": {
     "@electron-forge/cli": "^7.7.0",
+    "@electron-forge/maker-squirrel": "^7.7.0",
     "@electron-forge/publisher-github": "^7.7.0",
     "electron": "^35.0.1",
     "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
-    "@electron-forge/maker-squirrel": "^7.7.0",
     "electron-squirrel-startup": "^1.0.1",
     "minimist": "^1.2.8"
   }

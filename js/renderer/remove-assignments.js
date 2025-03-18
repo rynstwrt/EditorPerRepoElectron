@@ -44,13 +44,4 @@ removeAssignmentsSaveButton.addEventListener("click", () =>
 
     const assignments = Object.entries(configData.assignments);
     assignments.forEach(createAssignmentsSelectOption);
-
-    // createAssignmentsSelectOption([
-    //     "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp",
-    //     "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
-    // ]);
-    // createAssignmentsSelectOption([
-    //     "asdf",
-    //     "C:\\Users\\ryans\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
-    // ]);
 })();
