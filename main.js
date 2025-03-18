@@ -150,6 +150,7 @@ function beforeWindowReady()
 {
     // Set the app name
     app.setName(APP_NAME);
+    app.setAppUserModelId(APP_NAME);
 
     // Get target dir from arguments
     const args = require('minimist')(process.argv.slice(2), { string: "target" });
