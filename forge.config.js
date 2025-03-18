@@ -18,5 +18,18 @@ module.exports = {
                 setupIcon: path.resolve(__dirname, "assets/icons/epr/epr.ico")
             }
         }
+    ],
+    publishers: [
+        {
+            name: "@electron-forge/publisher-github",
+            config: {
+                repository: {
+                    owner: "rynstwrt",
+                    name: "EditorPerRepoElectron"
+                },
+                // draft: true,
+                prerelease: true,
+            }
+        }
     ]
 };

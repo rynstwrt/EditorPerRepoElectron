@@ -26,13 +26,12 @@
   "homepage": "https://github.com/rynstwrt/EditorPerRepoElectron",
   "devDependencies": {
     "@electron-forge/cli": "^7.7.0",
+    "@electron-forge/publisher-github": "^7.7.0",
     "electron": "^35.0.1",
     "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
-    "@electron-forge/maker-deb": "^7.7.0",
     "@electron-forge/maker-squirrel": "^7.7.0",
-    "@electron-forge/maker-zip": "^7.7.0",
     "electron-squirrel-startup": "^1.0.1",
     "minimist": "^1.2.8"
   }
