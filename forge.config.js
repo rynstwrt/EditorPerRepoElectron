@@ -1,7 +1,8 @@
 const path = require("path");
 
 
-console.log("\n\n", path.resolve(__dirname, "assets/icons/epr/icon/epr-icon.png"), "\n\n\n");
+const PUBLISH_IS_DRAFT = true;
+const PUBLISH_IS_PRERELEASE = true;
 
 
 module.exports = {
@@ -10,7 +11,7 @@ module.exports = {
         asar: true,
         appCategoryType: "public.app-category.utilities",
         icon: "assets/icons/epr/icon/epr-icon",
-        ignore: [".idea"]
+        ignore: [".idea", ".psd"]
     },
     makers: [
         {
@@ -18,11 +19,8 @@ module.exports = {
             config: {
                 name: "EditorPerRepo",
                 iconUrl: `file://${path.resolve(__dirname, "assets/icons/epr/icon/epr-icon.ico")}`,
-
-                // setupIcon: path.resolve(__dirname, "assets/icons/epr/epr.ico")
-                setupIcon: path.resolve(__dirname, "assets/epr-icon.ico"),
-                skipUpdateIcon: true
-                // setupIcon: "C:\\Users\\ryans\\Documents\\GitHub\\EditorPerRepoElectron\\assets\\icons\\epr\\icon\\epr-icon.ico"
+                setupIcon: path.resolve(__dirname, "assets/icons/epr/icon/epr-icon.ico")
+                // skipUpdateIcon: true
             }
         }
     ],
@@ -34,8 +32,8 @@ module.exports = {
                     owner: "rynstwrt",
                     name: "EditorPerRepoElectron"
                 },
-                // draft: true,
-                prerelease: true,
+                prerelease: PUBLISH_IS_PRERELEASE,
+                draft: PUBLISH_IS_DRAFT
             }
         }
     ]

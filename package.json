@@ -1,16 +1,14 @@
 {
   "name": "editorperrepo",
   "productName": "EditorPerRepo",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Open a different editor assigned to each repo when using GitHub Desktop's editor integration!",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start .",
     "package": "electron-forge package --arch=ia32",
     "make": "electron-forge make --arch=ia32",
-    "publish": "electron-forge publish",
-    "testbuild": "out\\EditorPerRepo-win32-x64\\EditorPerRepo.exe",
-    "testbuildargs": "out\\EditorPerRepo-win32-x64\\EditorPerRepo.exe --target=\"C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp\""
+    "publish": "electron-forge publish"
   },
   "repository": {
     "type": "git",
