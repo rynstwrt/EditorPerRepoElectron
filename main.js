@@ -39,12 +39,25 @@ const WINDOW_OPTIONS = {
     }
 };
 
+const POPUP_WINDOW_OPTIONS = {
+    defaultView: "views/popup.html",
+    preloadFile: "js/popup-preload.js",
+    icon: "assets/icons/epr/epr",
+    size: { width: 500, height: 215 },
+
+    behaviors: {
+        show: false,
+        resizable: false
+    }
+};
+
 
 let window;
 function createWindow()
 {
     // Create the main window
     window = new BrowserWindow({
+        icon: WINDOW_OPTIONS.icon,
         ...WINDOW_OPTIONS.size,
         ...WINDOW_OPTIONS.minSize,
         ...WINDOW_OPTIONS.maxSize,
@@ -69,9 +82,32 @@ function createWindow()
 }
 
 
-function createPopup()
+function createPopup(title="Info")
 {
+    const popupWindow = new BrowserWindow({
+        parent: window,
+        icon: WINDOW_OPTIONS.icon,
+        ...POPUP_WINDOW_OPTIONS.size,
+        ...POPUP_WINDOW_OPTIONS.behaviors,
+        webPreferences: {
+            preload: path.join(app.getAppPath(), POPUP_WINDOW_OPTIONS.preloadFile)
+        },
+    });
 
+    popupWindow.removeMenu();
+    popupWindow.setAlwaysOnTop(true, "pop-up-menu");
+
+    // popupWindow.setPosition(0, 0);
+    popupWindow.setTitle(title)
+
+    popupWindow.loadFile(path.resolve(app.getAppPath(), POPUP_WINDOW_OPTIONS.defaultView))
+
+    const popupInfo = {test: 123};
+    popupWindow.once("ready-to-show", () =>
+    {
+        popupWindow.webContents.send("set-popup-info", popupInfo);
+        popupWindow.show();
+    });
 }
 
 
@@ -149,15 +185,15 @@ function createIPCListeners()
     // Listener for remove assignment
     ipcMain.on("remove-assignment", async (_event, targetDir) =>
     {
-        const w = new BrowserWindow({ parent: window, show: false });
-        w.loadFile(path.resolve(app.getAppPath(), "views/popup.html"))
-        // w.setPosition(0, 0);
-        w.once("ready-to-show", w.show);
+        // const w = new BrowserWindow({ parent: window, show: false });
+        // w.loadFile(path.resolve(app.getAppPath(), "views/popup.html"))
+        // // w.setPosition(0, 0);
+        // w.once("ready-to-show", w.show);
 
         // dialog.showMessageBoxSync(window, {message: "message", type: "warning", title: "title",
         //     detail: "more details"});
         // app.exit(0);
-        return;
+        // return;
 
         EPRConfig.removeAssignment(targetDir);
         await EPRConfig.saveConfig();
@@ -228,6 +264,9 @@ app.on("ready", async () =>
         globalShortcut.register(
             WINDOW_OPTIONS.devTools.toggleKeybind,
             () => window.toggleDevTools());
+
+        createPopup();
+        // window.once("ready-to-show", createPopup);
     }).catch(console.error);
 
     // Create window when resuming after soft exit on Macs
