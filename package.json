@@ -1,10 +1,13 @@
 {
   "name": "editorperrepo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Open a different editor per repo when opening a repo on GitHub Desktop!",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-forge start .",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "repository": {
     "type": "git",
@@ -19,11 +22,14 @@
   },
   "homepage": "https://github.com/rynstwrt/EditorPerRepoElectron",
   "devDependencies": {
+    "@electron-forge/cli": "^7.7.0",
     "electron": "^35.0.1",
     "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
-    "minimist": "^1.2.8",
-    "shelljs": "^0.9.1"
+    "@electron-forge/maker-deb": "^7.7.0",
+    "@electron-forge/maker-squirrel": "^7.7.0",
+    "@electron-forge/maker-zip": "^7.7.0",
+    "minimist": "^1.2.8"
   }
 }

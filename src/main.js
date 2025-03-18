@@ -1,6 +1,6 @@
 const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electron/main");
-const electronReload = require("electron-reload");
-electronReload(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/});
+// const electronReload =j require("electron-reload");
+// electronReload(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/});
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
@@ -11,10 +11,9 @@ const APP_NAME = "EditorPerRepo";
 const CONFIG_FILE = "epr-config.json";
 
 const WINDOW_OPTIONS = {
-    defaultView: "views/index.html",
-    preloadFile: "js/preload.js",
-    // icon: "assets/logo/epr.ico",
-    icon: path.join(app.getAppPath(), "assets/logo/epr.ico"),
+    defaultView: "src/views/index.html",
+    preloadFile: "src/js/preload.js",
+    icon: "src/assets/icons/epr/epr.ico",
 
     size: { width: 500, height: 215 },
     minSize: { minWidth: 300, minHeight: 150 },
@@ -88,7 +87,6 @@ function createIPCListeners()
     ipcMain.handle("request-config-data", (_event) =>
     {
         return EPRConfig.getConfigData();
-        // return EPRConfig.getEditors();
     });
 
 
@@ -132,16 +130,19 @@ function createIPCListeners()
 let targetDir;
 function beforeWindowReady()
 {
-    const args = require('minimist')(process.argv.slice(2), { string: "target" });
-
-    // Check if target dir was given
-    const positionalArgs = args._;
-    const targetOption = args.target;
-    if (!positionalArgs.length && !targetOption)
-    {
-        console.error("Error: No target directory was given!");
-        return app.quit();
-    }
+    // const args = require('minimist')(process.argv.slice(2), { string: "target" });
+    //
+    // // Check if target dir was given
+    // const positionalArgs = args._;
+    // const targetOption = args.target;
+    // if (!positionalArgs.length && !targetOption)
+    // {
+    //     console.error("Error: No target directory was given!");
+    //     return app.quit();
+    // }
+    
+    const positionalArgs = [];
+    const targetOption = "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp"
 
     // Check if target dir exists
     targetDir = targetOption || positionalArgs[positionalArgs.length - 1];
@@ -152,7 +153,8 @@ function beforeWindowReady()
     }
 
     // Set the app name
-    app.setName(`${APP_NAME} - ${path.basename(targetDir)}`);
+    app.setName(APP_NAME);
+    // app.setName(`${APP_NAME} - ${path.basename(targetDir)}`);
 }
 
 
@@ -175,7 +177,7 @@ beforeWindowReady();
 app.on("ready", async () =>
 {
     // Set config path
-    EPRConfig.configPath = path.resolve(app.getAppPath(), CONFIG_FILE);
+    EPRConfig.configPath = path.join(app.getPath("appData"), APP_NAME, CONFIG_FILE);
 
     // Load user config
     EPRConfig.loadConfig().then(() =>

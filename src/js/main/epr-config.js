@@ -16,6 +16,9 @@ class EPRConfig
 
     static async saveConfig()
     {
+        if (!this.configPath)
+            return console.error("Config's configPath is not defined!");
+
         try
         {
             await fs.promises.writeFile(this.configPath, JSON.stringify(this.#config, null, 4));
