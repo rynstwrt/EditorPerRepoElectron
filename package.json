@@ -16,7 +16,15 @@
     "type": "git",
     "url": "git+https://github.com/rynstwrt/EditorPerRepoElectron.git"
   },
-  "keywords": ["github", "repo", "editor", "editorperrepo", "IDE", "ideperrepo", "electron"],
+  "keywords": [
+    "github",
+    "repo",
+    "editor",
+    "editorperrepo",
+    "IDE",
+    "ideperrepo",
+    "electron"
+  ],
   "author": "Ryn Stewart",
   "license": "ISC",
   "type": "commonjs",
