@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, ipcMain, dialog } = require("electron/main");
+const { app, BrowserWindow, globalShortcut, ipcMain, dialog} = require("electron/main");
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
@@ -62,7 +62,16 @@ function createWindow()
     window.removeMenu();
 
     // Load the HTML file and run post-load shenanigans
-    window.loadFile(path.resolve(app.getAppPath(), WINDOW_OPTIONS.defaultView)).then(() => window.show());
+    window.loadFile(path.resolve(app.getAppPath(), WINDOW_OPTIONS.defaultView));
+
+    // Show the window when ready
+    window.once("ready-to-show", window.show);
+}
+
+
+function createPopup()
+{
+
 }
 
 
@@ -139,7 +148,20 @@ function createIPCListeners()
 
     // Listener for remove assignment
     ipcMain.on("remove-assignment", async (_event, targetDir) =>
-        EPRConfig.removeAssignment(targetDir));
+    {
+        const w = new BrowserWindow({ parent: window, show: false });
+        w.loadFile(path.resolve(app.getAppPath(), "views/popup.html"))
+        // w.setPosition(0, 0);
+        w.once("ready-to-show", w.show);
+
+        // dialog.showMessageBoxSync(window, {message: "message", type: "warning", title: "title",
+        //     detail: "more details"});
+        // app.exit(0);
+        return;
+
+        EPRConfig.removeAssignment(targetDir);
+        await EPRConfig.saveConfig();
+    });
 }
 
 
@@ -207,7 +229,6 @@ app.on("ready", async () =>
             WINDOW_OPTIONS.devTools.toggleKeybind,
             () => window.toggleDevTools());
     }).catch(console.error);
-
 
     // Create window when resuming after soft exit on Macs
     app.on("activate", () => !BrowserWindow.getAllWindows().length && createWindow());

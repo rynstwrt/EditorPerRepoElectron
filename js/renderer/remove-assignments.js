@@ -16,12 +16,14 @@ function createAssignmentsSelectOption(assignment)
 }
 
 
+const assignmentsToRemove = [];
 removeSelectedAssignmentsButton.addEventListener("click", () =>
 {
-    Array.from(removeAssignmentsSelect.selectedOptions).forEach(async option =>
+    Array.from(removeAssignmentsSelect.selectedOptions).forEach(option =>
     {
         console.log("Removing " + decodeURI(option.value))
-        await window["eprAPI"].removeAssignment(decodeURI(option.value));
+        assignmentsToRemove.push(decodeURI(option.value));
+        // await window["eprAPI"].removeAssignment(decodeURI(option.value));
         option.remove();
     });
 });
@@ -29,7 +31,11 @@ removeSelectedAssignmentsButton.addEventListener("click", () =>
 
 removeAssignmentsSaveButton.addEventListener("click", () =>
 {
-    console.log("save");
+    assignmentsToRemove.forEach(async targetDir =>
+    {
+        console.log("Actually removing " + targetDir);
+        await window["eprAPI"].removeAssignment(targetDir);
+    });
 });
 
 
