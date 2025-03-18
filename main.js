@@ -2,9 +2,9 @@ const { app, BrowserWindow, globalShortcut, ipcMain, dialog} = require("electron
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
-(process.env.NODE_ENV === "development")
-    && require("electron-reload")(__dirname,
-    {ignored: /node_modules|[/\\]\.|epr-config\.json/, forceHardReset: true});
+// (process.env.NODE_ENV === "development")
+//     && require("electron-reload")(__dirname,
+//     {ignored: /node_modules|[/\\]\.|epr-config\.json/, forceHardReset: true});
 
 
 const APP_NAME = "EditorPerRepo";
@@ -17,15 +17,14 @@ const REMOVE_ASSIGNMENTS_WINDOW_SIZE = { width: 700, height: 500 };
 const WINDOW_OPTIONS = {
     defaultView: "views/index.html",
     preloadFile: "js/preload/preload.js",
-    icon: "assets/icons/epr/epr",
 
-    size: { width: 500, height: 215 },
-    minSize: { minWidth: 300, minHeight: 150 },
-    maxSize: { maxWidth: 2000, maxHeight: 1700 },
-
-    behaviors: {
+    properties: {
         show: false,
         resizable: false,
+        icon: "assets/icons/epr/epr",
+        ...{ width: 500, height: 215 },
+        ...{ minWidth: 300, minHeight: 150 },
+        ...{ maxWidth: 2000, maxHeight: 1700 }
     },
 
     devTools: {
@@ -42,12 +41,13 @@ const WINDOW_OPTIONS = {
 const POPUP_WINDOW_OPTIONS = {
     defaultView: "views/popup.html",
     preloadFile: "js/preload/popup-preload.js",
-    icon: "assets/icons/epr/epr",
-    size: { width: 400, height: 270 },
 
-    behaviors: {
+    properties: {
+        icon: "assets/icons/epr/epr",
+        modal: true,
         show: false,
-        resizable: false
+        resizable: false,
+        ...{ width: 400, height: 270 },
     }
 };
 
@@ -57,11 +57,7 @@ function createWindow()
 {
     // Create the main window
     window = new BrowserWindow({
-        icon: WINDOW_OPTIONS.icon,
-        ...WINDOW_OPTIONS.size,
-        ...WINDOW_OPTIONS.minSize,
-        ...WINDOW_OPTIONS.maxSize,
-        ...WINDOW_OPTIONS.behaviors,
+        ...WINDOW_OPTIONS.properties,
         webPreferences: {
             preload: path.join(app.getAppPath(), WINDOW_OPTIONS.preloadFile)
         },
@@ -89,24 +85,19 @@ function createPopup(type="info", mainText="Info text", details=["details text"]
         popupWindow.close();
 
     popupWindow = new BrowserWindow({
+        ...POPUP_WINDOW_OPTIONS.properties,
         parent: window,
-        icon: WINDOW_OPTIONS.icon,
-        ...POPUP_WINDOW_OPTIONS.size,
-        ...POPUP_WINDOW_OPTIONS.behaviors,
         webPreferences: {
             preload: path.join(app.getAppPath(), POPUP_WINDOW_OPTIONS.preloadFile)
         },
     });
 
     popupWindow.removeMenu();
-    popupWindow.setAlwaysOnTop(true, "pop-up-menu");
-    // popupWindow.setPosition(0, 0);
 
     popupWindow.loadFile(path.resolve(app.getAppPath(), POPUP_WINDOW_OPTIONS.defaultView))
 
     popupWindow.once("ready-to-show", () =>
     {
-        console.log(type + mainText + details.toString());
         popupWindow.webContents.send("set-popup-info", {
             type: type,
             mainText: mainText,
@@ -233,7 +224,7 @@ function beforeWindowReady()
 
     // Change size for remove assignments window
     if (!targetDir)
-        WINDOW_OPTIONS.size = REMOVE_ASSIGNMENTS_WINDOW_SIZE;
+        Object.assign(WINDOW_OPTIONS.properties, REMOVE_ASSIGNMENTS_WINDOW_SIZE);
 }
 
 

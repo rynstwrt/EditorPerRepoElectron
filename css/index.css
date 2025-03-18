@@ -96,6 +96,10 @@ div.main-header {
   flex-direction: column;
 }
 
+#choose-editor-main webview {
+  width: 400px;
+  height: 500px;
+}
 #choose-editor-main .row:has(#editor-select) {
   width: 100%;
   height: 27px;
