@@ -7,12 +7,12 @@ jobs:
   build:
     strategy:
       matrix:
-        os:
-          [
-            { name: 'linux', image: 'ubuntu-latest' },
-            { name: 'windows', image: 'windows-latest' },
-            { name: 'macos', image: 'macos-latest' },
-          ]
+        os: [{ name: "windows", image: "windows-latest" }]
+#          [
+#            { name: 'linux', image: 'ubuntu-latest' },
+#            { name: 'windows', image: 'windows-latest' },
+#            { name: 'macos', image: 'macos-latest' },
+#          ]
 
     runs-on: ${{ matrix.os.image }}
 
@@ -28,37 +28,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npm run publish
-
-#  publish-to-github:
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: write
-#    env:
-#      MY_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-
-
-#name: EditorPerRepo
-#
-#on:
-#  release:
-#    types: [created]
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/setup-node@v4
-#        width:
-#          node-version: 20
-#      - run: npm ci
-#      - run: npm test
-#
-#  publish-to-github:
-#    needs: build
-#    runs-on: ubuntu-latest
-#    permissions:
-#      contents: write
-#      env:
-#        MY_TOKEN: ${{secrets.GITHUB_TOKEN}}
