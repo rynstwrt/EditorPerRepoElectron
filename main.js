@@ -9,7 +9,7 @@ const { spawn } = require("child_process");
 
 
 const APP_NAME = "EditorPerRepo";
-const APP_ICON_PATH = "assets/icons/epr/epr.png";
+const APP_ICON_PATH = "assets/icons/epr/logo/epr-logo.png";
 const APP_ICON = nativeImage.createFromPath(APP_ICON_PATH);
 
 const CONFIG_FILE = "epr-config.json";

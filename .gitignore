@@ -218,3 +218,4 @@ fabric.properties
 .idea/
 epr-config.json
 epr-gui.js
+*.psd
