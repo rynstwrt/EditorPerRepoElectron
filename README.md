@@ -23,7 +23,7 @@
 
 
 
-## [ FEATURES ]
+## FEATURES:
 <img align="right" src="media/screenshot1.png" alt="EPR editor select menu" width="500px">
 
 - Feature
@@ -38,7 +38,7 @@
 
 
 
-<h2>[ INSTALLATION ]</h2>
+<h2>INSTALLATION:</h2>
 <img align="left" src="media/screenshot1.png" alt="EPR editor select menu" width="550px">
 
 <p align="right">
@@ -60,7 +60,7 @@ _</p>_
 
 
 
-## [ USAGE ]
+## USAGE:
 <img align="right" src="media/screenshot1.png" alt="EPR editor select menu" width="400px">
 
 1. Open GitHub Desktop.
