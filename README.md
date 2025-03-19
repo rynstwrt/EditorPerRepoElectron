@@ -11,6 +11,10 @@
 ![Created by Ryn badge](https://img.shields.io/badge/CREATED%20BY%20RYN!!!-%23FF6600?style=for-the-badge&logo=apachespark&logoColor=%23FFF)&nbsp;&nbsp;
 ![Swagalicious badge](https://img.shields.io/badge/SWAGALICIOUS-%2328b3b5?style=plastic&logo=zcool&logoColor=%23FFF)
 
+![GitHub repo file or directory count](https://img.shields.io/github/directory-file-count/rynstwrt/CSS-Animations?type=file&style=for-the-badge&color=%2328b3b5)&nbsp;&nbsp;
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/rynstwrt/EditorPerRepo?style=for-the-badge&color=%23f765af)
+
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/rynstwrt/Pixelblaze-Desktop/total?style=for-the-badge&color=%23FF6600)&nbsp;&nbsp;
 
 
 </div>
