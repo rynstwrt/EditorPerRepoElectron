@@ -47,8 +47,8 @@
 
 ### Installer:
 1. Download the installer `.exe` file.
-2. Double-click on it to install.
-3. It will show up under your installed programs and will be installed to `%LOCALAPPDATA%/EditorPerRepo`.
+2. Double-click it to install.
+3. It will be installed to `%LOCALAPPDATA%/EditorPerRepo`.
 
 
 <div align="right">
