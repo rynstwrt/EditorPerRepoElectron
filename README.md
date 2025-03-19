@@ -8,7 +8,9 @@
 
 [//]: # (˚. ✦.˳·˖✶ ⋆.✧̣̇˚.˚. ✦.˳·˖✶ ⋆.✧̣̇˚.✧˖°)
 
-.𖥔 ݁ ˖ ✦ ‧₊˚ ⋅
+˚. ✦.˳·˖✶ ⋆.✧̣̇˚.˚. ✦.˳·˖✶
+
+[//]: # (.𖥔 ݁ ˖ ✦ ‧₊˚ ⋅)
 
 ![Made with love badge](https://img.shields.io/badge/MADE%20WITH%20LOVE-%23f765af?style=plastic&logo=githubsponsors&logoColor=%23FFF)&nbsp;&nbsp;
 ![Created by Ryn badge](https://img.shields.io/badge/CREATED%20BY%20RYN!!!-%23FF6600?style=for-the-badge&logo=apachespark&logoColor=%23FFF)&nbsp;&nbsp;
