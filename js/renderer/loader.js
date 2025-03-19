@@ -5,7 +5,7 @@ const REMOVE_ASSIGNMENTS_SCRIPTS = ["remove-assignments.js"];
 // const getBaseName = dirPath => dirPath.split(/[\/\\]/).pop();
 function getBaseName(dirPath)
 {
-    const match = dirPath.toString().match(/\/?([\w|\s]+)\/?$/);
+    const match = dirPath.toString().match(/\/?([^\/|\\]+)\/?$/);
     return match && match.pop();
 }
 
