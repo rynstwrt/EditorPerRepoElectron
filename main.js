@@ -69,9 +69,9 @@ function createWindow()
 }
 
 
-function createNotification(title, body, callback=() => {})
+function createNotification(body, callback=() => {})
 {
-    const notification = new Notification({title: title, body: body, icon: APP_ICON});
+    const notification = new Notification({title: APP_NAME, body: body, icon: APP_ICON});
     notification.on("click", callback);
     notification.show();
 }
@@ -95,7 +95,7 @@ async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false
     catch (err)
     {
         console.error(err);
-        createNotification(APP_NAME, "Failed to launch editor!", () => console.log("asdfasfasdf"));
+        createNotification("Failed to launch editor!");  // TODO: elaborate on the error
     }
 }
 
@@ -169,8 +169,6 @@ function beforeWindowReady()
     app.setAppUserModelId(APP_NAME);
 
     // Get target dir from arguments
-    // const runningFromExecutable = path.basename(app.getAppPath()) === "app.asar";
-    // const numIrrelevantArgs = runningFromExecutable ? 1 : 2;
     const numIrrelevantArgs = app.isPackaged ? 2 : 1;
     const args = require('minimist')(process.argv.slice(numIrrelevantArgs), { string: "target" });
 
@@ -186,7 +184,8 @@ function beforeWindowReady()
     {
         // TODO: Make notification for error
         console.error(`Error: Given target directory does not exist!`);
-        return app.quit();
+        createNotification("Error: The given target directory doesn't exist!");
+        return setTimeout(() => app.quit, 3000);
     }
 
     // Change size for remove assignments window
