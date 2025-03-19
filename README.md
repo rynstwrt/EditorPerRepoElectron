@@ -1,5 +1,5 @@
 <div width="100%" align="center">
-<img alt="EPR Icon" height="250" src="media/epr-icon.png"/>
+<img alt="EPR Icon" height="220" src="media/epr-icon.png"/>
 <h1>EditorPerRepo 📦</h1>
 
 <h3>Open a different editor for each repo when using<br>GitHub Desktop's editor integration feature!</h4>
