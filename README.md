@@ -11,7 +11,7 @@
 
 
 
-## [FEATURES]
+## [ FEATURES ]
 - Feature
 - List
 - Coming
@@ -21,20 +21,20 @@
 
 <div align="right">
 
-## [SCREENSHOTS]
+## [ SCREENSHOTS ]
 ![EPR editor select menu screenshot](media/screenshot1.png)
 
 </div>
 
 
 
-## [INSTALLATION]
+## [ INSTALLATION ]
 (Coming soon)
 
 
 
 <div align="right">
 
-## [USAGE]
+## [ USAGE ]
 (Coming soon)
 </div>
