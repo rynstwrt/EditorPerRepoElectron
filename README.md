@@ -40,7 +40,7 @@
 
 
 ## [ INSTALLATION ]
-#### Choose a method below:
+Choose a method below:
 ### Standalone:
 1. Download the standalone archive.
 2. Extract it to a folder and store it somewhere safe.
