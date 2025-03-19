@@ -14,7 +14,6 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/rynstwrt/EditorPerRepoElectron/total?style=for-the-badge&color=%2328b3b5)&nbsp;&nbsp;
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/rynstwrt/EditorPerRepoElectron?style=for-the-badge&color=%23f765af)&nbsp;&nbsp;
 
-
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/rynstwrt/EditorPerRepoElectron?style=for-the-badge&color=%23FF6600)
 </div>
 
@@ -40,7 +39,7 @@
 
 
 <h2>[ INSTALLATION ]</h2>
-<img align="left" src="media/screenshot1.png" alt="EPR editor select menu" width="500px">
+<img align="left" src="media/screenshot1.png" alt="EPR editor select menu" width="530px">
 
 <p align="right">
 
