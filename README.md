@@ -25,7 +25,7 @@
 
 
 ## [ FEATURES ]
-<img align="right" src="media/screenshot1.png" alt="EPR editor select menu">
+<img align="right" src="media/screenshot1.png" alt="EPR editor select menu" width="500px">
 
 - Feature
 - List
@@ -40,7 +40,7 @@
 
 
 <h2>[ INSTALLATION ]</h2>
-<img align="left" src="media/screenshot1.png" alt="EPR editor select menu">
+<img align="left" src="media/screenshot1.png" alt="EPR editor select menu" width="500px">
 
 <p align="right">
 
@@ -52,7 +52,7 @@
 1\. Download the installer `.exe` file.  
 2\. Double-click it to install.  
 3\. It will be installed to `%LOCALAPPDATA%/EditorPerRepo`.
-</p>
+_</p>_
 
 
 
