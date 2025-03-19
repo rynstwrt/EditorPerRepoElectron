@@ -3,9 +3,6 @@ const { app, BrowserWindow, globalShortcut, ipcMain, dialog, Notification, nativ
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
-// (process.env.NODE_ENV === "development")
-//     && require("electron-reload")(__dirname,
-//     {ignored: /node_modules|[/\\]\.|epr-config\.json/, forceHardReset: true});
 
 
 const APP_NAME = "EditorPerRepo";
@@ -14,7 +11,9 @@ const APP_ICON = nativeImage.createFromPath(APP_ICON_PATH);
 
 const CONFIG_FILE = "epr-config.json";
 
-const IS_DEV_MODE = process.env.NODE_ENV === "development"
+// const IS_DEV_MODE = process.env.NODE_ENV === "development"
+// const FORCE_PROD_MODE = ""
+const IS_DEV_MODE = process.env.NODE_ENV === "development" || !app.isPackaged;  // TODO: redundant?
 const BYPASS_ASSIGNMENTS = true;
 
 const REMOVE_ASSIGNMENTS_WINDOW_SIZE = { width: 700, height: 500 };
@@ -170,15 +169,19 @@ function beforeWindowReady()
     app.setAppUserModelId(APP_NAME);
 
     // Get target dir from arguments
-    const runningFromExecutable = path.basename(app.getAppPath()) === "app.asar";
-    const numIrrelevantArgs = runningFromExecutable ? 1 : 2;
+    // const runningFromExecutable = path.basename(app.getAppPath()) === "app.asar";
+    // const numIrrelevantArgs = runningFromExecutable ? 1 : 2;
+    const numIrrelevantArgs = app.isPackaged ? 2 : 1;
     const args = require('minimist')(process.argv.slice(numIrrelevantArgs), { string: "target" });
 
     const positionalArgs = args._;
     const targetOption = args.target;
 
-    // Check if target dir exists if given
+    // Resolve target dir if given
     targetDir = targetOption || positionalArgs[positionalArgs.length - 1];
+    targetDir = targetDir && path.resolve(targetDir);
+
+    // Check if resolved target dir exists if given
     if (targetDir && !require("fs").existsSync(targetDir))
     {
         // TODO: Make notification for error
@@ -229,3 +232,12 @@ app.on("ready", async () =>
     // Create window when resuming after soft exit on Macs
     app.on("activate", () => !BrowserWindow.getAllWindows().length && createWindow());
 });
+
+
+try
+{
+    require("electron-reloader")(module);
+
+    // require("electron-reload")(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/});
+}
+catch {}

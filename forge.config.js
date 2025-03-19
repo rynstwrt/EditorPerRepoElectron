@@ -4,7 +4,7 @@ const path = require("path");
 const PUBLISH_IS_DRAFT = true;
 const PUBLISH_IS_PRERELEASE = true;
 
-const REL_ICON_PATH = "assets/icons/epr/icon/epr-icon.ico";
+const REL_ICON_PATH = "assets/icons/epr/epr-icon.ico";
 
 
 module.exports = {
@@ -13,15 +13,18 @@ module.exports = {
         asar: true,
         appCategoryType: "public.app-category.utilities",
         icon: REL_ICON_PATH.replace(/\.ico$/, ""),
-        ignore: [".idea", ".psd"]
+        ignore: [".idea", ".psd", "media/"]
     },
     makers: [
         {
             name: "@electron-forge/maker-squirrel",
             config: {
                 name: "EditorPerRepo",
-                iconUrl: `file://${path.resolve(__dirname, REL_ICON_PATH)}`,
-                setupIcon: path.resolve(__dirname, REL_ICON_PATH)
+                // iconUrl: `file://${path.resolve(__dirname, REL_ICON_PATH)}`,
+                // setupIcon: path.resolve(__dirname, REL_ICON_PATH)
+
+                iconUrl: `file://${path.resolve(__dirname, "assets/icons/epr/epr-icon")}`,
+                setupIcon: path.resolve(__dirname, "assets/icons/epr/epr-icon")
             }
         }
     ],

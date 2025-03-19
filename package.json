@@ -35,7 +35,8 @@
     "@electron-forge/maker-squirrel": "^7.7.0",
     "@electron-forge/publisher-github": "^7.7.0",
     "electron": "^35.0.1",
-    "electron-reload": "^2.0.0-alpha.1"
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-reloader": "^1.2.3"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
