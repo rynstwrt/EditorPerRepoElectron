@@ -1,10 +1,19 @@
 <div width="100%" align="center">
 <img alt="EPR Icon" height="220" src="media/epr-icon.png"/>
 <h1>EditorPerRepo 📦</h1>
-
+ 
 <h3>Open a different editor for each repo when using<br>GitHub Desktop's editor integration feature!</h4>
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/rynstwrt/https%3A%2F%2Fwww.github.com%2Frynstwrt%2FEditorPerRepo)
+<div align="center" display="inline">  
+
+
+![Made with love badge](https://img.shields.io/badge/MADE%20WITH%20LOVE-%23f765af?style=plastic&logo=githubsponsors&logoColor=%23FFF)&nbsp;&nbsp;
+![Created by Ryn badge](https://img.shields.io/badge/CREATED%20BY%20RYN!!!-%23FF6600?style=for-the-badge&logo=apachespark&logoColor=%23FFF)&nbsp;&nbsp;
+![Swagalicious badge](https://img.shields.io/badge/SWAGALICIOUS-%2328b3b5?style=plastic&logo=zcool&logoColor=%23FFF)
+
+
+
+</div>
 
 .𖥔 ݁ ˖ ✦ ‧₊˚ ⋅
 </div>
