@@ -169,8 +169,10 @@ function beforeWindowReady()
     app.setAppUserModelId(APP_NAME);
 
     // Get target dir from arguments
-    const numIrrelevantArgs = app.isPackaged ? 2 : 1;
+    const numIrrelevantArgs = app.isPackaged ? 1 : 2;
     const args = require('minimist')(process.argv.slice(numIrrelevantArgs), { string: "target" });
+    console.log(process.argv)
+    console.log(args);
 
     const positionalArgs = args._;
     const targetOption = args.target;
