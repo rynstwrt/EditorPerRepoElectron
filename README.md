@@ -9,18 +9,32 @@
 .𖥔 ݁ ˖ ✦ ‧₊˚ ⋅
 </div>
 
+
+
 ## Features
 - Feature
 - List
 - Coming
 - Soon
 
+
+
+<div align="right">
+
 ## Screenshots
 ![EPR editor select menu screenshot](media/screenshot1.png)
+
+</div>
+
+
 
 ## Installation
 (Coming soon)
 
+
+
+<div align="right">
+
 ## Usage
 (Coming soon)
-
+</div>
