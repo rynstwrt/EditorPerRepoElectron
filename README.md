@@ -26,10 +26,10 @@
 ## FEATURES:
 <img align="right" src="media/screenshot1.png" alt="EPR editor select menu" width="500px">
 
-- Feature
-- List
-- Coming
-- Soon
+- Set an editor for individual repositories.
+- Resolves relative paths and environment variables.
+- Window to remove editor directory assignments.
+- All-GUI design.
 
 
 
