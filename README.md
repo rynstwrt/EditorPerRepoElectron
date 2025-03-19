@@ -62,7 +62,7 @@
 
 
 ## [ USAGE ]
-<img align="right" src="media/screenshot1.png" alt="EPR editor select menu">
+<img align="right" src="media/screenshot1.png" alt="EPR editor select menu" width="400px">
 
 1. Open GitHub Desktop.
 2. `File > Options > Integrations`.
