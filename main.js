@@ -6,7 +6,7 @@ const { spawn } = require("child_process");
 
 
 const APP_NAME = "EditorPerRepo";
-const APP_ICON_PATH = "assets/icons/epr/icon/epr-icon.png";
+const APP_ICON_PATH = "assets/icons/epr/epr-icon.png";
 const APP_ICON = nativeImage.createFromPath(APP_ICON_PATH);
 
 const CONFIG_FILE = "epr-config.json";
@@ -14,7 +14,7 @@ const CONFIG_FILE = "epr-config.json";
 // const IS_DEV_MODE = process.env.NODE_ENV === "development"
 // const FORCE_PROD_MODE = ""
 const IS_DEV_MODE = process.env.NODE_ENV === "development" || !app.isPackaged;  // TODO: redundant?
-const BYPASS_ASSIGNMENTS = true;
+const BYPASS_ASSIGNMENTS = false;
 
 const REMOVE_ASSIGNMENTS_WINDOW_SIZE = { width: 700, height: 500 };
 
@@ -136,7 +136,10 @@ function createIPCListeners()
 
     // Listener for remove editor
     ipcMain.on("remove-editor-from-config", async (_event, editorPath) =>
-        EPRConfig.removeEditorFromConfig(editorPath));
+    {
+        EPRConfig.removeEditorFromConfig(editorPath);
+        await EPRConfig.saveConfig();
+    });
 
 
     // Listener for opening editor
@@ -148,7 +151,7 @@ function createIPCListeners()
         EPRConfig.setStartWithRememberSelection(rememberChoice);
         console.log("set startWithRememberSelection to", rememberChoice)
 
-        await openRepoWithEditor(editorPath, targetDir);
+        await openRepoWithEditor(editorPath, targetDir, rememberChoice);
     });
 
 
@@ -169,7 +172,9 @@ function beforeWindowReady()
     app.setAppUserModelId(APP_NAME);
 
     // Get target dir from arguments
-    const numIrrelevantArgs = app.isPackaged ? 1 : 2;
+    // const numIrrelevantArgs = app.isPackaged ? 1 : 2;
+    const runningFromExecutable = path.basename(app.getAppPath()) === "app.asar";
+    const numIrrelevantArgs = runningFromExecutable ? 1 : 2;
     const args = require('minimist')(process.argv.slice(numIrrelevantArgs), { string: "target" });
     console.log(process.argv)
     console.log(args);
@@ -235,10 +240,10 @@ app.on("ready", async () =>
 });
 
 
-try
-{
-    require("electron-reloader")(module);
-
-    // require("electron-reload")(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/});
-}
-catch {}
+// try
+// {
+//     require("electron-reloader")(module);
+//
+//     // require("electron-reload")(__dirname, {ignored: /node_modules|[/\\]\.|epr-config\.json/});
+// }
+// catch {}
