@@ -39,7 +39,7 @@
 
 
 <h2>INSTALLATION:</h2>
-<img align="left" src="media/screenshot1.png" alt="EPR editor select menu" width="550px">
+<img align="left" src=".github/media/screenshot1.png" alt="EPR editor select menu" width="550px">
 
 <p align="right">
 
