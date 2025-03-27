@@ -1,5 +1,5 @@
 <div width="100%" align="center">
-<img alt="EPR Icon" height="220" src="media/epr-icon.png"/>
+<img alt="EPR Icon" height="220" src=".github/media/epr-icon.png"/>
 <h1>EditorPerRepo (WIP) 📦</h1>
 
 <h3>Open a different editor for each repo when using<br>GitHub Desktop's editor integration feature!</h3>
@@ -24,7 +24,7 @@
 
 
 ## FEATURES:
-<img align="right" src="media/screenshot1.png" alt="EPR editor select menu" width="500px">
+<img align="right" src=".github/media/screenshot1.png" alt="EPR editor select menu" width="500px">
 
 - Set an editor for individual repositories.
 - Resolves relative paths and environment variables.
@@ -61,7 +61,7 @@ _</p>_
 
 
 ## USAGE:
-<img align="right" src="media/screenshot1.png" alt="EPR editor select menu" width="400px">
+<img align="right" src=".github/media/screenshot1.png" alt="EPR editor select menu" width="400px">
 
 1. Open GitHub Desktop.
 2. `File > Options > Integrations`.

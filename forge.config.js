@@ -13,7 +13,7 @@ module.exports = {
         asar: true,
         appCategoryType: "public.app-category.utilities",
         icon: REL_ICON_PATH.replace(/\.ico$/, ""),
-        ignore: [".idea", ".psd", "media/"]
+        ignore: [".idea", ".psd", "media/", ".github/"]
         // ignore: [".idea", ".psd", "media/", "dist/", ".github/", "forge.config.js", "node_modules/", ".gitignore", ".gittributes", "package.json", "README.md"]
     },
     makers: [

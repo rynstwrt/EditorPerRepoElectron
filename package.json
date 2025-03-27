@@ -1,7 +1,7 @@
 {
   "name": "editorperrepo",
   "productName": "EditorPerRepo",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "Open a different editor for each repo when using GitHub Desktop's editor integration feature!",
   "main": "main.js",
   "scripts": {
