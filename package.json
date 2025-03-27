@@ -5,10 +5,10 @@
   "description": "Open a different editor for each repo when using GitHub Desktop's editor integration feature!",
   "main": "main.js",
   "scripts": {
-    "forge-start": "electron-forge start .",
-    "forge-package": "electron-forge package --arch=ia32",
-    "forge-make": "electron-forge make --arch=ia32",
-    "forge-publish": "electron-forge publish"
+    "start": "electron-forge start .",
+    "package": "electron-forge package --arch=ia32",
+    "make": "electron-forge make --arch=ia32",
+    "publish": "electron-forge publish"
   },
   "repository": {
     "type": "git",
