@@ -1,7 +1,7 @@
 const path = require("path");
 
 
-const PUBLISH_IS_DRAFT = false;
+const PUBLISH_IS_DRAFT = true;
 const PUBLISH_IS_PRERELEASE = false;
 
 const REL_ICON_PATH = "assets/icons/epr/epr-icon.ico";
