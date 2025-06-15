@@ -68,33 +68,12 @@ class EPRConfig
     }
 
 
-    // /*
-    // TO DO: Allow paths with glob patterns
-    //     Standard:
-    //         - C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.3\bin\idea64.exe
-    //     With Glob Pattern:
-    //         - C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe
-    // */
-    //
-    // /*
-    // TO DO: Allow paths with glob patterns
-    //     [STANDARD]: C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.3\bin\idea64.exe
-    //     [WITH GLOB PATTERN]: C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe
-    // */
-
-    /*
-    TODO: Allow paths with glob patterns
-        e.g. "C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe"
-    */
-
-    // TODO: Allow paths with glob patterns
-    //     e.g. "C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe"
-
-
     // TODO: Allow paths with glob patterns
     //     e.g. "C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe"
     static addEditorToConfig(editorPath, name)
     {
+        console.log(editorPath,  name);
+
         if (this.#config.editors.some(editor => editor.path === editorPath))
             return {error: `Error: Can't add editor path "${editorPath}" because it already exists!`};
 
@@ -112,13 +91,16 @@ class EPRConfig
         this.#config.editors.splice(editorIndex, 1);
     }
 
-
+    
     static addEditorAssignment(targetDir, editorPath)
     {
         this.#config.assignments[targetDir] = editorPath.toString();
     }
 
 
+    // TODO: Allow targetDir with glob patterns
+    //     e.g. "C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe"
+    //  (RETURN GLOB STATEMENT EVAL RESULT EDITOR PATH STRING)
     static getAssignedEditor(targetDir)
     {
         return this.#config.assignments[targetDir];
