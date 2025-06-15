@@ -38,6 +38,7 @@
     "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.44.2",
     "electron-squirrel-startup": "^1.0.1",
     "minimist": "^1.2.8",
     "uninstall": "^0.0.0"
