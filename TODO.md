@@ -12,3 +12,6 @@
 ## Potentially:
 - Change to `electron-builder` instead of `electron-forge`.
 - Changeable themes.
+- Change editor data storage to use simple `(dirPath,editorExecutablePath)` pairs.
+  - Previously used editors are suggested when assigning an editor to a repo (instead of having to pre-add them as an editor).
+  - This means there's no need for separate editors and assignments sections.

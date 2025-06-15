@@ -114,20 +114,28 @@ class EPRConfig
         const parsedAssignedEditorPath =
             path.normalize(assignedEditorPath
                 .replaceAll(/%[\w_]+%/g, envVarName =>
-                    process.env[envVarName.replaceAll("%", "")]))
-                .replaceAll("\\", "/");
+                {
+                    return process.env[envVarName.replaceAll("%", "")];
+                }))
+                .replaceAll(/\\+/g, "/");
+        console.log(`Parsed editor path: ${parsedAssignedEditorPath}`);
 
+        // const parsedAssignedEditorPath =
+        //     path.normalize(assignedEditorPath
+        //             .replaceAll(/%[\w_]+%/g, envVarName =>
+        //                 process.env[envVarName.replaceAll("%", "")]))
+        //         .replaceAll("\\", "/");
         console.log(parsedAssignedEditorPath);
 
         // TODO: Add support for glob patterns
         // const foundPathFiles = globSync("C:/Program Files/JetBrains/*/bin/idea64.exe", { signal: AbortSignal.timeout(3000) });
-        const foundPathFiles = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000) });
-        console.log("found path files", foundPathFiles);
+        const editorExecutablePath = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000),  });
+        console.log("Found editorExecutablePath", editorExecutablePath);
 
         // const po = path.normalize(foundPathFiles[0]);
         // console.log(po);
 
-        return parsedAssignedEditorPath;
+        return editorExecutablePath;
     }
 
 
