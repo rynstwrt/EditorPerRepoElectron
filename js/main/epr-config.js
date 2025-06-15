@@ -101,9 +101,6 @@ class EPRConfig
     }
 
 
-    // TODO: Allow targetDir with glob patterns
-    //     e.g. "C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe"
-    //  (RETURN GLOB STATEMENT EVAL RESULT EDITOR PATH STRING)
     static getAssignedEditor(targetDir)
     {
         // Get editor path stored in config
@@ -113,10 +110,10 @@ class EPRConfig
         // Also normalize paths to use only single forward-slashes.
         const parsedAssignedEditorPath =
             path.normalize(assignedEditorPath
-                .replaceAll(/%[\w_]+%/g, envVarName =>
-                {
-                    return process.env[envVarName.replaceAll("%", "")];
-                }))
+                    .replaceAll(/%[\w_]+%/g, envVarName =>
+                    {
+                        return process.env[envVarName.replaceAll("%", "")];
+                    }))
                 .replaceAll(/\\+/g, "/");
         console.log(`Parsed editor path: ${parsedAssignedEditorPath}`);
 
@@ -125,15 +122,11 @@ class EPRConfig
         //             .replaceAll(/%[\w_]+%/g, envVarName =>
         //                 process.env[envVarName.replaceAll("%", "")]))
         //         .replaceAll("\\", "/");
-        console.log(parsedAssignedEditorPath);
+        // console.log(parsedAssignedEditorPath);
 
-        // TODO: Add support for glob patterns
-        // const foundPathFiles = globSync("C:/Program Files/JetBrains/*/bin/idea64.exe", { signal: AbortSignal.timeout(3000) });
-        const editorExecutablePath = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000),  });
+        // Support for glob patterns
+        const editorExecutablePath = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000) })[0];
         console.log("Found editorExecutablePath", editorExecutablePath);
-
-        // const po = path.normalize(foundPathFiles[0]);
-        // console.log(po);
 
         return editorExecutablePath;
     }
