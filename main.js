@@ -3,6 +3,7 @@ const { app, BrowserWindow, globalShortcut, ipcMain, dialog, Notification, nativ
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
+const { glob } = require("glob");
 
 
 const APP_NAME = "EditorPerRepo";
@@ -79,6 +80,13 @@ function createNotification(body, callback=() => {})
 
 async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false)
 {
+    // const a = await glob("C:/Program Files/JetBrains/*/bin/idea64.exe",
+    //     {
+    //         // ignore: "test.txt",
+    //         signal: AbortSignal.timeout(3000)
+    //     });
+    // return console.log(a);
+
     try
     {
         const proc = spawn(editorPath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});

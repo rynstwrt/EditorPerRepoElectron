@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { glob, globSync } = require("glob");
 require("@dotenvx/dotenvx").config();
 
 
@@ -105,46 +106,32 @@ class EPRConfig
     //  (RETURN GLOB STATEMENT EVAL RESULT EDITOR PATH STRING)
     static getAssignedEditor(targetDir)
     {
-        // console.log(process.env.HOME, process.env.)
 
-        console.log("\n", "=================\n");
-        // const assignedEditorPath = this.#config.assignments[targetDir];
-        let assignedEditorPath = this.#config.assignments[targetDir];
-        console.log(assignedEditorPath);
+        // Get editor path stored in config
+        const assignedEditorPath = this.#config.assignments[targetDir];
 
-
-        // const editorPathEnvVarNames = assignedEditorPath.toString().matchAll(/%([\w_]+)%/g);
-        // for (const envVar of editorPathEnvVarNames)
-        // {
-        //     const envVarName = envVar[1];
-        //     const envVarValue = process.env[envVarName];
-        //     console.log(envVarName, envVarValue)
-        //     assignedEditorPath = assignedEditorPath.toString().replaceAll(/)
-        // }
-
-        // const assignedEditorEnvParsedPath = assignedEditorPath.toString().replaceAll(/%([\w_]+)%/g, q => q.toLocaleLowerCase());
-        // const assignedEditorEnvParsedPath = "%PROGRAMFILES%\\Microsoft\\Visual Studio Code\\Code.exe"
-        const assignedEditorEnvParsedPath = assignedEditorPath.replaceAll(/%[\w_]+%/g, envVarName => {
-                envVarName = envVarName.replaceAll("%", "");
-                console.log(envVarName);
-                console.log()
-
-                return process.env[envVarName];
-            });
+        // Convert environment variables in the editor path to their true value
+        // const assignedEditorEnvParsedPath = assignedEditorPath
+        //     .replaceAll(/%[\w_]+%/g, envVarName =>
+        //         process.env[envVarName.replaceAll("%", "")]);
+        const assignedEditorEnvParsedPath = path.normalize(
+            assignedEditorPath.replaceAll(/%[\w_]+%/g, envVarName =>
+                process.env[envVarName.replaceAll("%", "")])
+        ).replaceAll("\\", "/");
         console.log(assignedEditorEnvParsedPath);
+
+        // TODO: Add support for glob patterns
+        // const foundPathFiles = await glob("C:/Program Files/JetBrains/*/bin/idea64.exe", { signal: AbortSignal.timeout(3000) });
+        // const foundPathFiles = globSync("C:/Program Files/JetBrains/*/bin/idea64.exe", { signal: AbortSignal.timeout(3000) });
+        const normalizedEditorPath = path.normalize(assignedEditorEnvParsedPath).replaceAll("\\", "/");
+        console.log(normalizedEditorPath)
+        const foundPathFiles = globSync(normalizedEditorPath, { signal: AbortSignal.timeout(3000) });
+        console.log("found path files", foundPathFiles);
+
+        // const po = path.normalize(foundPathFiles[0]);
+        // console.log(po);
+
         return assignedEditorEnvParsedPath;
-
-        // const p = assignedEditorPath.toString().replaceAll(/%([\w_]+)%/g, "^");
-        // console.log(p);
-
-        // const p = path.parse(assignedEditorPath);
-        // console.log(p);
-        //
-        // const d = path.resolve(assignedEditorPath);
-        // console.log("d:", d);
-
-        // return assignedEditorPath;
-        // return this.#config.assignments[targetDir];
     }
 
 
