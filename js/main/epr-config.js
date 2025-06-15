@@ -68,6 +68,31 @@ class EPRConfig
     }
 
 
+    // /*
+    // TO DO: Allow paths with glob patterns
+    //     Standard:
+    //         - C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.3\bin\idea64.exe
+    //     With Glob Pattern:
+    //         - C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe
+    // */
+    //
+    // /*
+    // TO DO: Allow paths with glob patterns
+    //     [STANDARD]: C:\Program Files\JetBrains\IntelliJ IDEA 2024.3.3\bin\idea64.exe
+    //     [WITH GLOB PATTERN]: C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe
+    // */
+
+    /*
+    TODO: Allow paths with glob patterns
+        e.g. "C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe"
+    */
+
+    // TODO: Allow paths with glob patterns
+    //     e.g. "C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe"
+
+
+    // TODO: Allow paths with glob patterns
+    //     e.g. "C:\Program Files\JetBrains\IntelliJ IDEA*\bin\idea64.exe"
     static addEditorToConfig(editorPath, name)
     {
         if (this.#config.editors.some(editor => editor.path === editorPath))
