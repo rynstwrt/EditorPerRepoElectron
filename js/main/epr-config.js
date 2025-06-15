@@ -106,32 +106,28 @@ class EPRConfig
     //  (RETURN GLOB STATEMENT EVAL RESULT EDITOR PATH STRING)
     static getAssignedEditor(targetDir)
     {
-
         // Get editor path stored in config
         const assignedEditorPath = this.#config.assignments[targetDir];
 
-        // Convert environment variables in the editor path to their true value
-        // const assignedEditorEnvParsedPath = assignedEditorPath
-        //     .replaceAll(/%[\w_]+%/g, envVarName =>
-        //         process.env[envVarName.replaceAll("%", "")]);
-        const assignedEditorEnvParsedPath = path.normalize(
-            assignedEditorPath.replaceAll(/%[\w_]+%/g, envVarName =>
-                process.env[envVarName.replaceAll("%", "")])
-        ).replaceAll("\\", "/");
-        console.log(assignedEditorEnvParsedPath);
+        // Convert environment variables in the editor path to their true value.
+        // Also normalize paths to use only single forward-slashes.
+        const parsedAssignedEditorPath =
+            path.normalize(assignedEditorPath
+                .replaceAll(/%[\w_]+%/g, envVarName =>
+                    process.env[envVarName.replaceAll("%", "")]))
+                .replaceAll("\\", "/");
+
+        console.log(parsedAssignedEditorPath);
 
         // TODO: Add support for glob patterns
-        // const foundPathFiles = await glob("C:/Program Files/JetBrains/*/bin/idea64.exe", { signal: AbortSignal.timeout(3000) });
         // const foundPathFiles = globSync("C:/Program Files/JetBrains/*/bin/idea64.exe", { signal: AbortSignal.timeout(3000) });
-        const normalizedEditorPath = path.normalize(assignedEditorEnvParsedPath).replaceAll("\\", "/");
-        console.log(normalizedEditorPath)
-        const foundPathFiles = globSync(normalizedEditorPath, { signal: AbortSignal.timeout(3000) });
+        const foundPathFiles = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000) });
         console.log("found path files", foundPathFiles);
 
         // const po = path.normalize(foundPathFiles[0]);
         // console.log(po);
 
-        return assignedEditorEnvParsedPath;
+        return parsedAssignedEditorPath;
     }
 
 
