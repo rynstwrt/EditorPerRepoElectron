@@ -80,17 +80,6 @@ function createNotification(body, callback=() => {})
 
 async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false)
 {
-    // const a = await glob("C:/Program Files/JetBrains/*/bin/idea64.exe",
-    //     {
-    //         // ignore: "test.txt",
-    //         signal: AbortSignal.timeout(3000)
-    //     });
-    // return console.log(a);
-    console.log("AAAA", editorPath, targetDir);
-
-
-
-
     // Convert environment variables in the editor path to their true value.
     // Also normalize paths to use only single forward-slashes.
     const parsedAssignedEditorPath =
@@ -106,13 +95,10 @@ async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false
     const editorExecutablePath = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000) })[0];
     console.log("Found editorExecutablePath", editorExecutablePath);
 
-
-
-
+    // Spawn process to open the editor.
     try
     {
         const proc = spawn(editorExecutablePath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
-        // const proc = spawn(editorPath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
         proc.unref();
 
         if (rememberSelection)
