@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { glob, globSync } = require("glob");
-require("@dotenvx/dotenvx").config();
+// require("@dotenvx/dotenvx").config();
 
 
 const DEFAULT_CONFIG_JSON = {
@@ -105,6 +105,7 @@ class EPRConfig
     {
         // Get editor path stored in config
         const assignedEditorPath = this.#config.assignments[targetDir];
+        console.log("Assigned editor path:", assignedEditorPath);
 
         // Convert environment variables in the editor path to their true value.
         // Also normalize paths to use only single forward-slashes.
@@ -116,13 +117,6 @@ class EPRConfig
                     }))
                 .replaceAll(/\\+/g, "/");
         console.log(`Parsed editor path: ${parsedAssignedEditorPath}`);
-
-        // const parsedAssignedEditorPath =
-        //     path.normalize(assignedEditorPath
-        //             .replaceAll(/%[\w_]+%/g, envVarName =>
-        //                 process.env[envVarName.replaceAll("%", "")]))
-        //         .replaceAll("\\", "/");
-        // console.log(parsedAssignedEditorPath);
 
         // Support for glob patterns
         const editorExecutablePath = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000) })[0];
