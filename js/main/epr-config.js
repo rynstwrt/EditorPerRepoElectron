@@ -106,23 +106,26 @@ class EPRConfig
         // Get editor path stored in config
         const assignedEditorPath = this.#config.assignments[targetDir];
         console.log("Assigned editor path:", assignedEditorPath);
+        // if (!assignedEditorPath)
+        //     return;
+        //
+        // // Convert environment variables in the editor path to their true value.
+        // // Also normalize paths to use only single forward-slashes.
+        // const parsedAssignedEditorPath =
+        //     path.normalize(assignedEditorPath
+        //             .replaceAll(/%[\w_]+%/g, envVarName =>
+        //             {
+        //                 return process.env[envVarName.replaceAll("%", "")];
+        //             }))
+        //         .replaceAll(/\\+/g, "/");
+        // console.log(`Parsed editor path: ${parsedAssignedEditorPath}`);
+        //
+        // // Support for glob patterns
+        // const editorExecutablePath = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000) })[0];
+        // console.log("Found editorExecutablePath", editorExecutablePath);
 
-        // Convert environment variables in the editor path to their true value.
-        // Also normalize paths to use only single forward-slashes.
-        const parsedAssignedEditorPath =
-            path.normalize(assignedEditorPath
-                    .replaceAll(/%[\w_]+%/g, envVarName =>
-                    {
-                        return process.env[envVarName.replaceAll("%", "")];
-                    }))
-                .replaceAll(/\\+/g, "/");
-        console.log(`Parsed editor path: ${parsedAssignedEditorPath}`);
-
-        // Support for glob patterns
-        const editorExecutablePath = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000) })[0];
-        console.log("Found editorExecutablePath", editorExecutablePath);
-
-        return editorExecutablePath;
+        // return editorExecutablePath;
+        return assignedEditorPath;
     }
 
 

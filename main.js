@@ -3,7 +3,7 @@ const { app, BrowserWindow, globalShortcut, ipcMain, dialog, Notification, nativ
 const path = require("node:path");
 const EPRConfig = require("./js/main/epr-config.js");
 const { spawn } = require("child_process");
-const { glob } = require("glob");
+const { globSync } = require("glob");
 
 
 const APP_NAME = "EditorPerRepo";
@@ -86,10 +86,33 @@ async function openRepoWithEditor(editorPath, targetDir, rememberSelection=false
     //         signal: AbortSignal.timeout(3000)
     //     });
     // return console.log(a);
+    console.log("AAAA", editorPath, targetDir);
+
+
+
+
+    // Convert environment variables in the editor path to their true value.
+    // Also normalize paths to use only single forward-slashes.
+    const parsedAssignedEditorPath =
+        path.normalize(editorPath
+                .replaceAll(/%[\w_]+%/g, envVarName =>
+                {
+                    return process.env[envVarName.replaceAll("%", "")];
+                }))
+            .replaceAll(/\\+/g, "/");
+    console.log(`Parsed editor path: ${parsedAssignedEditorPath}`);
+
+    // Support for glob patterns
+    const editorExecutablePath = globSync(parsedAssignedEditorPath, { signal: AbortSignal.timeout(3000) })[0];
+    console.log("Found editorExecutablePath", editorExecutablePath);
+
+
+
 
     try
     {
-        const proc = spawn(editorPath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
+        const proc = spawn(editorExecutablePath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
+        // const proc = spawn(editorPath, [targetDir], {detached: true, stdio: ["ignore", "ignore", "ignore"]});
         proc.unref();
 
         if (rememberSelection)
